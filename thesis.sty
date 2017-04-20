@@ -1,0 +1,37 @@
+\ProvidesPackage{thesis}
+
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{subcaption}
+\usepackage[titletoc,toc]{appendix}
+\usepackage{ulem}
+\captionsetup{compatibility=false}
+\usepackage{import}
+
+%tikz imports
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{pgfplots}
+%to generate and stock tikz image
+%and not compile them everytime
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+\usetikzlibrary{patterns}% pour mettre la texture rayée
+\usetikzlibrary{through}% pour la sphere
+
+
+%http://www.traag.net/2014/06/05/281/
+\usepgfplotslibrary{colorbrewer}
+\usepgfplotslibrary{patchplots}
+
+\pgfplotsset{compat=1.12}
+
+%to correct warning
+\setlength{\headheight}{14pt}
+
+

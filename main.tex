@@ -1,0 +1,113 @@
+\documentclass{bredele}
+
+\usepackage{thesis}
+
+\title{Solvatation de systèmes d’intérêt pharmaceutique : apports de la théorie de la fonctionnelle de la densité moléculaire}
+
+\discipline{Chimie théorique}
+
+\dirdethese{Maximilien Levesque, Dr et Daniel Borgis, DR??}
+%\titredudirdethese{Docteur}
+%\dirdethese{Daniel Borgis}
+%\titredudirdethese{DR??}
+
+\jury{
+\begin{description}
+\item[Examinateur~:] Nicolas \textsc{Poirot}, Prof. des Universit\'{e}s, Nonamecity~I
+\item[Rapporteur externe~:] Etienne \textsc{Burger}, Charg\'{e} de Recherche au TRUC
+\item[Rapporteur externe~:] Eric \textsc{Meyer}, Prof. des Universit\'{e}s, Nonamecity~X
+\item[Rapporteur interne~:] Bernard \textsc{Klein}, Prof. des Universit\'{e}s, Nonamecity~II
+\end{description}
+}
+
+\author{Cédric Gageat}
+
+\date{25 novembre 2004}
+
+\nomdeuniversite{\'Ecole normale supérieure}
+\logouniversite{logos/ENS_Logo_PSL.eps} %nom du fichier
+\scalelogouniversite{0.6} % mise a l'echelle de l'image (0.5=50% par exemple)
+\logolabo{logos/ENS_Dpt_Chimie_Logo_Reserve_fr.png}
+\scalelogolabo{0.6}
+
+\unite{Département de chimie théorique}
+\ecoledoc{École doctorale chimie physique et chimie analytique de Paris centre}
+
+
+\newcommand{\comments}[1]{}
+
+
+
+\begin{document}
+
+
+
+\maketitle
+
+
+\clearemptydoublepage
+\chapter*{Remerciements}
+\thispagestyle{empty}
+Blabla
+
+
+\clearemptydoublepage
+\chapter*{Notations}
+\thispagestyle{empty}
+\begin{tabular}{ll}
+$\rho(\vec{r})$ & blablabla \\
+$\rho(r)$ & blablabla 
+\end{tabular}
+
+
+
+
+\clearemptydoublepage
+\frontmatter
+
+
+\clearemptydoublepage
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\chaptermark{Introduction}
+blabl
+
+
+\section*{Première section de l'intro}
+\addcontentsline{toc}{section}{Première section de l'intro}
+
+blabla
+
+
+\clearemptydoublepage
+\shorttableofcontents{Sommaire}{0}
+
+\clearemptydoublepage
+\mainmatter % Ne pas oublier, avec \frontmatter et \backmatter
+
+
+
+
+\clearemptydoublepage
+\import{chapters/MDFT/}{content.tex}
+
+\clearemptydoublepage
+\import{chapters/optimisation/}{content.tex}
+
+\clearemptydoublepage
+\import{chapters/implementation_1D/}{content.tex}
+
+\clearemptydoublepage
+\import{chapters/bridge/}{content.tex}
+
+
+
+\clearemptydoublepage
+\backmatter
+\clearemptydoublepage
+\chapter*{Bibliographie}
+
+\newpage
+\clearemptydoublepage
+\tableofcontents
+\end{document}

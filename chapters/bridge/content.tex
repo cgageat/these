@@ -1,0 +1,281 @@
+\chapter{Démouillage}
+
+\boitemagique{Objectif}{
+L'objectif de ce chapitre est de proposer une fonctionelle de bridge \textbf{simple} et \textbf{rapide} qui permette de prédire correctement: 
+\begin{itemize}
+\item Les profis de densité du solvant ( g(r) )
+\item Les énérgies libres de solvatation
+\end{itemize}
+Avec une consistance thermodynamique, soit:
+\begin{itemize}
+\item[.] La tension de surface de l'eau
+\item[.] La pression du système
+\end{itemize}
+}
+
+
+
+Comme il à été montré dans les chapitres précédents, l'approximation HRF ne permet pas d'avoir un système thermodynamiquement consistent. Afin de corriger cela, plusieurs approximations de la fonctionnelle de bridge ont été proposées, des bridges compliqués et lourds qui permettent de retrouver de la consistante thermodynamique\cite{jeanmairet_molecular_2015} au prix de rdf très moches comme le bridge de sphères dures\cite{liu_bridge-functional-based_2014,levesque_scalar_2012}, les bridges three body \cite{jeanmairet_molecular_2015}, etc.  Malheureusement, comme il à été montré dans un article à paraître, on ne peut pas construire un terme de bridge sphères dures qui soit complètement consistent, c'est à dire que l'on ai à la fois la pression du système, la tension de surface du solvant, tout en conservant des profils de densité et des énergies libres de solvatation corrects. 
+
+Dans ce chapitre nous allons proposé un bridge simple et efficace numériquement, basé sur une densité gros-grain, qui prend en compte le démouillage en permettant la coexistence de phase gazeuse et liquide de solvant. Ce bridge permet donc de retrouver la consistante thermodynamique tout en améliorant les rdf et les énergies libres de solvatation en échange d'un coût de calcul négligeable.
+
+
+\section{Le démouillage: définition}
+Lorsque l'on plonge de très gros soluté hydrophobes (c'est à dire qui n'aiment pas l'eau) en solution, il se forme une fine couche de solvant gazeux au contact du soluté comme on peut le voir sur la figure \ref{fig:demouillage}. Les solutés hydrophobes sont généralement neutres. En effet, les charges permettent la création de liaisons hydrogènes entre l'eau et le soluté, ce qui est en général suffisant pour le rendre hydrophile. Lors de cette étude, nous nous sommes donc placé dans le cas des solutés neutres. Ces bridges ont donc été développés et testés sur des solutés simples, ce qui nous à permis de nous baser sur la version à symétrie sphérique décrite dans le chapitre XXXXXXXX.
+
+\begin{figure}
+  \center
+  \begin{tikzpicture}
+    %liquide
+    \draw[fill=white!70!cyan] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
+    %gaz
+	\draw[white, fill=white] (0, 0) -- ++(4.5,0) -- ++(-4.5,4.5) -- cycle;
+    \draw[white,fill=white] (4.5,0) arc (0:90:4.5) ;
+    %solute
+    \draw[gray,fill=gray] (0, 0) -- ++(3.5,0) -- ++(-3.5,3.5) -- cycle;
+    \draw[gray, fill=gray, pattern color=black] (3.5,0) arc (0:90:3.5) ;
+    %texte
+    \draw (45:6) node {\large liq};
+    \draw (10:4) node {\large gaz};
+    \draw[white] (45:2) node {\large solute};
+    %contour
+    \draw[black, thick, fill=none] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
+  \end{tikzpicture}
+    \caption{blablabla.}
+    \label{fig:demouillage}
+\end{figure}
+
+\section{Les bridges}
+Historiquement, le bridge le plus utilisé est le bridge de sphère dure mais celui-ci, comme l'approximation HRF, ne permettent pas de prendre en compte le solvent à l'état gazeux. En effet, comme le montre la figure \ref{fig:fonctionelle} dans l'approximation HRF (en noir), le potentiel chimique de l'eau gazeuse est très supérieur à celui de l'eau liquide ce qui rend impossible toute création d'une phase gazeuse. Les résultats pour le bridge de sphère dure, non présentés ici, sont disponibles dans l'article de Jeanmairet et Al\cite{jeanmairet_molecular_2013}
+
+Pour ces nouveaux bridges nous sommes partis sur deux concepts:
+\begin{itemize}
+\item Une expansion d'ordre 4 du terme d'excès
+\item Une densité gros grain $\bar{\rho(r)}$
+\end{itemize}
+
+
+L'expansion d'ordre 4 nous permet ainsi de retrouver de la consistance thermodynamique avec la pression du système et une tension de surface de l'eau correcte. Le bridge doit donc satisfaire les critères suivants:
+\begin{eqnarray} \label{eq:bridge_criteres}
+F[0]&=&k_BTP=K_P \ A \ VERIFIER !!!!!!!\\
+\int_{rho_{liq}}^{rho_{gaz}} F[rho_{bulk}]&=&f(\gamma)=K_g
+\end{eqnarray}
+
+Le calcul des termes d'ordre 3 et 4 étant extrêmement longs, nous perdions donc l'avantage principale des méthodes implicites, comme MDFT: la rapidité. Afin de diminuer l'impact du bridge sur le temps de calcul, nous avons choisi de remplacer les intégrales triples et quadruples par de simples puissances d'une densité locale gros grain. La densité gros grain nous permet ainsi de nous placer à l'échelle mésoscopique et de mimer au mieux nos triples, quadruples intégrales sans coût de calcul supplémentaires.
+
+
+\subsection{Choix du bridge}
+Nous avons dans un premier temps déterminé la forme du bridge car celui-ci est indépendant de la façon dont on obtient la densité gros grain. En effet, la détermination de la forme du bridge est basée uniquement sur des systèmes bulk dont la densité gros grain est strictement identique à la densité classique.
+
+\subsubsection{Le bridge classique}
+Notre choix s'est d'abord tourné vers le bridge d'ordre 4 le plus simple soit le bridge suivant:
+
+\begin{equation} \label{eq:bridge_type_1}
+F_{\mathrm{b}}[\bar{\rho}(\vec{r})]=K_1\int\Delta\bar{\rho}(r)^3d\vec{r}+k_2\int\Delta\bar{\rho}(r)^4d\vec{r}
+\end{equation}
+
+avec
+\begin{eqnarray} \label{eq:bridge_parameter_1}
+%B=-5*co/(3.0*no2)+5*kp/no4-20*kg/no5
+%A=(kbt/no2-co/no-kp/no3)+noB
+% A REFAIRE !!!!!!!!!!!!!!!!!!!!!!!!!!!
+k_2 = \frac{-5C_0}{3{\rho_0}^2}-\frac{20K_A}{{\rho_0}^5} \\
+k_1 = \frac{k_{B}T}{{\rho_0}^2}-\frac{C_0}{\rho_0} + \rho_0k_2
+\end{eqnarray}
+
+Le calcul détaillé des facteurs $k_1$ et $k_2$ sont disponibles en annexes.
+
+
+Malheureusement, suite à une étude paramétrique disponible en annexe, ce bridge ne permet pas de fixer le potentiel chimique de la phase gazeuse de l'eau. Cette condition retire un degrés de liberté au système et il existe donc une relation unique entre $K_P$ et $k_g$, ce qui ne donne pas la souplesse attendue au modèle.
+
+
+\subsubsection{Le bridge final}
+
+Nous sommes donc parti sur un second bridge. Nous voulions un terme d'ordre 3, qui résoud $\rho(0)=0$ et qui permet de rendre équivalents les potentiels chimiques de l'eau liquide et gazeuse et ainsi permet l'apparation du démouillage. On peut voir sur la figure \ref{fig:fonctionelle}, en rouge, la création d'un second minimum proche de zéro, correspondant à la phase gazeuse, lorsque l'on ajoute notre bridge à la fonctionnelle. Le terme d'ordre 4 permet quant à lui d'ajouter de la souplesse dans notre modèle en nous permettant de modifier la barrière énergétique entre nos deux phases. Ce terme, ne devant pas modifier le potentiel chimique de nos deux phases, à était précédé par $\rho^2$ afin qu'il s'annule en  $\rho_{liq}$ et $\rho_{gas}$. Notre nouveau bridge est donc de la forme:
+
+\begin{equation} \label{eq:fbridge_2}
+F_{\mathrm{b}}[\bar{\rho}(\vec{r})]=k_1\int\Delta\bar{\rho}(\vec{r})^3d\vec{r}+k_2\int\bar{\rho}(\vec{r})^2\Delta\bar{\rho}(\vec{r})^4d\vec{r}
+\end{equation}
+Avec $K_2$ variable et
+\begin{eqnarray} \label{eq:bridge_parameter_2}
+k_1 = \frac{k_{B}T}{{\rho_0}^2}-\frac{C_0}{\rho_0}
+\end{eqnarray}
+
+
+
+\begin{figure}
+    \center
+    
+  \begin{tikzpicture}
+    \begin{axis}[
+            xlabel= $\rho_{bulk}/\rho_{0}$,
+            ylabel= $\Delta g_{solv} (kJ.mol^{-1}.\text{\AA}^{-3}) $,
+            xmin = 0, xmax = 1.5,
+            ymin = 0, ymax = 0.15,
+            scaled y ticks={base 10:2},
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+      \addplot+[mark=none, black, very thick] file {datas/fonctionnelles/fonctionnelle.csv};
+      \addplot+[mark=none, red, very thick] file {datas/fonctionnelles/fonctionnelle_0.0.csv};
+      \legend{HRF, HRF + bridge}
+    \end{axis}
+  \end{tikzpicture}
+    \caption{Free energy of homogeneous solvent of density $\rho$. $\rho_b$ is the bulk density of SPC/E water in room condition (1$kg.L^{-1}$) in the HRF approximation. In black: MDFT in the HRF approximation with only one minimum for the bulk density. In red: MDFT with our new bridge. A narrow local minimum to found at $10^{-3} \rho_0$ and corresponding to the gas phase.}
+    \label{fig:fonctionelle}
+\end{figure}
+
+
+\subsection{Choix du noyau gros grain}
+La densité gros grain $\bar{\rho}(\vec{r})$ est le résultat d'une convolution entre notre densité et une fonction que l'on appelle kernel (voir equation ~\ref{eq:convolution}).
+
+\begin{equation} \label{eq:convolution}
+\bar{\rho}(\vec{k})=\rho(\vec{k})*e^{-\frac{(\vec{k}-\sigma)^{2}}{2}}
+\end{equation}
+
+Notre modèle à donc deux paramètres: le kernel (ainsi que sa largeur) qui permet d'obtenir une densité plus ou moins gros grain et la hauteur de la barrière énergétique entre l'eau liquide et l'eau gaz que l'on peut modifier en faisant varier le Paramètre B de l'équation ~\ref{eq:fbridge_2}.
+
+Deux kernel ont été testé, le kernel simple: un heavyside et un kernel plus naturel: la gaussienne.
+
+Afin de déterminer les paramètres optimaux de notre modèle, nous avons mené une étude paramétrique. Cette étude (voir annexe XXXX) à démontré qu'il n'était pas possible d'avoir une consistance thermodynamique correcte avec le noyau simple, le heavyside.
+
+Les valeurs optimales obtenues pour le noyaux gaussien sont $\sigma_{kernel}$=$1.18\text{\AA}$ (\ref{eq:convolution}) et $B$=$-15.10^{-8}$ (\ref{eq:fbridge_2}). Cette étude avait pour objectifs, d'obtenir la tension de surface de l'eau et une pression du système correctes sans dégrader les densités de profils et les énérgie libre de solvatation. 
+
+
+
+\subsubsection{Tension de surface}
+Pour des composés hydrophobes, l'énergie libre de solvatation est la somme d'un terme proportionnel au volume du composé et d'un terme proportionnelle à sa surface. Pour de petits composés, le terme volumique est majoritaire alors que pour des grands composés, c'est le terme surfacique qui reprend le dessus. Une fois le terme surfacique majoritaire, la variation de l'énergie libre de solvatation correspond à l'énergie nécessaire à la création d'une unité de surface soit par définition à la tension de surface de notre solvant. Comme le montre l'image ~\ref{fig:surface_tension}, avec notre nouveau bridge (en bleu) le rapport entre l'énergie libre de solvatation et la surface du soluté, pour des solutés grossissant, tend, comme attendu, vers la tension de surface (en jaune) de notre modèle d'eau SPCE\cite{vega_surface_2007}, ce qui n'était pas le cas dans nos modèles précédents de MDFT dans l'approximation HRF (en vert).
+
+\begin{figure}
+\center
+    \begin{tikzpicture}
+		\begin{scope}
+        	\begin{axis}[
+                xlabel=   r ($\text{\AA}$),
+                ylabel= $\Delta g_{solv}\ HS(mj.m^{-2})$,
+%    	        restrict x to domain=0:100,
+%    	        restrict y to domain=0:110,
+            	xmin = 0,
+        	    xmax = 100,
+                ymin = 0,
+	            ymax = 140,
+        	    legend style = {draw = none, at={(0.95,0.05)},anchor=south east}%,
+%                xmode=log
+    	        ]
+            	\addplot+[mark=none, black, very thick] table[x index=0, y index=4]{datas/free_energy_by_volume/results_HS_HNC.csv};
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=4] {datas/free_energy_by_volume/results_HS_1.177_-15.csv};
+                \addplot[mark=none, dashed, black, very thick] coordinates { (0, 63.6) (100, 63.6) };
+            	\legend{HRF, HRF + bridge, surface tension}
+        	\end{axis}
+		\end{scope}
+		\begin{scope}[shift={(3.8, 3.2)}, scale=0.4, transform shape]
+        	\begin{axis}[
+                xlabel=   r ($\text{\AA}$),
+                ylabel= $\Delta G_{solv}\ HS(kJ.mol^{-1})$,
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, black, very thick] table[x index=0, y index=2]{datas/free_energy_by_volume/results_HS_HNC.csv};
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{datas/free_energy_by_volume/results_HS_1.177_-15.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, fill=black},text mark as node=true] table[x index=0, y index=1] {datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+		\end{scope}
+    \end{tikzpicture}
+	\caption{Solvation free energy of neutral hard sphere divide by their volume in function of the radius of the sphere. (a) As expected, with the bridge, this value is equal to the surface tension (represented in dashed line) of SPC/E water (63.6 $mJ.m^{-2}$)\cite{vega_surface_2007} for large spheres which was not the case before in the HRF approximation. (b) In insight, a zoom on small solute. In the insight, the black points correspond to the Hummer MC simulation results \cite{hummer_information_1996}. }
+    \label{fig:surface_tension}
+\end{figure}
+
+\subsubsection{Profiles de densité du solvant}
+En plus de conserver une structure du solvent correcte, notre bridge améliore considérablement le premier pic des petits composés, comme on peut le voir sur la figure \ref{fig:g_of_r} (a) pour le méthane unifié. Ce premier pic, qui correspond à la première couche de solvatation, était parfois surestimés. La figure \ref{fig:g_of_r} (b) montre également que pour de grosses sphères dures, il y à bien apparation du démouillage. En effet, les pics de solvation disparaissent pour laisser place à une transition lente entre une densité de solvant quasi nulle au contact du solute et le solvant bulk. Cela correspond à la création d'une fine couche d'eau gazeuse comme attendu et donc au démouillage. Les profiles de densités du solvant autour des gaz rares et du néopentane unifié sont disponibles en annexes.
+
+
+
+\begin{figure}
+\centering
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+	        \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 12,
+            ymin = 0, ymax = 3,
+  	        legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black, very thick] file {datas/g_of_r/HNC/g_methane.csv};
+            \addplot+[mark=none, red, very thick] file {datas/g_of_r/bridge_1.177_-15/g_methane.csv};
+            \addplot+[mark=none, blue, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {datas/g_of_r/MD/g_methane.csv};
+            \legend{HRF, HRF + bridge, reference}
+        \end{axis}
+    \end{tikzpicture}
+\end{subfigure}
+
+
+\begin{subfigure}{.5\textwidth}
+  \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$),
+            ylabel= g(r),
+            xmin = 95,
+            xmax = 115,
+            ymin = 0,
+            ymax = 7,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black, very thick] file {datas/g_of_r/HNC/g_100_2.csv};
+            \addplot+[mark=none, red, very thick] file {datas/g_of_r/bridge_1.177_-15/g_100_2.csv};
+            \legend{HRF, HRF + bridge}
+        \end{axis}
+    \end{tikzpicture}
+\end{subfigure}
+    \caption{ Radial Distribution Function of (a) unified methane and (b) a large hard sphere with a radius of 100$\text{\AA}$. RDF where calculated with MDFT in the HRF approximation (in black) and with our new bridge (in red). References where calculated by MD (blue dashed line). }
+    \label{fig:g_of_r}
+\end{figure}
+
+
+
+\subsubsection{\'Energies libres de solvatation}
+Dans l'approximation HRF, the molecular density functional theory surestime les énergies libres de solvatation jusqu'à plusieurs dizaines de $kJ/mol$ dans le cas des gros composés hydrophobes (voir table ~\ref{tab:deltag}). Ce nouveau bridge nous à permis de réduire cet écart à quelques $kJ/mol$ seulement. La figure \ref{fig:surface_tension} montre que notre bridge corrige également l'énergie libre de solvatation de petites sphères dures en les rapprochant des valeurs calculées par MC \cite{hummer_information_1996}.
+
+
+\begin{table}
+  \begin{tabular}{ l c c c c c c }
+    \hline & \\[-1em]\hline
+    compound   & exp  & MD & MDFT & MDFT+bridge \\
+    \hline
+    Methane    &       &  9.23 & 27.10 & 12.08 \\
+    Neopentane &       &  0.37 & 84.51 &  6.49 \\ 
+    Neon       & 10.36 & 11.73 & 18.69 & 13.14 \\
+    Argon      &  8.40 &  8.61 & 22.25 & 11.12 \\
+    Krypton    &  6.96 &  8.03 & 25.41 & 10.84 \\
+    Xenon      &  6.06 &  6.47 & 29.72 & 10.54 \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption{Free energy of solvation of methane, neopentane and rare gas in kJ/mol calculated with MDFT with and without bridge function. These values are compared to our references calculated using Molecular Dynamics methods and experimental values\cite{straatsma_free_1986}.}
+  \label{tab:deltag}  
+\end{table}
+
+
+
+
+
+
+
+\section{Conclusion}
+
+Dans ce chapitre, nous avons proposé une nouvelle fonctionelle de bridge qui permet d'ajouter à l'approximation HRF la notion de solvant gazeux et donc le démouillage. Ce bridge, basé sur une densité gros grain locale, nous permet, en échange d'un cout numérique négligeable, de mimer une expansion d'ordre 4 du terme d'excès et ainsi d'aller plus loin que l'approximation HRF. Nous avons montré que ce bridge est consistent thermodynamiquement avec (i)une coexistance du solvant liquide et gazeux au voisinage de gros composés hydrophobes, (ii)une tension de surface de l'eau et (iii)une pression du système corrects. En plus d'être consistent, ce bridge améliore les profiles de densités ainsi que les énergies libres de solvatation des plus gros solutes aux plus petits.
+
+
+
+
+\printbibliography[segment=\therefsegment,heading=subbibliography]
+
+
+
+

@@ -1,0 +1,185 @@
+\section{gradients de la fonctionnelle} \label{app:grad}
+
+\begin{eqnarray}
+\widetilde{\rho}(\vec{k})&=&HT[\rho(\vec{r})]  \\
+\bar{\widetilde{\rho}}(\vec{k})&=&\widetilde{\rho}(\vec{k})K(\vec{k})   \\
+\bar{\rho}(\vec{r})&=&HT^{-1}[\bar{\widetilde{\rho}}(\vec{k})]  \\
+\Delta\bar{\rho}(\vec{r})&=&\bar{\rho}(\vec{r})-\rho_{0}  \\
+\bar{F}_{b}[\rho(\vec{r})]&=&A\Delta\bar{\rho}(\vec{r})^{3}+B\bar{\rho}(\vec{r})^{2}\Delta\bar{\rho}(\vec{r})^{4}  \\
+\frac{d\bar{F}_{b}[\rho(\vec{r})]}{d\rho(\vec{r})}&=&3A\Delta\bar{\rho}(\vec{r})^{2}+2B\bar{\rho}(\vec{r})\Delta\bar{\rho}(\vec{r})^{4}+4B\bar{\rho}(\vec{r})^{2}\Delta\bar{\rho}(\vec{r})^{3}  \\
+\frac{d\bar{\widetilde{F}}_{b}[\rho(\vec{r})]}{d\rho(\vec{r})}&=&HT[\frac{d\bar{F}_{b}[\rho(\vec{r})]}{d\rho(\vec{r})}]  \\
+\frac{d\widetilde{F}_{b}[\rho(\vec{r})]}{d\rho(\vec{r})}&=&\frac{d\bar{\widetilde{F}}_{b}[\rho(\vec{r})]}{d\bar{\rho}(\vec{r})}K(\vec{k})  \\
+\frac{dF_{b}[\rho(\vec{r})]}{d\rho(\vec{r})}&=&HT^{-1}\frac{d\widetilde{F}_{b}[\rho(\vec{r})]}{d\rho(\vec{r})} 
+\end{eqnarray}
+
+
+
+\section{Etude paramètrique du bridge} \label{app:etudeParam}
+%\begin{figure}[!htbp]
+%    \center
+%    \includegraphics[width=8cm]{fonctionnelles.eps}
+%    \caption{Free energy of homogeneous solvent of density $\rho$. $\rho_b$ is the bulk density of SPC/E water in room condition (1$kg.L^{-1}$) in the HRF approximation. }
+%    \label{fig:fonctionelle}
+%\end{figure}
+
+\begin{figure}[!htbp]
+  \begin{tikzpicture}
+    \begin{axis}[
+            xlabel= r ($\text{\AA}$),
+            ylabel= g(r),
+            xmin = 0, xmax = 1.5,
+            ymin = 0, ymax = 0.15,
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_-15.0.csv};
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_-10.0.csv};
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_-5.0.csv};
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_0.0.csv};
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_5.0.csv};
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_10.0.csv};
+      \addplot+[mark=none, very thick] file {datas/fonctionnelles/fonctionnelle_15.0.csv};
+      \legend{$-15.10^8$, $-10.10^8$, $-5.10^8$, $0.10^8$, $5.10^8$, $10.10^8$, $15.10^8$}
+    \end{axis}
+  \end{tikzpicture}
+      \caption{Free energy of homogeneous solvent of density $\rho$. $\rho_b$ is the bulk density of SPC/E water in room condition (1$kg.L^{-1}$) in the HRF approximation. }
+    \label{fig:fonctionelle_bench}
+\end{figure}
+
+
+
+
+
+\section{courbe présentant l'effet de la largeur du kernel sur un g(r). Plus le kernel est large et plus la densité sera lissée, comme attendu.} \label{app:curve}
+\begin{figure}[!htbp]
+    \center
+      \begin{tikzpicture}
+    \begin{axis}[
+            xlabel= r ($\text{\AA}$),
+            ylabel= g(r),
+            xmin = 0, xmax = 12,
+            ymin = 0, ymax = 2,
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+      \addplot+[mark=none, very thick] file {datas/g_of_r/bridge_1.177_-15/g_methane.csv};
+      \addplot+[mark=none, very thick] file {datas/test_kernel_size/cgG_0.500000_.csv};
+      \addplot+[mark=none, very thick] file {datas/test_kernel_size/cgG_1.000000_.csv};
+      \addplot+[mark=none, very thick] file {datas/test_kernel_size/cgG_1.500000_.csv};
+      \addplot+[mark=none, very thick] file {datas/test_kernel_size/cgG_2.000000_.csv};
+      \addplot+[mark=none, very thick] file {datas/test_kernel_size/cgG_100.000000_.csv};
+      \legend{0.0, 0.5, 1.0, 1.5, 2.0, 100.0}
+    \end{axis}
+  \end{tikzpicture}
+    \caption{Coarse grained radial distribution function of water around unified methane with different value for the parameter $\sigma$ of the kernel}
+    \label{fig:coarse_grained_effect}
+\end{figure}
+
+
+
+
+
+
+
+\section{Temps de calculs} \label{app:calculTime}
+La version de la théorie à symmétrie radiale décrite ci-dessus, à été implémentée dans un petit logiciel en C++. Ce logiciel prend en entrée le rayon du système à étudier ainsi que le nombre de point de grille. Notre système étant à symmétrie radiale, chaque point de grille correspond en réalité à une coquille. Les temps nécessaires à la minimisation de la functionnelle et à la production des profils de densité ainsi que de l'énergie libre de solvatation en fonction du nombre de points du système sont disponibles dans le tableau \ref{tab:times}.
+
+\begin{table}[!htbp]
+  \begin{tabular}{ l c c}
+    \hline & \\[-1em]\hline
+    N   & HRF  & HRF + bridge \\
+    \hline
+    100     & 0.36 & 0.50 \\
+    200     & 0.68 & 1.05 \\
+    500     & 1.63 & 2.33 \\
+   1000     & 2.99 & 4.86 \\
+   2000     & 5.81 & 9.10 \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption{Temps en seconds nécessaire pour générer le profil de solvatation et l'énergie libre de solvatation avec la version à gémoétrie sphérique de MDFT en fonction du nombre de points}
+  \label{tab:times}
+\end{table}
+
+\section{Paramètres des calculs} \label{app:calculParam}
+Les calculs ont été effectués dans des systèmes de rayon 15$\text{\AA}$ pour les gaz rares, le méthane et le néopentane et de 120 $\text{\AA}$ pour les sphéres dures avec un espacement entre deux points de 0.1$\text{\AA}$
+Les paramètres électrostatiques utilisés sont disponibles dans le tableau \ref{tab:electrostatParam}.
+
+\begin{table}[!htbp]
+  \begin{tabular}{ l c c }
+    \hline & \\[-1em]\hline
+    compound   & $\sigma (\text{\AA}^{-1})$  & $\epsilon (kJ.mol^{-1})$ \\
+    \hline
+    Methane    & 3.730 & 1.23000 \\
+    Neopentane & 6.150 & 3.49600 \\ 
+    Neon       & 3.035 & 0.15432 \\
+    Argon      & 3.415 & 1.03931 \\
+    Krypton    & 3.675 & 1.40510 \\
+    Xenon      & 3.975 & 1.78510 \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption{Electrostatic parameters of molecules used in MDFT calculations.}
+  \label{tab:electrostatParam}  
+\end{table}
+
+
+\section{Tecnhical tips and tricks} \label{app:technical_tips_adn_tricks}
+Afin d'accélerer considérablement le temps de calcul, le calcul de la partie d'excès et en particulier de la convolution se fait 
+
+Je peux parler de:
+- transformée de fourier => transformée de hankel
+- mise en cache des tarnsformées de hankel car extrémement répétitif
+
+Pour éviter que la fonctionnelle diverge dans le cas de large soluté, le nombre de point dans l'espace inverse à été fortement augmenté. L'espace inverse comporte un point tout les 0.01$\text{\AA}^{-1}$ sur 250 $\text{\AA}^{-1}$. Nous pouvons certainement diminuer ce nombre de points sans perdre en précision mais les temps de calculs étant très court gràçe à nos astuces précédentes, nous avons fait le choix de les laisser.
+
+
+
+
+
+\section{Distribution function for models molecules} \label{app:g_of_r}
+
+
+\begin{figure}
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{
+			%\plotG{argon}
+        }
+        \caption{argon}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.25\textwidth}
+    \centering
+        \resizebox{\linewidth}{!}{
+            %\plotG{krypton}
+        }
+        \caption{krypton}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{
+            %\plotG{neon}
+        }
+        \caption{neon}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{
+            %\plotG{xenon}
+        }
+        \caption{xenon}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{
+            %\plotG{methane}
+        }
+        \caption{methane}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.25\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{
+            %\plotG{neopentane}
+        }
+        \caption{neopentane}
+    \end{subfigure}
+    \caption{Radial Distribution Function of rare gas (argon, neon, krypton, xenon) and two united molecules: methane and neopentane. Les pointillés correspondent à des simulations de dynamique moléculaires. RDF where calculated with MDFT with (in green) and without (in blue) our new bridge function. References where calculated by MD (dashed line).}
+    \label{fig:g_of_r_complete}
+\end{figure}
+
