@@ -5,7 +5,7 @@
 *.pdf
 *.log
 tikz/*
-main.pgf-plot.gnuplot
+
 *.run.xml
 *.bcf
 *.dvi

@@ -8,3 +8,4 @@ rm *.log
 rm *.dvi
 rm *.auxlock
 rm tikz/*
+rm *.pgf-plot.*
