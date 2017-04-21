@@ -9,3 +9,4 @@ main.pgf-plot.gnuplot
 *.run.xml
 *.bcf
 *.dvi
+*.pgf-plot.*

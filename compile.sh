@@ -1,1 +1,1 @@
-pdflatex -shell-escape main.tex
+pdflatex -shell-escape -jobname=thesis_gageat main.tex

@@ -1,7 +1,10 @@
-rm main.aux
-rm main.out
-rm main.toc
-rm main.run.xml
-rm main.bcf
-rm main.pdf
-rm main.log
+rm *.aux
+rm *.out
+rm *.toc
+rm *.run.xml
+rm *.bcf
+rm *.pdf
+rm *.log
+rm *.dvi
+rm *.auxlock
+rm tikz/*
