@@ -1,8 +1,11 @@
-main.auxlock
-main.toc
-main.out
-main.aux
-main.pdf
-main.log
+*.auxlock
+*.toc
+*.out
+*.aux
+*.pdf
+*.log
 tikz/*
 main.pgf-plot.gnuplot
+*.run.xml
+*.bcf
+*.dvi
