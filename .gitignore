@@ -5,3 +5,4 @@ main.aux
 main.pdf
 main.log
 tikz/*
+main.pgf-plot.gnuplot
