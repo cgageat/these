@@ -40,8 +40,6 @@
 
 \begin{document}
 
-
-
 \maketitle
 
 
@@ -67,39 +65,52 @@ $\rho(r)$ & blablabla
 
 
 \clearemptydoublepage
-\chapter*{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}
-\chaptermark{Introduction}
-blabl
-
-
-\section*{Première section de l'intro}
-\addcontentsline{toc}{section}{Première section de l'intro}
-
-blabla
-
-
-\clearemptydoublepage
 \shorttableofcontents{Sommaire}{0}
 
 \clearemptydoublepage
-\mainmatter % Ne pas oublier, avec \frontmatter et \backmatter
+\mainmatter
 
 
 
 
+%I    Introduction
 \clearemptydoublepage
-\import{chapters/MDFT/}{content.tex}
+\import{chapters/introduction/}{content.tex}
 
+
+%II   Théorie
 \clearemptydoublepage
-\import{chapters/optimisation/}{content.tex}
+\import{chapters/theorie/}{content.tex}
 
-\clearemptydoublepage
-\import{chapters/implementation_1D/}{content.tex}
 
+%III  Bridge
 \clearemptydoublepage
 \import{chapters/bridge/}{content.tex}
 
+
+%IV   Numérique
+\clearemptydoublepage
+\import{chapters/numerique/}{content.tex}
+
+
+%V    Base de données
+\clearemptydoublepage
+\import{chapters/BDD/}{content.tex}
+
+
+%VI   ML
+\clearemptydoublepage
+\import{chapters/ML/}{content.tex}
+
+
+%VII  Appli: molécules eau
+\clearemptydoublepage
+\import{chapters/AppliWaterMolecules/}{content.tex}
+
+
+%VIII Appli: MM-PBSA
+\clearemptydoublepage
+\import{chapters/AppliMMPBSA/}{content.tex}
 
 
 \clearemptydoublepage
@@ -110,4 +121,5 @@ blabla
 \newpage
 \clearemptydoublepage
 \tableofcontents
+
 \end{document}

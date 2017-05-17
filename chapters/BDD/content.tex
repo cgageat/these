@@ -1,0 +1,60 @@
+\chapter{Base de données}
+
+\boitemagique{Objectif}{}
+
+
+Une intro sur les bdd et leur buts
+
+
+\section{Les bases de données}
+Afin d'étudier la précision de MDFT, des bases de données de solvatation ont été étudiées.
+\subsection{FreeSolv}
+REPRENDRE LE RAPPORT DE JOSE ICI
+La première base de données utilisée est FreeSolv [mobley et al]. Cette base de données est composé de 643 petites molécules accompagnées de leur énergie libre de solvatation issues de la littérature.
+\subsubsection{Calculs de dynamiques moléculaires}
+La base de données est également accompagnée de résultats de dynamiques moléculaires. Les paramètres de la simulations sont GAFF small molecule force field in TIP3P water with AM1-BCC charges. Les simulations ont été effectuées avec Gromacs.
+Les paramètres issus de ces simulations sont:
+\begin{itemize}
+\item Un identifiant unique sous la forme mobley\_X ( X étant un nombre entre XXXXX et XXXXXX)
+\item d\_h\_conf: 0.022435770142286173,
+\item d\_expt: l'incertitude expérimentale en kcal/mol
+\item iupac: Le nom iupac du composé
+\item calc\_s: S calculé en cal/mol.K
+\item d\_vdw: l'incertitude expérimentale en kcal/mol
+\item d\_calc: 0.017,
+\item d\_charging: 0.011,
+\item calc\_vdw: L'énergie libre de solvatation charges partielles annulées (création de la cavité) en kcal/mol
+\item groups: Les groupes chimiques présents dans la molécule parmis XXXXXXXXXXXXXXX
+\item PubChemID: L'identifiant du composé dans la base de données pubchem. (ex: La molécule 887, sera accessible via l'url https://pubchem.ncbi.nlm.nih.gov/compound/887)
+\item smiles: Le smile du composé
+\item d\_calc\_s: en cal/mol/K
+\item expt\_s: en cal/K/mol
+\item calc\_h: H caclculé par DM
+\item notes: Des notes sur le composé
+\item nickname: Son surnom
+\item h\_conf: 0.028144599471263517,
+\item expt\_h: "Not available",
+\item expt: L'énergie libre de solvatation expérimentale en kcal/mol
+\item d\_calc\_h: L'incertitude sur le calcul du h en kcal/mol
+\item expt\_reference: Le DOI de l'article duquel sont issu les valeurs expérimentales (ex: le DOI 10.1021/ct050097l, est accesible via l'url http://dx.doi.org/10.1021/ct050097l
+\item d\_expt\_s: L'incertitude experimentale du calcul de S en cal/K.mol
+\item calc: L'énergie libre de solvatation calculé par DM en kcal/mol
+\item h\_solv: Le h solv en kcal/mol
+\item d\_h\_solv: L'incertitude sur le calcul du h solv en kcal/mol
+\item d\_expt\_h: l'incertitude sur le h exp en kcal/mol
+\item calc\_charging: L'energie nécessaire à l'activation des charges une fois la cavité en kcal/mol
+\item calc\_reference: Le DOI de l'article duquel sont issu les valeurs calculées (ex: le DOI 10.1021/ct050097l, est accesible via l'url http://dx.doi.org/10.1021/ct050097l
+\item expt\_h\_reference: Le DOI de l'article duquel sont issu les valeurs de h expérimentales (ex: le DOI 10.1021/ct050097l, est accesible via l'url http://dx.doi.org/10.1021/ct050097l
+\end{itemize}
+
+
+
+\subsubsection{}
+\subsubsection{}
+\subsubsection{}
+\section{MDT: the MDFT Database Tool}
+REPRENDRE LE RAPPORT DE JOSE ICI
+
+
+\section{Résultats}
+REPRENDRE LE RAPPORT DE JOSE ICI
