@@ -1,176 +1,484 @@
 \chapter{Bridge gros grain}
 
 \boitemagique{Objectif}{
-L'objectif de ce chapitre est de proposer une fonctionelle de bridge \textbf{simple} et \textbf{rapide} qui permette de prédire correctement: 
+L'objectif de ce chapitre est de proposer une fonctionnelle de bridge \textbf{simple} et \textbf{rapide} qui permette de prédire correctement: 
 \begin{itemize}
-\item Les profis de densité du solvant ( g(r) )
-\item Les énérgies libres de solvatation
+\item Les profils de densité du solvant ( g(r) )
+\item Les énergies libres de solvatation
 \end{itemize}
 Avec une consistance thermodynamique, soit:
 \begin{itemize}
-\item La tension de surface de l'eau
-\item La pression du système
+\item La bonne tension de surface de l'eau
+\item La bonne pression du système
 \end{itemize}
 }
 
 
 
-Comme il à été montré dans les chapitres précédents, l'approximation HRF ne permet pas d'avoir un système thermodynamiquement consistent. Afin de corriger cela, plusieurs approximations de la fonctionnelle de bridge ont été proposées, des bridges compliqués et lourds qui permettent de retrouver de la consistante thermodynamique\cite{jeanmairet_molecular_2015} au prix de rdf très moches comme le bridge de sphères dures\cite{liu_bridge-functional-based_2014,levesque_scalar_2012}, les bridges three body \cite{jeanmairet_molecular_2015}, etc.  Malheureusement, comme il à été montré dans un article à paraître, on ne peut pas construire un terme de bridge sphères dures qui soit complètement consistent, c'est à dire que l'on ai à la fois la pression du système, la tension de surface du solvant, tout en conservant des profils de densité et des énergies libres de solvatation corrects. 
-
-Dans ce chapitre nous allons proposé un bridge simple et efficace numériquement, basé sur une densité gros-grain, qui prend en compte le démouillage en permettant la coexistence de phase gazeuse et liquide de solvant. Ce bridge permet donc de retrouver la consistante thermodynamique tout en améliorant les rdf et les énergies libres de solvatation en échange d'un coût de calcul négligeable.
+Comme il a été montré jusqu'ici, l'approximation HNC, y compris corrigée par les bridges décrits dans le chapitre précédent, ne permet pas d'avoir un système thermodynamiquement consistant. 
 
 
-\section{Le démouillage: définition}
-Lorsque l'on plonge de très gros soluté hydrophobes (c'est à dire qui n'aiment pas l'eau) en solution, il se forme une fine couche de solvant gazeux au contact du soluté comme on peut le voir sur la figure \ref{fig:demouillage}. Les solutés hydrophobes sont généralement neutres. En effet, les charges permettent la création de liaisons hydrogènes entre l'eau et le soluté, ce qui est en général suffisant pour le rendre hydrophile. Lors de cette étude, nous nous sommes donc placé dans le cas des solutés neutres. Ces bridges ont donc été développés et testés sur des solutés simples, ce qui nous à permis de nous baser sur la version à symétrie sphérique décrite dans le chapitre XXXXXXXX.
+Nous proposons ici un bridge simple et efficace numériquement, basé sur une densité gros-grain, qui prend en compte le démouillage en permettant la quasi-coexistence des phases gazeuse et liquide de l'eau.
+Ce bridge permet donc de retrouver la consistante thermodynamique tout en améliorant les rdf et les énergies libres de solvatation en échange d'un coût de calcul négligeable.
 
-\begin{figure}
-  \center
+
+
+
+
+\section{Le démouillage}
+
+\boitesimple{Définition: Processus spontané qui réduit l'aire de contact entre un solide et un film de mouillage.}
+
+En solution, ce phénomène se traduit, dans le cas de gros composés hydrophobes, par une transition lente d'une densité nulle (à la surface soluté) à une densité bulk (loin du soluté) comme on peut le voir sur la figure \ref{fig:demouillage}. Malheureusement, l'approximation HNC, empêche toute création d'une phase gazeuse et donc de faible densité en eau. En effet, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre augmente. Les phases de faibles densité normalement attendues sont donc trop défavorisées pour exister. A température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence. Cela signifie que l'énergie libre de ces deux phases devraient être quasi égales. Dans l'approximation HNC, les phases de faibles densité sont remplacées par des zone de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge à 3 corps \cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme à 4 corps. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calcul étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
+
+
+
+
+
+
+\pgfmathdeclarefunction{demouillage}{2}{%
+    %\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+    \pgfmathparse{0.5*(tanh(x+#1)+#2)}%
+    %0.5*(tanh(x-5)+1)
+}
+
+\begin{figure}[H]
+    \center    
   \begin{tikzpicture}
-    %liquide
-    \draw[fill=white!70!cyan] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
-    %gaz
-	\draw[white, fill=white] (0, 0) -- ++(4.5,0) -- ++(-4.5,4.5) -- cycle;
-    \draw[white,fill=white] (4.5,0) arc (0:90:4.5) ;
-    %solute
-    \draw[gray,fill=gray] (0, 0) -- ++(3.5,0) -- ++(-3.5,3.5) -- cycle;
-    \draw[gray, fill=gray, pattern color=black] (3.5,0) arc (0:90:3.5) ;
-    %texte
-    \draw (45:6) node {\large liq};
-    \draw (10:4) node {\large gaz};
-    \draw[white] (45:2) node {\large solute};
-    %contour
-    \draw[black, thick, fill=none] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
+    \begin{axis}[
+            xlabel= r-R (\AA),
+            ylabel= g,
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2,
+            no markers,
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+
+      \addplot[mark=none, black, very thick, domain=0:10, samples=400] {demouillage(-3.5,1)};
+    \end{axis}
   \end{tikzpicture}
-    \caption{blablabla.}
+    \caption{Représentation du démouillage autour d'une sphère hydrophobe de rayon R.}
     \label{fig:demouillage}
 \end{figure}
 
-\section{Les bridges}
-Historiquement, le bridge le plus utilisé est le bridge de sphère dure mais celui-ci, comme l'approximation HRF, ne permettent pas de prendre en compte le solvent à l'état gazeux. En effet, comme le montre la figure \ref{fig:fonctionelle} dans l'approximation HRF (en noir), le potentiel chimique de l'eau gazeuse est très supérieur à celui de l'eau liquide ce qui rend impossible toute création d'une phase gazeuse. Les résultats pour le bridge de sphère dure, non présentés ici, sont disponibles dans l'article de Jeanmairet et Al\cite{jeanmairet_molecular_2013}
-
-Pour ces nouveaux bridges nous sommes partis sur deux concepts:
-\begin{itemize}
-\item Une expansion d'ordre 4 du terme d'excès
-\item Une densité gros grain $\bar{\rho(r)}$
-\end{itemize}
 
 
-L'expansion d'ordre 4 nous permet ainsi de retrouver de la consistance thermodynamique avec la pression du système et une tension de surface de l'eau correcte. Le bridge doit donc satisfaire les critères suivants:
-\begin{eqnarray} \label{eq:bridge_criteres}
-F[0]&=&k_BTP=K_P \ A \ VERIFIER !!!!!!!\\
-\int_{rho_{liq}}^{rho_{gaz}} F[rho_{bulk}]&=&f(\gamma)=K_g
-\end{eqnarray}
-
-Le calcul des termes d'ordre 3 et 4 étant extrêmement longs, nous perdions donc l'avantage principale des méthodes implicites, comme MDFT: la rapidité. Afin de diminuer l'impact du bridge sur le temps de calcul, nous avons choisi de remplacer les intégrales triples et quadruples par de simples puissances d'une densité locale gros grain. La densité gros grain nous permet ainsi de nous placer à l'échelle mésoscopique et de mimer au mieux nos triples, quadruples intégrales sans coût de calcul supplémentaires.
-
-
-\subsection{Choix du bridge}
-Nous avons dans un premier temps déterminé la forme du bridge car celui-ci est indépendant de la façon dont on obtient la densité gros grain. En effet, la détermination de la forme du bridge est basée uniquement sur des systèmes bulk dont la densité gros grain est strictement identique à la densité classique.
-
-\subsubsection{Le bridge classique}
-Notre choix s'est d'abord tourné vers le bridge d'ordre 4 le plus simple soit le bridge suivant:
-
-\begin{equation} \label{eq:bridge_type_1}
-F_{\mathrm{b}}[\bar{\rho}(\vec{r})]=K_1\int\Delta\bar{\rho}(r)^3d\vec{r}+k_2\int\Delta\bar{\rho}(r)^4d\vec{r}
-\end{equation}
-
-avec
-\begin{eqnarray} \label{eq:bridge_parameter_1}
-%B=-5*co/(3.0*no2)+5*kp/no4-20*kg/no5
-%A=(kbt/no2-co/no-kp/no3)+noB
-% A REFAIRE !!!!!!!!!!!!!!!!!!!!!!!!!!!
-k_2 = \frac{-5C_0}{3{\rho_0}^2}-\frac{20K_A}{{\rho_0}^5} \\
-k_1 = \frac{k_{B}T}{{\rho_0}^2}-\frac{C_0}{\rho_0} + \rho_0k_2
-\end{eqnarray}
-
-Le calcul détaillé des facteurs $k_1$ et $k_2$ sont disponibles en annexes.
-
-
-Malheureusement, suite à une étude paramétrique disponible en annexe, ce bridge ne permet pas de fixer le potentiel chimique de la phase gazeuse de l'eau. Cette condition retire un degrés de liberté au système et il existe donc une relation unique entre $K_P$ et $k_g$, ce qui ne donne pas la souplesse attendue au modèle.
-
-
-\subsubsection{Le bridge final}
-
-Nous sommes donc parti sur un second bridge. Nous voulions un terme d'ordre 3, qui résoud $\rho(0)=0$ et qui permet de rendre équivalents les potentiels chimiques de l'eau liquide et gazeuse et ainsi permet l'apparation du démouillage. On peut voir sur la figure \ref{fig:fonctionelle}, en rouge, la création d'un second minimum proche de zéro, correspondant à la phase gazeuse, lorsque l'on ajoute notre bridge à la fonctionnelle. Le terme d'ordre 4 permet quant à lui d'ajouter de la souplesse dans notre modèle en nous permettant de modifier la barrière énergétique entre nos deux phases. Ce terme, ne devant pas modifier le potentiel chimique de nos deux phases, à était précédé par $\rho^2$ afin qu'il s'annule en  $\rho_{liq}$ et $\rho_{gas}$. Notre nouveau bridge est donc de la forme:
-
-\begin{equation} \label{eq:fbridge_2}
-F_{\mathrm{b}}[\bar{\rho}(\vec{r})]=k_1\int\Delta\bar{\rho}(\vec{r})^3d\vec{r}+k_2\int\bar{\rho}(\vec{r})^2\Delta\bar{\rho}(\vec{r})^4d\vec{r}
-\end{equation}
-Avec $K_2$ variable et
-\begin{eqnarray} \label{eq:bridge_parameter_2}
-k_1 = \frac{k_{B}T}{{\rho_0}^2}-\frac{C_0}{\rho_0}
-\end{eqnarray}
+% \begin{figure}[H]
+%   \centering
+%   \resizebox{\linewidth}{!}{
+%     \fbox{\includegraphics[width=\textwidth]{chapters/bridge/images/diagramme_phase_eau.png}}
+%   }
+%   \caption{Diagramme de phase de l'eau. [REF \url{http://nte.mines-albi.fr/ThermoIntro/fr/res/ti_01_1.png}]}
+%   \label{fig:diagramme_phase_eau}
+% \end{figure}
 
 
 
-\begin{figure}
+
+
+
+
+%\begin{figure}[H]
+%  \center
+%  \begin{tikzpicture}
+%    %liquide
+%    \draw[fill=white!70!cyan] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
+%    %gaz
+%	\draw[white, fill=white] (0, 0) -- ++(4.5,0) -- ++(-4.5,4.5) -- cycle;
+%    \draw[white,fill=white] (4.5,0) arc (0:90:4.5) ;
+%    %solute
+%    \draw[gray,fill=gray] (0, 0) -- ++(3.5,0) -- ++(-3.5,3.5) -- cycle;
+%    \draw[gray, fill=gray, pattern color=black] (3.5,0) arc (0:90:3.5) ;
+%    %texte
+%    \draw (45:6) node {\large liq};
+%    \draw (10:4) node {\large gaz};
+%    \draw[white] (45:2) node {\large solute};
+%    %contour
+%    \draw[black, thick, fill=none] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
+%  \end{tikzpicture}
+%    \caption{Démouillage: Un composé hydrophobe plongé dans l'eau va entraîner la création d'une légère couche de solvant gazeuse à son contact.}
+%    \label{fig:demouillage}
+%\end{figure}
+
+
+
+\begin{figure}[H]
     \center
-    
   \begin{tikzpicture}
     \begin{axis}[
-            xlabel= $\rho_{bulk}/\rho_{0}$,
+            xlabel= $\rho_{\mathrm{bulk}}/\rho_b$,
+            ylabel= $\Delta \mathrm{g}_{\mathrm{solv}} (\mathrm{kJ.mol}^{-1}.\text{\AA}^{-3}) $,
+            xmin = 0, xmax = 1.5,
+            ymin = 0, ymax = 0.15,
+            scaled y ticks={base 10:2},
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+      \addplot+[mark=none, black, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle.csv};
+      \legend{HNC}
+    \end{axis}
+  \end{tikzpicture}
+    \caption{\'Energie libre pour une unité de volume du solvant homogène de densité $\rho_{\mathrm{bulk}}$ dans l'approximation HNC. $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards ( 1 $\mathrm{kg.L}^{-1}$ ).}
+    \label{fig:fonctionelle_HNC}
+\end{figure}
+
+
+
+
+
+\section{MDFT: version à symétrie sphérique}
+Afin de diminuer fortement le temps nécessaire à l'étude paramétrique, nous avons développé une version à symétrie sphérique. Cette version simplifiée repose sur deux approximations. 
+
+La première approximation que nous avons fait est de ne considérer uniquement des composés neutres. En effet, les charges permettent la création de liaisons hydrogènes fortes entre l'eau et le soluté, ce qui à pour effet de fortement stabiliser ce dernier et ainsi de le rendre hydrophile. Les composés hydrophobes, entraînant du démouillage sont donc généralement neutres.
+Contrairement aux solutés chargés, les solutés neutres forment uniquement des liaisons de Van Der Waals. En effet, la charge nulle du soluté, annule toute interaction électrostatique. Le modèle d'eau SPC/E, ne possède qu'un site Lennard-Jones sur l'oxygène. Les hydrogènes sont, dans ces conditions, invisibles pour le soluté. Nous pouvons donc représenter le solvant sous la forme d'un site unique et ainsi nous affranchir complètement de ses orientations. A ce niveau, une seconde approximation est faite. En considérant uniquement l'oxygène de l'eau nous ignorons les interactions électrostatiques entre molécules d'eau. Jeanmaire et Al.\cite{jeanmairet_molecular_2013-1} on montré que le couplage entre la densité et la polarisation de l'eau est négligeable, ce qui rend cette approximation possible.
+
+Afin de paramètriser ce nouveau bridge, nous nous concentrons dans une premier temps sur nos molécules modèles: des sphères de Lennard-Jones neutres, avec un solvant sous la forme d'un point et donc sans orientation. L’interaction dépend donc uniquement de la distance entre le soluté et la molécule de solvant. En d'autre termes, tous les points se trouvant sur une sphère centrée sur notre système seront parfaitement identiques. Ces systèmes sont dits à symétrie sphériques. Afin de ne pas minimiser inutilement de nombreuses variable identiques, car équidistantes du centre, nous avons développé une version adaptée de MDFT. Cette version, contrairement à la version 3D, nous autorise à représenter le système sous la forme d'un vecteur 1D de densités partant du centre de notre soluté et allant jusqu'à l'infini et non plus par une grille en 3D. Basé sur ce constat, nous avons adaptée la théorie et nous l'avons implémentée dans une version spécifique de MDFT.
+
+
+
+% \begin{figure}[H]
+%   \center
+%   \begin{tikzpicture}
+%     %contour
+%     %\draw[black, thick, fill=none] (0,0) -- ++(6,0) -- ++(0,6) --++ (-6,0) -- cycle;
+%     \draw[black, fill=none] (3,3) circle (5);    
+%     %solute
+%     \draw[gray, fill=gray] (3,3) circle (1);
+%     %solvent
+%     \draw[white!70!red, fill=white!40!red] (5,5) circle (0.2);
+%     \draw[white!70!red, fill=white!40!red] (1,5) circle (0.2);
+%     %fleches
+%     %\tikz \draw[<->, white!70!red] (4,4) -- (4.8,4.8);
+%     %\tikz \draw[<->, white!70!red] (2,4) -- (1.2,4.8);
+%   \end{tikzpicture}
+%     \caption{Système à symétrie sphérique. Le soluté, une sphère de Lennard-Jones est représentée en gris. Le site de Lennard-Jones (oxygène) de deux molécules d'eau SPC/E sont représentés en rouge. Ces deux molécules sont identiques dans un système à symétrie sphérique}
+%     \label{fig:symetrie_spherique}
+% \end{figure}
+
+
+
+
+
+
+
+
+\subsection{La théorie}
+Dans l'approximation des solutés neutres, il à été montré que nous pouvions nous affranchir des orientations du solvant. Cela revient, dans la définition de la fonctionnelle [REF EQUATION HNC] à remplacer $\int\mathrm{d}\Omega\rho(\boldsymbol{r}, \Omega)$ par $\rho(\mathrm{r})$. Dans le cas de coordonnées cartésiennes, le découpage de l'espace se fait sous forme de voxels, alors que dans le cas de coordonnées polaires, le découpage se fait sous forme de coquilles. L'intégration $\int\mathrm{d}\boldsymbol{r}$ est donc remplacée par $\int\mathrm{dV}_{\mathrm{coquille}}(\mathrm{r})$ avec $\mathrm{dV}_{\mathrm{coquille}}(\mathrm{r})=4 \pi \mathrm{r}^2 \mathrm{dr}$, $\mathrm{dr}$ étant l'épaisseur de la coquille soit numériquement, l'espacement entre deux points. Les fonctionnelles idéale et externe, centrées sur l'origine, sont les suivantes:
+
+\begin{eqnarray}
+\mathcal{F}_\mathrm{id}(\mathrm{r})&=&\mathrm{k_B}T\int\mathrm{dV}_{\mathrm{coquille}}(\mathrm{r}) [ \rho\left(\mathrm{r} \right)\log\left(\frac{\rho\left(\mathrm{r} \right)}{\rho_0}\right)-\rho\left(\mathrm{r} \right)+\rho_0 ],\\
+\mathcal{F}_\mathrm{ext}(\mathrm{r})&=&\int\mathrm{ dV}_{\mathrm{coquille}}(\mathrm{r})\rho\left(\mathrm{r} \right)\phi\left(\mathrm{r} \right)\\
+\end{eqnarray}
+
+Au contraire des deux premiers termes, la fonctionnelle d'excès n'est pas centrée sur l'origine. Nous ne pouvons donc pas nous placer directement dans des coordonnées polaires. Nous réécrivons donc dans un premier temps, cette partie de la fonctionnelle, sous la forme d'une convolution ce qui nous donne :
+
+\begin{eqnarray}
+\mathcal{F}_\mathrm{exc}(\mathrm{r}) &=& \mathcal{F}_\mathrm{hnc} + \mathcal{F}_\mathrm{b}
+\end{eqnarray}
+Avec
+\begin{eqnarray}
+\mathcal{F}_\mathrm{hnc}&=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} \Delta\rho\left( \boldsymbol{r} \right)  \int\mathrm{d}\boldsymbol{r}^\prime c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left( \boldsymbol{r}^\prime \right) + \mathcal{F}_\mathrm{b}\\
+						 &=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} [ \Delta\rho\left( \boldsymbol{r} \right)  *\gamma( \boldsymbol{r} ) ] + \mathcal{F}_\mathrm{b}
+\end{eqnarray}
+
+ avec $\gamma(\boldsymbol{r}) = \int\mathrm{d}\boldsymbol{r}\mathrm{d}\boldsymbol{r}^\prime c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left( \boldsymbol{r}^\prime  \right)$. A condition d'utiliser une convolution adaptée, nous sommes ici autorisés à réécrire cette partie de la fonctionnelle dans les coordonnées sphériques. Nous obtenons ainsi:
+\begin{eqnarray}
+\mathcal{F}_\mathrm{hnc} &=& -\frac{\mathrm{k_B}T}{2} \int \mathrm{d} \mathrm{r} \mathrm{d} ( \Delta\rho\left( \mathrm{r} \right)  \ast ( \gamma(\mathrm{r})  ) + \mathcal{F}_\mathrm{b}
+\end{eqnarray}
+
+Une résolution rapide et simple de ce terme est décrite plus loin.
+
+
+
+
+\subsection{Implémentation}
+Une version de cette théorie à été implémentée dans un code de 2800 lignes de C++ objet haute performance. Comme nous l'avons décrit ci-dessus, l'espace est représenté par un vecteur de densité allant du centre du système jusqu'à l'infini. Numériquement, nous avons limité le vecteur à un ensemble de densité réparties entre l'origine et une distance suffisamment loin pour ne plus être influencé par le soluté. Cette limite, ainsi que l'espacement entre deux points, sont fixés par l'utilisateur.
+Afin d'effectuer la minimisation, nous avons utilisé la librairie L-BFGS\cite{zhu_algorithm_1997}.
+
+\subsubsection{Transformées de Hankel}
+Comme nous l'avons décrit dans la section précédente, la fonctionnelle d'excès peut être calculée en utilisant la propriété des convolutions suivante: La convolution de deux fonctions, correspond à la transformée de fourier inverse ($\mathrm{FT}^{-1}$) du produit point à point de la transformée de Fourier ($\mathrm{FT}$) des deux fonctions.
+\begin{eqnarray}
+f \ast g  = \mathrm{FT}^{-1}( \mathrm{FT}(f)\cdot\mathrm{FT}(g) )
+\end{eqnarray}
+Dans notre système à symétrie sphérique, les transformées de Fourier 3D se réécrivent comme des transformées de Hankel. Nous pouvons ainsi directement résoudre cette partie de la fonctionnelle en coordonnées sphériques.
+
+
+
+Afin d'adapter au mieux la transformée de Hankel à nos besoins, nous l'avons réimplémenté. Les formules utilisées pour la transformée de Hankel directe (HT) et la transformée de Hankel inverse ($\mathrm{HT}^{-1}$) sont les suivantes:
+
+
+%    y(k) = 4 pi int _0 ^\infty  y(r) sin(kr)/(kr) r^2 dr
+\begin{eqnarray}
+\mathrm{HT}[f](k) &=& 4\pi\int \mathrm{dr}\ \mathrm{f}(\mathrm{r})\frac{\sin(\mathrm{kr})}{\mathrm{kr}}\mathrm{r}^2\\
+\mathrm{HT}^{-1}[f](k) &=& \frac{1}{3\pi^2}\int \mathrm{dk}\ \mathrm{f}(\mathrm{k})\frac{\sin(\mathrm{kr})}{\mathrm{kr}}\mathrm{k}^2
+\end{eqnarray}
+
+A cette étape, nous minimisons donc la fonctionnelle dans l'approximation HNC.  
+
+
+\subsubsection{Mise en cache partielle de la transformée de Hankel}
+Malgré la puissance des machines de calcul actuelles, certaines opérations restent longues à effectuer. C'est le cas par exemple des exponentielles, ou encore des cosinus et sinus que nous utilisons massivement dans le calcul des transformées de Hankel.
+Lors de la minimisation, seules les valeurs des densités changent. Leur position, r dans l'espace réel et k dans l'espace réciproque, ne sont pas modifiées. Les valeurs de $4\pi\frac{\sin(\mathrm{kr})}{\mathrm{kr}}\mathrm{r}^2$ ne sont donc pas non plus modifiées. Afin de diminuer fortement le temps de calcul nécessaire à cette partie, nous avons mis ces valeurs en cache. En d'autres termes, nous les générons une fois au début de la minimisation, nous les stockons en mémoire, puis nous les réutilisons à chaque pas de minimisation. De plus, ces valeurs étant toujours appelées dans le même ordre, nous les stockons en mémoire de manière contiguë, ce qui autorise la vectorisation de cette boucle de calcul et minimise le temps nécessaire au rapatriement des données. Nous bénéficions ainsi du maximum de la puissance de calcul disponible. Nous réécrivons donc la transformée de Hankel sous la forme:
+
+\begin{eqnarray}
+\mathrm{HT}[f](k) &=& \sum \mathrm{dr}\ \mathrm{f}(\mathrm{r}) . \mathrm{cache}(\mathrm{kr})
+\end{eqnarray}
+Avec cache(kr)=$4\pi\frac{\sin(\mathrm{kr})}{\mathrm{kr}}\mathrm{r}^2$
+
+
+\subsubsection{Temps de calculs}
+Afin d'évaluer les performances des différentes implémentations de MDFT, nous avons simulé la solvatation d'un méthane unifié dans l'eau SPC/E, avec la version 3D puis avec la version à symétrie sphérique, avec et sans mise en cache. La figure \ref{fig:temps_calcul_methane_versions} représente le temps de calcul nécessaire pour ces 3 versions en fonctions du nombre de points de grille dans chaque direction. Le temps de calcul dépend uniquement du nombre de point de grille et non de la taille du système, nous avons donc fixé, dans tous les cas, la largeur du système à 20 \AA. Pour 200 points de grille, on voit que la version 3D à besoin de 1 min 51 sec pour compléter la minimisation, alors que la version à symétrie sphérique nécessite uniquement 36 sec. La mise en cache des transformées de Hankel fait descendre ce temps à seulement 1.47 sec. Nous divisons, dans ce cas, le temps de calcul par plus de 75. De plus, cette version permet d'atteindre des tailles de boite inaccessibles à la version 3D. Nous minimisons par exemple facilement des systèmes de quelques centaines d'\AA\ avec une précision de 10 points/\AA.
+
+
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        xlabel=Temps de calcul (s),
+        ylabel=Nombre de points de grille
+    ]
+    
+    \addplot[mark=*, black, very thick] plot coordinates {
+        (50,  1.73)
+        (75,  6.15)
+        (100, 14.37)
+        (200, 111.05)
+    };
+    \addplot[mark=*, red, very thick] plot coordinates {
+        (50,  7.69)
+        (75,  11.43)
+        (100, 15.60)
+        (200, 36.39)
+        (300, 47.42)
+        (400, 64.32)
+    };
+    \addplot[mark=*, blue, very thick] plot coordinates {
+        (50,  0.50)
+        (75,  0.66)
+        (100, 0.82)
+        (200, 1.47)
+        (300, 2.46)
+        (400, 3.05)
+    };
+
+
+    \legend{MDFT 3D\\MDFT sym\\MDFT sym optim\\}
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Temps de calcul nécessaire à la simulation de la solvatation d'un atome de méthane unifié en fonction du nombre de points de grille dans chaque dimension. Le temps nécessaire à la version 3D est représenté en noir, le temps nécessaire à la version à symétrie sphérique sans optimisation est représenté en rouge et avec optimisation en bleu.}
+  \label{fig:temps_calcul_methane_versions}
+\end{figure}
+
+Il existe bien sur d'autres optimisations possibles comme l'utilisation de Fast Transformée de Hankel mais vu le temps de calcul largement convenable, nous avons fait le choix de nous arrêter ici afin de ne pas rendre le code source illisible. Une fois cette version opérationnelle nous avons pu l'utiliser afin de développer notre nouveau bridge.
+
+
+
+\section{Le bridge Gros Grain}
+A l'aide de la version à symétrie sphérique de la MDFT, nous avons développé un nouveau bridge: le bridge gros grain. Ce bridge doit permettre une amélioration de la prédiction de l'énergie libre de solvatation et des profiles de solvant de façon simple et rapide en ajoutant de la consistance thermodynamique au système. Pour cela, nous devons d'une part, reproduire une tension de surface correcte, et d'autre part, corriger la pression du système qui est largement surestimée dans l'approximation HNC en rendant possible la coexistence liquide-vapeur. 
+
+\subsection{La tension de surface}
+La tension de surface, notée $\gamma$ et exprimée en $\mathrm{mJ.m}^{-2}$, correspond à l'énergie nécessaire pour créer une unité de surface d'une interface liquide-gaz.
+
+L'énergie libre de solvatation d'une sphère dure peut être exprimée en fonction de sa surface et de son volume sous la forme:
+
+\begin{equation} \label{eq:energie_libre_terme_volume_surface}
+\Delta G_{solv}= \mathrm{A} V_{\mathrm{sphere}} + \gamma S_{\mathrm{sphere}} 
+\end{equation}
+
+Pour des sphères de petit diamètre, le terme proportionnelle au volume est prépondérant. Au contraire, pour les sphères de diamètre important, lorsque leur profils peuvent être assimilés à des murs plats, c'est le terme en surface qui devient prépondérant. Le rapport entre l'énergie libre de solvatation et la surface d'une sphère dure de grand diamètre correspond à la tension de surface du solvant, ici de l'eau. Par la suite nous tracerons donc le rapport entre l'énergie libre de solvatation et la surface des sphères, soit $\frac{\Delta G_{solv}}{S_{\mathrm{sphere}}}=\gamma$, afin de nous assurer que la tension de surface tend bien vers celle de l'eau. Nous avons choisi comme référence la tension de surface de l'eau SPC/E et non celle de l'eau réelle afin de rester cohérent avec le modèle utilisé par MDFT.
+
+
+
+
+
+
+
+
+\subsection{Définition du bridge gros grain}
+Pour construire notre bridge, nous partons de l'approximation HNC. Cette approximation peut être interprétée comme un développement de Taylor à l'ordre deux de la fonctionnelle autour de la densité de référence $\rho_{\mathrm{bulk}}$, la densité de l'eau liquide.
+Dans cette approximation, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité liquide et plus la valeur de l'énergie libre augmente. La phase gaz est ainsi fortement déstabilisée, ce qui à pour conséquence de surestimer fortement la pression du fluide.
+Afin de corriger ce phénomène, nous ajoutons un terme à 3 corps qui permet de rendre cohérentes les énergies libres de solvatation des deux phases.
+
+D'après la théorie de Landau-Ginzburg\cite{Ginzburg2009}, la hauteur de la courbe entre les deux phases est directement liée à le tension de surface. Nous ajoutons donc un terme à quatre corps qui s'annule en $\rho=0$ et $\rho=\rho_{bulk}$ afin d'autoriser la modification cette hauteur sans modifier les deux phases précédemment ajustées.
+
+L'avantage majeur de la MDFT est sa vitesse. Des termes à 3 et 4 corps demanderaient un temps de calculs trop important pour rester concurrentiel par rapport aux méthodes explicites. Afin de rendre le temps de calcul négligeable, nous reprenons une idée de Tarazona et Al.\cite{tarazona_free-energy_1985}, qui consiste à remplacer des termes à 3 ou 4 corps par de simples puissances d'une densité gros grain notée $\bar{\rho}(\boldsymbol{r})$ est définie comme
+
+\begin{equation} \label{eq:convolution_gros_grain}
+\bar{\rho}(\boldsymbol{r}) = \int \mathrm{d}\boldsymbol{r}^\prime \rho(\boldsymbol{r}^\prime) K\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|\right) = \rho\ast K \left( \boldsymbol{r} \right)
+\end{equation}
+
+Le choix du noyau de convolution K sera décrit plus bas. Nous obtenons donc un bridge de la forme suivante:
+
+\begin{equation} \label{eq:fbridge_2}
+F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=A\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+B\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
+\end{equation} 
+
+
+\subsection{\'Etude paramétrique}
+A ce niveau, nous disposons d'un bridge que nous pouvons ajuster au travers de 3 paramètres: A, B et le choix du noyau de convolution. Le premier paramètre A est résolu analytiquement, de façon à annuler l'énergie libre de solvatation de la phase gaz, soit $F[\rho_{liq}]=F[\rho_{gas}]=0$ . Nous obtenons ainsi $A=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})$ (en $kJ.mol^{-1}.\text{\AA}^{6}$ ). Les deux autres paramètres, ont été déterminés à l'aide d'une étude paramétrique.
+
+\subsubsection{Choix du noyau de convolution gros grain}
+Il existe différents noyaux de convolutions permettant l'obtention d'une densité gros grain. Notre choix s'est dans un premier temps naturellement portée vers le plus simple, un heavyside (en noir sur la figure \ref{fig:noyaux}). Notre étude à permis de rapidement éliminer ce noyau. Il n'existait aucun combinaison de paramètres permettant de reproduire correctement la tension de surface (résultats non présentés ici). 
+
+
+
+
+
+
+
+
+
+
+\pgfmathdeclarefunction{gauss}{2}{%
+    \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\begin{figure}[H]
+    \center    
+  \begin{tikzpicture}
+    \begin{axis}[
+            xlabel= distance (\AA),
+%            ylabel= $\Delta g$ (kJ/mol/\AA$^3$),
+            xmin = -2, xmax = 2,
+            ymin = 0, ymax = 2,
+            no markers,
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+      \addplot[mark=none, black, very thick] plot coordinates {
+        (-2,  0)
+        (-1,  0)
+        (-1,  0.5)
+        (1,  0.5)
+        (1, 0)
+        (2, 0)
+     };
+      
+      \addplot[mark=none, red, very thick, domain=-2:2, samples=400] {gauss(0,0.3)};
+      \legend{heavyside, gaussienne}
+    \end{axis}
+  \end{tikzpicture}
+    \caption{Noyaux de convolution utilisés dans l'étude paramétrique permettant la définition du bridge gros grain. En noir le heavyside et en rouge la gaussienne.}
+    \label{fig:noyaux}
+\end{figure}
+
+
+
+Nous nous sommes ensuite intéressé à la gaussienne (en rouge sur la figure \ref{fig:noyaux}). Ce noyau est défini par deux paramètres, sa largeur à mi hauteur $\sigma$ (\AA) et un pré-facteur définissant sa hauteur. Afin de conserver une cohérence entre la densité et la densité gros grain, le pré-facteur est choisi de façon à obtenir une aire sous la courbe de la gaussienne toujours égale à 1. \`A ce niveau, nous disposons donc de deux paramètres, B et $\sigma$. Dans un premier temps, nous avons cherché les limites de B, qui ont un impact direct sur la forme de la courbe d'énergie libre du fluide homogène. Comme on le voit sur la figure \ref{fig:etude_B}, une valeur de B inférieure à $-15.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ ou supérieure à $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ déforme la courbe. Nous avons donc choisi de concentrer notre étude sur des valeurs de B allant de $-15.10^{-8}$ à $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$.
+
+
+
+
+\begin{figure}[H]
+    \center
+  \begin{tikzpicture}
+    \begin{axis}[
+           xlabel= $\rho_{bulk}/\rho_b$,
             ylabel= $\Delta g_{solv} (kJ.mol^{-1}.\text{\AA}^{-3}) $,
             xmin = 0, xmax = 1.5,
             ymin = 0, ymax = 0.15,
             scaled y ticks={base 10:2},
             legend style = {draw = none, cells={anchor=west}}
       ]
-      \addplot+[mark=none, black, very thick] file {datas/fonctionnelles/fonctionnelle.csv};
-      \addplot+[mark=none, red, very thick] file {datas/fonctionnelles/fonctionnelle_0.0.csv};
-      \legend{HRF, HRF + bridge}
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_-15.0.csv};
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_-10.0.csv};
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_-5.0.csv};
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_0.0.csv};
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_5.0.csv};
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_10.0.csv};
+      \addplot+[mark=none, very thick] file {chapters/bridge/datas/fonctionnelles/fonctionnelle_15.0.csv};
+      \legend{$B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
     \end{axis}
   \end{tikzpicture}
-    \caption{Free energy of homogeneous solvent of density $\rho$. $\rho_b$ is the bulk density of SPC/E water in room condition (1$kg.L^{-1}$) in the HRF approximation. In black: MDFT in the HRF approximation with only one minimum for the bulk density. In red: MDFT with our new bridge. A narrow local minimum to found at $10^{-3} \rho_0$ and corresponding to the gas phase.}
-    \label{fig:fonctionelle}
+    \caption{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$). $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
+    \label{fig:etude_B}
+\end{figure}
+
+\subsubsection{\'Exploration des paramètres B et $\sigma$}
+Pour chaque valeur de ce paramètre B, nous avons tracé l'énergie libre de solvatation d'une sphère dure grossissante divisée par son volume. Nous avons ensuite ajusté la valeur de $\sigma$ pour obtenir une tension de surface correcte (voir figure \ref{fig:etude_sigma}).
+
+\begin{figure}[H]
+\center
+    \begin{tikzpicture}
+      \begin{axis}[
+          xlabel= $R$ (\AA),
+          ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+          xmin = 0, xmax = 100,
+          ymin = 0, ymax = 80,
+          legend style = {draw = none, at={(0.95,0.05)},anchor=south east}%,
+          ]
+        \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_0.866_15.csv};
+        \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_0.900_15.csv};
+        \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_0.935_15.csv};
+        \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_0.966_15.csv};
+        \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_1.000_15.csv};
+        \addplot[mark=none, dashed, black, very thick] coordinates { (0, 63.6) (100, 63.6) };
+        \legend{$\sigma=0.866$, $\sigma=0.900$, $\sigma=0.935$, $\sigma=0.966$, $\sigma=1.000$}
+      \end{axis}
+    \end{tikzpicture}
+	\caption{\'Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface pour différentes valeurs de $\sigma$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ/m$^2$\cite{vega_surface_2007}.}
+    \label{fig:etude_sigma}
 \end{figure}
 
 
-\subsection{Choix du noyau gros grain}
-La densité gros grain $\bar{\rho}(\vec{r})$ est le résultat d'une convolution entre notre densité et une fonction que l'on appelle kernel (voir equation ~\ref{eq:convolution}).
+Nous avons ainsi obtenu, pour chaque valeur de B sélectionnée, la valeur de $\sigma$ reproduisant correctement la tension de surface $\gamma$ de l'eau. Ces valeurs sont disponibles dans le tableau \ref{tab:parametres_bridge}.
 
-\begin{equation} \label{eq:convolution}
-\bar{\rho}(\vec{k})=\rho(\vec{k})*e^{-\frac{(\vec{k}-\sigma)^{2}}{2}}
-\end{equation}
+\begin{table}[H]
+ \centering
+  \begin{tabular}{l || c c c c c c c}
+    \hline
+    B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$)  & -15 & -10 & -5 & 0 & 5 & 10 & 15  \\
+    \hline
+     $\sigma$ (\AA)  & 1.177 & 1.110 & 1.061 & 1.021 & 0.989 & 0.960 & 0.935  \\
+    \hline
+  \end{tabular}
+  \caption{Couples de paramètres permettant d'obtenir la bonne tension de surface de l'eau.}
+  \label{tab:parametres_bridge}  
+\end{table}
 
-Notre modèle à donc deux paramètres: le kernel (ainsi que sa largeur) qui permet d'obtenir une densité plus ou moins gros grain et la hauteur de la barrière énergétique entre l'eau liquide et l'eau gaz que l'on peut modifier en faisant varier le Paramètre B de l'équation ~\ref{eq:fbridge_2}.
+Afin de sélectionner le meilleur couple de paramètres, nous disposons de différentes références, que ce soit de structure de solvant ou d'énergie libre de solvatation. 
 
-Deux kernel ont été testé, le kernel simple: un heavyside et un kernel plus naturel: la gaussienne.
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+%\begin{figure}[H]
+%    \center    
+%  \begin{tikzpicture}
+%    \begin{axis}[
+%            xlabel= $\rho$/$\rho_b$,
+%            ylabel= $\Delta g$ (kJ/mol/\AA$^3$),
+%            legend style = {draw = none, cells={anchor=west}}
+%      ]
+%      \addplot+[mark=none, very thick] plot coordinates {
+%        (-15, 1.177)
+%        (-10, 1.110)
+%        (-5,  1.061)
+%        (0,   1.021)
+%        (5,   0.989)
+%        (10,  0.960)
+%        (15,  0.935)
+%     };
+%    \end{axis}
+%  \end{tikzpicture}
+%    \caption{}}
+%    \label{fig:parametres_b_sigma}
+%\end{figure}
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-Afin de déterminer les paramètres optimaux de notre modèle, nous avons mené une étude paramétrique. Cette étude (voir annexe XXXX) à démontré qu'il n'était pas possible d'avoir une consistance thermodynamique correcte avec le noyau simple, le heavyside.
-
-Les valeurs optimales obtenues pour le noyaux gaussien sont $\sigma_{kernel}$=$1.18\text{\AA}$ (\ref{eq:convolution}) et $B$=$-15.10^{-8}$ (\ref{eq:fbridge_2}). Cette étude avait pour objectifs, d'obtenir la tension de surface de l'eau et une pression du système correctes sans dégrader les densités de profils et les énérgie libre de solvatation. 
-
+\subsubsection{\'Energie libre de solvatation de sphères dures}
+Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'Energie libre de solvatation d'une sphère dure divisée par sa surface aux valeurs de références calculées par Monte Carlo\cite{hummer_information_1996} ( voir figure \ref{fig:comparaison_hummer} ). A cause du temps de calcul nécessaire, Hummer et Al., se sont limités à une dizaine de point pour des sphères de rayon inférieur à 4 \AA.
 
 
-\subsubsection{Tension de surface}
-Pour des composés hydrophobes, l'énergie libre de solvatation est la somme d'un terme proportionnel au volume du composé et d'un terme proportionnelle à sa surface. Pour de petits composés, le terme volumique est majoritaire alors que pour des grands composés, c'est le terme surfacique qui reprend le dessus. Une fois le terme surfacique majoritaire, la variation de l'énergie libre de solvatation correspond à l'énergie nécessaire à la création d'une unité de surface soit par définition à la tension de surface de notre solvant. Comme le montre l'image ~\ref{fig:surface_tension}, avec notre nouveau bridge (en bleu) le rapport entre l'énergie libre de solvatation et la surface du soluté, pour des solutés grossissant, tend, comme attendu, vers la tension de surface (en jaune) de notre modèle d'eau SPCE\cite{vega_surface_2007}, ce qui n'était pas le cas dans nos modèles précédents de MDFT dans l'approximation HRF (en vert).
 
-\begin{figure}
-\center
+\begin{sidewaysfigure}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{HNC}
+    \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
-		\begin{scope}
         	\begin{axis}[
-                xlabel=   r ($\text{\AA}$),
-                ylabel= $\Delta g_{solv}\ HS(mj.m^{-2})$,
-%    	        restrict x to domain=0:100,
-%    	        restrict y to domain=0:110,
-            	xmin = 0,
-        	    xmax = 100,
-                ymin = 0,
-	            ymax = 140,
-        	    legend style = {draw = none, at={(0.95,0.05)},anchor=south east}%,
-%                xmode=log
-    	        ]
-            	\addplot+[mark=none, black, very thick] table[x index=0, y index=4]{datas/free_energy_by_volume/results_HS_HNC.csv};
-            	\addplot+[mark=none, red, very thick] table[x index=0, y index=4] {datas/free_energy_by_volume/results_HS_1.177_-15.csv};
-                \addplot[mark=none, dashed, black, very thick] coordinates { (0, 63.6) (100, 63.6) };
-            	\legend{HRF, HRF + bridge, surface tension}
-        	\end{axis}
-		\end{scope}
-		\begin{scope}[shift={(3.8, 3.2)}, scale=0.4, transform shape]
-        	\begin{axis}[
-                xlabel=   r ($\text{\AA}$),
-                ylabel= $\Delta G_{solv}\ HS(kJ.mol^{-1})$,
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
     	        restrict x to domain=0:5,
     	        restrict y to domain=0:50,
             	xmin = 0,
@@ -180,102 +488,805 @@ Pour des composés hydrophobes, l'énergie libre de solvatation est la somme d'u
         	    legend style = {draw = none, cells={anchor=west}}%,
                % xmode=log
     	        ]
-            	\addplot+[mark=none, black, very thick] table[x index=0, y index=2]{datas/free_energy_by_volume/results_HS_HNC.csv};
-            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{datas/free_energy_by_volume/results_HS_1.177_-15.csv};
-                \addplot+[only marks,mark=*,mark options={scale=1.3, fill=black},text mark as node=true] table[x index=0, y index=1] {datas/free_energy_by_volume/hummer_ref.csv};
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_HNC.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
         	\end{axis}
-		\end{scope}
     \end{tikzpicture}
-	\caption{Solvation free energy of neutral hard sphere divide by their volume in function of the radius of the sphere. (a) As expected, with the bridge, this value is equal to the surface tension (represented in dashed line) of SPC/E water (63.6 $mJ.m^{-2}$)\cite{vega_surface_2007} for large spheres which was not the case before in the HRF approximation. (b) In insight, a zoom on small solute. In the insight, the black points correspond to the Hummer MC simulation results \cite{hummer_information_1996}. }
-    \label{fig:surface_tension}
-\end{figure}
-
-\subsubsection{Profiles de densité du solvant}
-En plus de conserver une structure du solvent correcte, notre bridge améliore considérablement le premier pic des petits composés, comme on peut le voir sur la figure \ref{fig:g_of_r} (a) pour le méthane unifié. Ce premier pic, qui correspond à la première couche de solvatation, était parfois surestimés. La figure \ref{fig:g_of_r} (b) montre également que pour de grosses sphères dures, il y à bien apparation du démouillage. En effet, les pics de solvation disparaissent pour laisser place à une transition lente entre une densité de solvant quasi nulle au contact du solute et le solvant bulk. Cela correspond à la création d'une fine couche d'eau gazeuse comme attendu et donc au démouillage. Les profiles de densités du solvant autour des gaz rares et du néopentane unifié sont disponibles en annexes.
-
-
-
-\begin{figure}
-\centering
-
-\begin{subfigure}{.5\textwidth}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
   \centering
-	        \begin{tikzpicture}
+    \caption{B=15, $\sigma$=0.935}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_0.935_15.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=10, $\sigma$=0.960}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_0.960_10.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=5, $\sigma$=0.989}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_0.989_5.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=0, $\sigma$=1.021}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_1.021_0.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=-5, $\sigma$=1.061}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_1.061_-5.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=-10, $\sigma$=1.110}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_1.110_-10.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=-15, $\sigma$=1.177}
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+        	\begin{axis}[
+                xlabel= $R$ (\AA),
+          		ylabel= $\Delta G_{\textrm{solv}}/(4\pi R^2)$ (mJ/m$^2$), 
+    	        restrict x to domain=0:5,
+    	        restrict y to domain=0:50,
+            	xmin = 0,
+        	    xmax = 4,
+                ymin = 0,
+	            ymax = 40,
+        	    legend style = {draw = none, cells={anchor=west}}%,
+               % xmode=log
+    	        ]
+            	\addplot+[mark=none, red, very thick] table[x index=0, y index=2]{chapters/bridge/datas/free_energy_by_volume/results_HS_1.177_-15.csv};
+                \addplot+[only marks,mark=*,mark options={scale=1.3, black, fill=black},text mark as node=true] table[x index=0, y index=1] {chapters/bridge/datas/free_energy_by_volume/hummer_ref.csv};
+        	\end{axis}
+    \end{tikzpicture}
+  }
+  \end{subfigure}
+    \caption{ \`Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Ces courbes en rouge, sont comparés à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996} }
+    \label{fig:comparaison_hummer}
+\end{figure}
+\end{sidewaysfigure}
+
+
+ On voit que l'approximation HNC, surestime les énergies libres de solvatation. Notre bridge, corrige fortement cet écart, quelques soit le couple de paramètre choisi. Les meilleurs paramètres ici semblent être pour un B autour de $5.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. 
+
+\boitesimple{ Les \'energies libres de solvatation de sphères dures les plus précises sont obtenus pour un B autour de $5.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. Chacun des paramètres proposés sont acceptables à ce niveau. }
+ 
+
+
+
+\subsubsection{\'Energie libre de solvatation de molécules modèles}
+Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèles, pour les différents paramètres du bridge, puis nous les avons comparé aux valeurs de références calculées par dynamique moléculaire. Nos molécules modèles sont le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. L'ensemble de ces résultats est disponible dans le tableau \ref{tab:energie_libre_molecules_models}. 
+
+
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ l c c c c c c c c c c c }
+   \hline & \\[-1em]\hline
+    Méthode    & Exp   & MD    & HNC    &      &       &       & MDFT  &       &       & \\
+    \hline
+    B          &       &       &        & -15   & -10   & -5    & 0     & 5     & 10    & 15     \\
+    $\sigma$   &       &       &        & 1.177 & 1.110 & 1.061 & 1.021 & 0.989 & 0.960 & 0.935  \\
+    \hline
+    Méthane    &       &  9.23 & 28.14  & 15.97 & 14.55 & 13.70 & 13.05 & 12.62 & 12.25 & \textbf{11.99}  \\
+%    Neopentane &       &  0.37 & 84.51 & 17.51 & 13.77 & 11.30 &  9.43 &  8.17 &  7.05 &  \textbf{6.23}  \\
+    Néon       & 10.36 & 11.73 & 19.04  & 14.89 & 14.25 & 13.83 & 13.53 & 13.34 & 13.19 & \textbf{13.10}  \\
+    Argon      &  8.40 &  8.61 & 22.89  & 14.16 & 13.12 & 12.42 & 11.89 & 11.55 & 11.25 & \textbf{11.01}  \\
+    Krypton    &  6.96 &  8.03 & 26.41  & 14.54 & 13.28 & 12.44 & 11.80 & 11.38 & 11.00 & \textbf{10.74}  \\
+    Xénon       &  6.06 &  6.47 & 31.23 & 15.02 & 13.50 & 12.48 & 11.71 & 11.20 & 10.74 & \textbf{10.33}  \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption{Valeurs de l'énergie libre de solvatation (en $kj.mol^{-1}$) du méthane unifié et des gaz rares: Argon, Xénon, Krypton, Néon pour les différents paramètres possibles de la fonctionnelle de bridge gros grain. Les valeurs les plus proches de notre référence, la dynamique moléculaire, sont en gras.}
+  \label{tab:energie_libre_molecules_models}  
+\end{table}
+
+On remarque que l'approximation HNC surestime fortement le calcul de l'énergie libre de solvatation de plusieurs dizaines de $\mathrm{kJ.mol}^{-1}$. Le bridge gros grain permet de considérablement réduire cet écart, à quelques $\mathrm{kJ.mol}^{-1}$ seulement.
+On remarque également que plus B est grand et donc plus la barrière de transition entre la phase liquide et gaz est importante, et meilleures sont les prédictions d'énergies libres de solvatation. 
+
+\boitesimple{ Les meilleures énergies libres de solvatation de nos molécules modèles sont obtenues avec B=$15.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma$ = 0.935 \AA }
+
+
+
+\subsubsection{ Structure du solvant autour de sphères dures }
+Nous nous sommes également intéressés aux structures de solvant, dans un premier temps autour de sphère dures (voir figure \ref{fig:g_r_HS}). Les profils calculés pour chacun des paramètres ont été comparés à des profils de références calculés par Monte Carlo et publiés par Chandler et al.\cite{huang_hydrophobic_2002}. \'Etant donné les temps de calcul nécessaire à la production de ces références, ils se sont limités à des sphères dures de 2, 4, 6, 8 et 10 \AA.
+
+
+
+
+\begin{sidewaysfigure}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{HNC}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, black, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC/g_HS_HNC_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, black, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC/g_HS_HNC_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, black, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC/g_HS_HNC_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, black, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC/g_HS_HNC_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, black, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC/g_HS_HNC_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{ MDFT(HNC), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=15, $\sigma$=0.935}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.935_15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.935_15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.935_15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.935_15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.935_15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=10, $\sigma$=0.960}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.960_10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.960_10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.960_10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.960_10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.960_10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=5, $\sigma$=0.989}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.989_5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.989_5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.989_5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.989_5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_0.989_5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=0, $\sigma$=1.021}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.021_0/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.021_0/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.021_0/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.021_0/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.021_0/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=-5, $\sigma$=1.061}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.061_-5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.061_-5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.061_-5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.061_-5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.061_-5/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=-10, $\sigma$=1.110}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.110_-10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.110_-10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.110_-10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.110_-10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.110_-10/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+\begin{subfigure}{.24\textwidth}
+  \centering
+    \caption{B=-15, $\sigma$=1.177}
+    \resizebox{\linewidth}{!}{
+      \begin{tikzpicture}
+          \begin{axis}[
+              xlabel= r ($\text{\AA}$),
+              ylabel= g(r),
+              xmin = 0,
+              xmax = 16,
+              ymin = 0,
+              ymax = 8,
+              legend style = {draw = none, cells={anchor=west}}
+              ]
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=1] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.177_-15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_2.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=2] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.177_-15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_4.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=3] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.177_-15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_6.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=4] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.177_-15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_8.csv};
+              \addplot+[mark=none, red, very thick, solid] table[x index=0,y index=5] {chapters/bridge/datas/g_of_r/data_HS_HNC_bridge_1.177_-15/g_HS_HNC_bridge_2_4_6_8_10.csv};
+              \addplot+[mark=none, blue, very thick, dashed] file {chapters/bridge/datas/g_of_r/chandler_ref/chandler_10.csv};
+              \legend{MDFT(HNC+B), MC}
+          \end{axis}
+      \end{tikzpicture}
+    }
+  \end{subfigure}
+    \caption{ Fonction de distribution radiale du solvant autour de sphères dures de rayon 2.0, 4.0, 6.0, 8.0 et 10.0 $\text{\AA}$. Les RDF ont été calculés avec MDFT dans l'approximation HNC puis pour chaque paramètres du bridge. Les références ont été calculées par Monte Carlo\cite{huang_hydrophobic_2002} (pointillés bleu). }
+    \label{fig:g_r_HS}
+\end{figure}
+\end{sidewaysfigure}
+
+Les références, calculées par Monte Carlo, pour des sphères de diamètre croissant, montrent un premier pic qui augmente avant de diminuer. Cette diminution traduit la présence de démouillage. Dans l'approximation HNC, les premiers pics sont tous fortement surestimés. Ils augmentent jusqu'à tendre vers une valeur seuil. Le bridge corrige ce défaut en autorisant le démouillage dans le système et ce, quel que soit le couple de paramètres choisit. 
+
+\boitesimple{ Les meilleurs profils sont obtenus pour les valeurs B = $-5.10^{-8}\ \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma$ = 1.061 \AA. Les autres paramètres fournissent des résultats légèrement plus éloignés de la référence mais restent cependant acceptables. }
+
+
+
+\subsubsection{ Structure du solvant autour de molécules modèles}
+La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.10*^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma$ correspondants.
+
+
+
+%g_of_r_molecules_modeles
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+    \caption{Méthane}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
         \begin{axis}[
             xlabel= r ($\text{\AA}$), ylabel= g(r),
-            xmin = 0, xmax = 12,
-            ymin = 0, ymax = 3,
-  	        legend style = {draw = none, cells={anchor=west}}
-            ]
-            \addplot+[mark=none, black, very thick] file {datas/g_of_r/HNC/g_methane.csv};
-            \addplot+[mark=none, red, very thick] file {datas/g_of_r/bridge_1.177_-15/g_methane.csv};
-            \addplot+[mark=none, blue, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {datas/g_of_r/MD/g_methane.csv};
-            \legend{HRF, HRF + bridge, reference}
-        \end{axis}
-    \end{tikzpicture}
-\end{subfigure}
-
-
-\begin{subfigure}{.5\textwidth}
-  \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            xlabel= r ($\text{\AA}$),
-            ylabel= g(r),
-            xmin = 95,
-            xmax = 115,
-            ymin = 0,
-            ymax = 7,
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
             ]
-            \addplot+[mark=none, black, very thick] file {datas/g_of_r/HNC/g_100_2.csv};
-            \addplot+[mark=none, red, very thick] file {datas/g_of_r/bridge_1.177_-15/g_100_2.csv};
-            \legend{HRF, HRF + bridge}
+            \addplot+[mark=none, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_methane.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_HNC/g_methane.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.177_-15/g_methane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.110_-10/g_methane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.061_-5/g_methane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.021_0/g_methane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_methane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_methane.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_methane.csv};
+%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{MD, HNC, $B=-15$, $B=15$}
         \end{axis}
     \end{tikzpicture}
-\end{subfigure}
-    \caption{ Radial Distribution Function of (a) unified methane and (b) a large hard sphere with a radius of 100$\text{\AA}$. RDF where calculated with MDFT in the HRF approximation (in black) and with our new bridge (in red). References where calculated by MD (blue dashed line). }
-    \label{fig:g_of_r}
+    }
+  \end{subfigure}%
+%   \begin{subfigure}{.5\textwidth}
+%    \caption{Neopentane}
+%    \resizebox{\linewidth}{!}{
+%     \begin{tikzpicture}
+%        \begin{axis}[
+%            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+%            legend style = {draw = none, cells={anchor=west}}
+%            ]
+%            \addplot+[mark=none, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_neopentane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_HNC/g_neopentane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.177_-15/g_neopentane.csv};
+%%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.110_-10/g_neopentane.csv};
+%%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.061_-5/g_neopentane.csv};
+%%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.021_0/g_neopentane.csv};
+%%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_neopentane.csv};
+%%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_neopentane.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_neopentane.csv};
+%%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+%            \legend{MD, HNC, $B=-15$, $B=15$}
+%        \end{axis}
+%    \end{tikzpicture}
+%    }
+%  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \caption{Néon}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_neon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_HNC/g_neon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.177_-15/g_neon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.110_-10/g_neon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.061_-5/g_neon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.021_0/g_neon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_neon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_neon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_neon.csv};
+%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{MD, HNC, $B=-15$, $B=15$}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \caption{Argon}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_argon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_HNC/g_argon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.177_-15/g_argon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.110_-10/g_argon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.061_-5/g_argon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.021_0/g_argon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_argon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_argon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_argon.csv};
+%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{MD, HNC, $B=-15$, $B=15$}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}%
+  \begin{subfigure}{.5\textwidth}
+    \caption{Krypton}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_krypton.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_HNC/g_krypton.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.177_-15/g_krypton.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.110_-10/g_krypton.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.061_-5/g_krypton.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.021_0/g_krypton.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_krypton.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_krypton.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_krypton.csv};
+%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{MD, HNC, $B=-15$, $B=15$}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \caption{Xenon}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none,, smooth, tension=1, thick] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_xenon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_HNC/g_xenon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.177_-15/g_xenon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.110_-10/g_xenon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.061_-5/g_xenon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_1.021_0/g_xenon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_xenon.csv};
+%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_xenon.csv};
+            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_xenon.csv};
+%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{MD, HNC, $B=-15$, $B=15$}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}
+  \caption{Fonction de distribution radiale du méthane et des gaz rares. Les RDFs ont été calculées avec MDFT dans l'approximation HNC (en noir) et les deux paramètres extrêmes disponibles pour notre bridge (en marron et noir). Les références (en pointillées bleu) ont été calculées par dynamique moléculaire.}
+  \label{fig:g_of_r_molecules_modeles}
 \end{figure}
 
+Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelques soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA sont les plus efficaces, quelques soit la molécule étudiée.
+
+\boitesimple{ Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA. }
 
 
-\subsubsection{\'Energies libres de solvatation}
-Dans l'approximation HRF, the molecular density functional theory surestime les énergies libres de solvatation jusqu'à plusieurs dizaines de $kJ/mol$ dans le cas des gros composés hydrophobes (voir table ~\ref{tab:deltag}). Ce nouveau bridge nous à permis de réduire cet écart à quelques $kJ/mol$ seulement. La figure \ref{fig:surface_tension} montre que notre bridge corrige également l'énergie libre de solvatation de petites sphères dures en les rapprochant des valeurs calculées par MC \cite{hummer_information_1996}.
+
+\subsection{Conclusion}
+Afin de choisir les meilleurs paramètres de ce modèle, nous avons comparés les résultats pour chaque couple B, $\sigma$, à des références d'énergie libre de solvatation et de profils de solvant d'une part sur des sphères dures, indispensables au développement de ce bridge, et d'autre part sur des molécules modèles plus réalistes: le méthane, et les gaz rares.
+On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA\ apparaissent comme le meilleur choix possible. Le bridge retenu est donc:
+
+\boitesimplelarge{
+\begin{equation} \label{eq:fbridge_complete}
+F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15.10^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
+\end{equation} 
+}
+
+\section{Implémentation 3D}
+Une fois le bridge développé, nous l'avons implémenté dans la version 3D de MDFT. Nous avons, dans un premier temps comparé les résultats obtenus sur nos molécules modèles, avant de nous intéresser à des molécules d’intérêt biologiques: des protéines.
 
 
 \begin{table}
-  \begin{tabular}{ l c c c c c c }
+  \centering
+  \begin{tabular}{ l c c c c c c c }
     \hline & \\[-1em]\hline
-    compound   & exp  & MD & MDFT & MDFT+bridge \\
+    compound   & exp  & MD & MDFT & MDFT & MDFT  & MDFT \\
+               &      &    & (HNC)  & (HNC+PC)  & (HNC+B) & (HNC+B3D) \\
     \hline
-    Methane    &       &  9.23 & 27.10 & 12.08 \\
-    Neopentane &       &  0.37 & 84.51 &  6.49 \\ 
-    Neon       & 10.36 & 11.73 & 18.69 & 13.14 \\
-    Argon      &  8.40 &  8.61 & 22.25 & 11.12 \\
-    Krypton    &  6.96 &  8.03 & 25.41 & 10.84 \\
-    Xenon      &  6.06 &  6.47 & 29.72 & 10.54 \\
+    Methane    &       &  9.23 & 28.14 & 7.73 & 11.99 & 12.25 \\
+    Neon       & 10.36 & 11.73 & 19.04 & 7.59 & 13.10 & 11.26 \\
+    Argon      &  8.40 &  8.61 & 22.89 & 7.26 & 11.01 & 10.92 \\
+    Krypton    &  6.96 &  8.03 & 26.41 & 7.51 & 10.74 & 10.99 \\
+    Xenon      &  6.06 &  6.47 & 31.23 & 9.81 & 10.33 & 11.26 \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{Free energy of solvation of methane, neopentane and rare gas in kJ/mol calculated with MDFT with and without bridge function. These values are compared to our references calculated using Molecular Dynamics methods and experimental values\cite{straatsma_free_1986}.}
-  \label{tab:deltag}  
+  \caption{\'Energie libre de solvatation du méthane et des gaz rares en $\mathrm{kJ}.\mathrm{mol}^{-1}$ avec MDFT dans l'approximation HNC et avec le bridge. Les valeurs sont comparées à nos références calculées par Dynamique moléculaire et aux valeurs expérimentales\cite{straatsma_free_1986}.}
+  \label{tab:deltag_1D_3D}  
 \end{table}
 
+Comme nous le voyons dans le tableau \ref{tab:deltag_1D_3D}, les énergies libre de solvatation produites par la version à symétrie sphérique et la version 3D de MDFT sont proches. Il n'est cependant pas étonnant d'observer de légères différences entre les résultats fournit par la version 2D et la version à symétrie sphérique car ces version diffèrent sur plusieurs points. 
+
+
+La différence majeure entre ces deux versions est la périodicité. La version 3D de MDFT considère le système périodique dans les 3 directions alors que la version à symétrie sphérique, par définition, n'est pas périodique. Elle correspond à un soluté unique plongé dans une infinité de solvant. La seconde différence importante est la finesse de la grille. Les calculs ont été effectués avec un écart de 0.5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0.1 \AA dans la version à symétrie sphérique. Cette différence peut entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
+
+
+\begin{figure}[H]
+\centering
+ \begin{subfigure}{.5\textwidth}
+    \caption{Méthane}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1, thick] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_methane.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC/g_methane.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_methane.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC_bridge_3D/g_methane.csv};
+            \legend{DM, HNC, HNC+B, HNC+B (3D)}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}%
+ \begin{subfigure}{.5\textwidth}
+    \caption{Néon}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1, thick] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_neon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC/g_neon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_neon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC_bridge_3D/g_neon.csv};
+            \legend{DM, HNC, HNC+B, HNC+B (3D)}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}
+ \begin{subfigure}{.5\textwidth}
+    \caption{Argon}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1, thick] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_argon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC/g_argon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_argon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC_bridge_3D/g_argon.csv};
+            \legend{DM, HNC, HNC+B, HNC+B (3D)}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}%
+ \begin{subfigure}{.5\textwidth}
+    \caption{Krypton}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1, thick] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_krypton.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC/g_krypton.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_krypton.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC_bridge_3D/g_krypton.csv};
+            \legend{DM, HNC, HNC+B, HNC+B (3D)}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}
+ \begin{subfigure}{.5\textwidth}
+    \caption{Xenon}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xmin = 0, xmax = 10,
+            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, smooth, tension=1, thick] table [x expr={10*\thisrowno{0}}, y index=1] {chapters/bridge/datas/g_of_r/data_MD/g_xenon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC/g_xenon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_xenon.csv};
+            \addplot+[mark=none, thick] file {chapters/bridge/datas/g_of_r/data_HNC_bridge_3D/g_xenon.csv};
+            \legend{DM, HNC, HNC+B, HNC+B (3D)}
+        \end{axis}
+    \end{tikzpicture}
+    }
+  \end{subfigure}
+  \caption{ Fonctions de distribution radiale autour du méthane et des gaz rares. Les RDF ont été calculés avec les versions de MDFT à symétrie sphérique et 3D, dans l'approximation HNC et avec le bridge gros grain. Les références ont été calculées par Dynamique moléculaire.. }
+    \label{fig:g_of_r_methane_3D}
+\end{figure}
+
+
+En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r_methane_3D} que la version 3D est bien plus précise que la version à symétrie sphérique. Les profils fournis sont quasi-identiques à ceux de référence issus de dynamique moléculaire.
 
 
 
+\subsubsection{Système biologique}
+
+Enfin, nous avons étudié la prédiction de profils de solvatation autour de plus grosses molécules et en particulier autour d'une protéine. Cet exemple sera traité et analysé plus en détails dans le chapitre XXXXX.
+
+
+% IMAGE TEMPORAIRE EN ATTENDANT DE TOUTES LES REFAIRE XXXXXX
+% \begin{figure}[H]
+%   \centering
+%   \resizebox{\linewidth}{!}{
+%     \fbox{\includegraphics[width=\textwidth]{chapters/bridge/images/protein_mdft_gromacs_water.png}}
+%   }
+%   \caption{Zones de forte densité en solvant autour de la protéine 4M7G, calculées par MDFT dans l’approximation HNC en XXX COULEUR et avec le bridge en XXX COULEUR. La référence, en XXX COULEUR, est calculée par Dynamique moléculaire. }
+%   \label{fig:g_of_r_protein}
+% \end{figure}
+% IMAGE TEMPORAIRE EN ATTENDANT DE TOUTES LES REFAIRE XXXXXX
 
 
 
-\section{Conclusion}
-
-Dans ce chapitre, nous avons proposé une nouvelle fonctionelle de bridge qui permet d'ajouter à l'approximation HRF la notion de solvant gazeux et donc le démouillage. Ce bridge, basé sur une densité gros grain locale, nous permet, en échange d'un cout numérique négligeable, de mimer une expansion d'ordre 4 du terme d'excès et ainsi d'aller plus loin que l'approximation HRF. Nous avons montré que ce bridge est consistent thermodynamiquement avec (i)une coexistance du solvant liquide et gazeux au voisinage de gros composés hydrophobes, (ii)une tension de surface de l'eau et (iii)une pression du système corrects. En plus d'être consistent, ce bridge améliore les profiles de densités ainsi que les énergies libres de solvatation des plus gros solutes aux plus petits.
-
-
-
-
-\printbibliography[segment=\therefsegment,heading=subbibliography]
-
+\boitemagique{A retenir}{
+Dans ce chapitre nous décrivons le développement d'un nouveau bridge \textbf{simple} et \textbf{rapide}. Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles, en reproduisant une pression et une tension de surface correcte. Il améliore également fortement le calcul de l'énergie libre de solvatation et la prédiction de structure de solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques. 
+}
 
 
 

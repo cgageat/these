@@ -432,3 +432,16 @@
 \end{minipage}
 \end{center}
 }
+
+
+
+%%%%%% boitesimplelarge %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand*{\boitesimplelarge}[1]{%
+\begin{center}
+\begin{minipage}{15cm}
+\begin{shaded}
+	#1
+\end{shaded}
+\end{minipage}
+\end{center}
+}

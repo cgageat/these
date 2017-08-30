@@ -40,13 +40,37 @@
 
 \begin{document}
 
+
 \maketitle
 
+\frontmatter
+\chapter*{Remerciements}
+%\thispagestyle{empty}
+Blabla
+
+Ne pas oublier nicolas pour MM-PBSA et les molécules bio
+
+\clearpage
+
+abstract ici
 
 \clearemptydoublepage
-\chapter*{Remerciements}
-\thispagestyle{empty}
-Blabla
+
+
+
+%\pagestyle{headings}
+\renewcommand\contentsname{Sommaire}
+\tableofcontents
+ 
+  % **************** List of Tables, Illustrations etc *****************
+ 
+\renewcommand{\cftdotsep}{\cftnodots}
+\cftpagenumbersoff{figure}
+\cftpagenumbersoff{table}
+\clearpage \newpage
+\listoffigures
+\clearpage \newpage
+\listoftables
 
 
 \clearemptydoublepage
@@ -61,16 +85,7 @@ $\rho(r)$ & blablabla
 
 
 \clearemptydoublepage
-\frontmatter
-
-
-\clearemptydoublepage
-\shorttableofcontents{Sommaire}{0}
-
-\clearemptydoublepage
 \mainmatter
-
-
 
 
 %I    Introduction
@@ -98,28 +113,14 @@ $\rho(r)$ & blablabla
 \import{chapters/BDD/}{content.tex}
 
 
-%VI   ML
+%VI  Applications
 \clearemptydoublepage
-\import{chapters/ML/}{content.tex}
+\import{chapters/Applications/}{content.tex}
 
 
-%VII  Appli: molécules eau
-\clearemptydoublepage
-\import{chapters/AppliWaterMolecules/}{content.tex}
-
-
-%VIII Appli: MM-PBSA
-\clearemptydoublepage
-\import{chapters/AppliMMPBSA/}{content.tex}
 
 
 \clearemptydoublepage
 \backmatter
-\clearemptydoublepage
-\chapter*{Bibliographie}
-
-\newpage
-\clearemptydoublepage
-\tableofcontents
 
 \end{document}

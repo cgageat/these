@@ -9,7 +9,7 @@
 \usepackage{algpseudocode}
 \usepackage{subcaption}
 \usepackage[titletoc,toc]{appendix}
-\usepackage{ulem}
+\usepackage[normalem]{ulem} %to strike the words
 \captionsetup{compatibility=false}
 \usepackage{import}
 
@@ -17,6 +17,7 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
 \usepackage{pgfplots}
+%\usepackage{pgfplotstable}
 %to generate and stock tikz image
 %and not compile them everytime
 \usetikzlibrary{external}
@@ -24,6 +25,13 @@
 \usetikzlibrary{patterns}% pour mettre la texture rayée
 \usetikzlibrary{through}% pour la sphere
 
+\usepackage{csvsimple}% pour faire le readcsv pour les tables automatiques
+\usepackage{longtable}% pour des tableaux qui se coupent tout seuls s'il dépassent la taille d'une page
+\usepackage{listings}% pour mettre des bouts de code
+
+
+\usepackage{rotating}%pour faire des figure en paysage
+\usepackage{multirow}%pour merger des colonne dans un tableau
 
 %http://www.traag.net/2014/06/05/281/
 \usepgfplotslibrary{colorbrewer}
@@ -34,3 +42,24 @@
 %to correct warning
 \setlength{\headheight}{14pt}
 
+
+% https://tex.stackexchange.com/questions/84127/correctly-align-vertical-text-on-a-baseline-in-pgfplots
+\def\mystrut{\vphantom{hg}}
+
+% https://tex.stackexchange.com/questions/204395/add-custom-entry-into-legend-in-pgfplot
+\pgfplotsset{
+    legend image with text/.style={
+        legend image code/.code={%
+            \node[anchor=center] at (0.3cm,0cm) {#1};
+        }
+    },
+}
+
+
+% pour supprimer les numéros de pages dans la liste des figures et des tableaux
+\usepackage{tocloft}
+\renewcommand\cftchapdotsep{\cftdotsep}
+
+% numéroter les figures et les tables par chapitre
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}

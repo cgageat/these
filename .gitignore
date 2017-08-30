@@ -10,3 +10,7 @@ tikz/*
 *.bcf
 *.dvi
 *.pgf-plot.*
+main.bbl
+main.blg
+main.lof
+main.lot
