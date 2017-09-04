@@ -4,45 +4,54 @@
 
 \title{Solvatation de systèmes d’intérêt pharmaceutique : apports de la théorie de la fonctionnelle de la densité moléculaire}
 
+%\lesoustitre{Le sous titre est facultatif}
+
 \discipline{Chimie théorique}
 
-\dirdethese{Maximilien Levesque, Dr et Daniel Borgis, DR??}
-%\titredudirdethese{Docteur}
-%\dirdethese{Daniel Borgis}
-%\titredudirdethese{DR??}
+\dirdethese{Daniel Borgis}
+\titredudirdethese{dr}
 
 \jury{
 \begin{description}
-\item[Examinateur~:] Nicolas \textsc{Poirot}, Prof. des Universit\'{e}s, Nonamecity~I
-\item[Rapporteur externe~:] Etienne \textsc{Burger}, Charg\'{e} de Recherche au TRUC
-\item[Rapporteur externe~:] Eric \textsc{Meyer}, Prof. des Universit\'{e}s, Nonamecity~X
-\item[Rapporteur interne~:] Bernard \textsc{Klein}, Prof. des Universit\'{e}s, Nonamecity~II
+\item[Rapporteur~:] Francesca \textsc{Ingrosso}, Pr
+\item[Rapporteur~:] Thomas \textsc{Simonson}, Pr
+\item[Examinateur~:] Liliane \textsc{Maouwad}, Dr
+\item[Examinateur~:] Jean-Philip \textsc{Piquemal}, Pr
+\item[Examinateur~:] Ivan \textsc{Duchemin}, Dr
+\item[Examinateur~:] Daniel \textsc{Borgis}, Dr
+\item[Examinateur~:] Maximilien \textsc{Levesque}, Dr
 \end{description}
 }
 
 \author{Cédric Gageat}
 
-\date{25 novembre 2004}
+\date{24 novembre 2011}
 
 \nomdeuniversite{\'Ecole normale supérieure}
 \logouniversite{logos/ENS_Logo_PSL.eps} %nom du fichier
 \scalelogouniversite{0.6} % mise a l'echelle de l'image (0.5=50% par exemple)
 \logolabo{logos/ENS_Dpt_Chimie_Logo_Reserve_fr.png}
 \scalelogolabo{0.6}
-
 \unite{Département de chimie théorique}
 \ecoledoc{École doctorale chimie physique et chimie analytique de Paris centre}
-
-
-\newcommand{\comments}[1]{}
 
 
 
 \begin{document}
 
 
-\maketitle
+\pagenumbering{gobble}
 
+% pour remplacer le \maketitle qui ne fonctionne pas ici
+%\includepdf[pages={1}]{page_de_garde/page_de_garde.pdf}
+
+
+\tikzexternaldisable
+\maketitle
+\tikzexternalenable
+
+\cleardoublepage
+	
 \frontmatter
 \chapter*{Remerciements}
 %\thispagestyle{empty}
@@ -92,6 +101,7 @@ $\rho(r)$ & blablabla
 \clearemptydoublepage
 \import{chapters/introduction/}{content.tex}
 
+\part{Théorie}
 
 %II   Théorie
 \clearemptydoublepage
@@ -102,6 +112,7 @@ $\rho(r)$ & blablabla
 \clearemptydoublepage
 \import{chapters/bridge/}{content.tex}
 
+\part{Développements}
 
 %IV   Numérique
 \clearemptydoublepage
@@ -112,15 +123,31 @@ $\rho(r)$ & blablabla
 \clearemptydoublepage
 \import{chapters/BDD/}{content.tex}
 
+\part{Applications}
 
 %VI  Applications
 \clearemptydoublepage
 \import{chapters/Applications/}{content.tex}
 
 
+\part{Conclusion et perspectives}
+
+
+%VI  Conclusion
+\clearemptydoublepage
+\import{chapters/Conclusion/}{content.tex}
+
+
+
+% ANNEXES
+\frontmatter
+\clearemptydoublepage
+\import{.}{annexes.tex}
+
 
 
 \clearemptydoublepage
 \backmatter
+\printbibliography
 
 \end{document}

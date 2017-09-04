@@ -1,19 +1,14 @@
 \chapter{Numérique}
+\label{chap:numerique}
 
 
-\boitemagique{Objectif}{Dans ce chapitre, nous décrivons les développements numériques et optimisations nécessaires à l'application de MDFT sur des systèmes biologiques.}
+\boitemagique{Objectif}{Dans ce chapitre, nous décrivons les développements numériques ainsi que les optimisations nécessaires à l'application de MDFT sur des systèmes biologiques.}
 
-
-EST IL POSSIBLE DE METTRE LE SCRIPT JUBE EN ANNEXE OU DANS UN DEPOT PUBLIQUE ? L'EST IL SUR LA GITLAB MDLS
-
-EST IL POSSIBLE DE METTRE DES BOUTS DE CODE: Steepest Descent par exemple ? etc
-
-
-Afin de porter MDFT vers des applications biologiques, certains développements numériques ont été nécessaires. Dans ce chapitre nous faisons une revue non exhaustive des plus importants. Le développement haute performances (HPC), est un aspect important de cette thèse mais n'en est pas l'axe principal. Le choix à donc été fait de ne pas expliciter chaque termes de ce chapitre. Nous invitons les lecteurs intéressés par ces aspects à se tourner vers des ouvrages plus spécialisés.
+Afin de porter MDFT vers des applications biologiques, certains développements numériques ont été nécessaires. Dans ce chapitre nous décrivons dans un premier temps le processus JUBE que nous avons mis en place afin de suivre et évaluer les différentes évolutions. Nous faisons ensuite une revue non exhaustive des améliorations les plus importantes. Le développement haute performances (HPC) est un aspect important de cette thèse mais n'en est pas l'axe principal. Le choix à donc été fait de ne pas expliciter chaque termes de ce chapitre. Nous invitons les lecteurs intéressés par ces aspects à se tourner vers des ouvrages plus spécialisés.
 
 
 \section{Reproductibilité}
-La reproductibilité est une problématique récurrente lors de développement, de la modification ou de l'optimisation de logiciels de calculs. En effet, il est impossible deux comparés deux mesures liées à l’exécution d'un logiciel si nous n'avons pas la certitude que les deux exécutions ont eu lieu strictement dans les mêmes conditions: options de compilation, environnement, options d’exécution, etc (voir image \ref{fig:JUBE_process}).
+La reproductibilité est une problématique récurrente lors de développement, de la modification ou de l'optimisation de logiciels de calculs. En effet, la comparaison de deux mesures liées à l’exécution d'un logiciel n'est pas pertinente si nous n'avons pas la certitude que les deux exécutions ont eu lieu strictement dans les mêmes conditions: options de compilation, environnement, options d’exécution, etc (voir image \ref{fig:JUBE_process}).
 
 \begin{figure}[H]
   \center
@@ -29,7 +24,7 @@ La reproductibilité est une problématique récurrente lors de développement, 
     \node[es] (compilationOptions) at (5,-2) {Options de compilation};
     \node[instruct] (compilation) at (0,-2) {Compilation};
     \node[es] (executionOptions) at (5,-4) {Options d'exécution};
-    \node[es] (softLink) at (-5,-4) {Logiciel d'analyses};
+    \node[es] (softLink) at (-5,-4) {Logiciels d'analyses};
     \node[instruct] (execution) at (0,-4) {Exécution};
     \node[instruct] (analyse) at (0,-6) {Analyses};
     \node[files] (resultats) at (0,-8) {Résultats};
@@ -50,19 +45,19 @@ La reproductibilité est une problématique récurrente lors de développement, 
 Afin de contrôler cette chaîne d’exécution, et de pouvoir relancer le même calcul des semaines, des mois plus tard, nous avons mis en place l’outil de gestion de flux JUBE [ref JUBE].
 
 \subsection{JUBE}
-JUBE est un logiciel écrit en python et développé au \textit{Jülich Supercomputing Centre} qui permet d'une part, d'automatiser toutes les étapes nécessaires au lancement de cas tests et à leur analyse et d'autre part de conserver un historique des exécutions précédentes. Il allie la robustesse nécessaire à la reproductibilité et, la flexibilité permettant d'adapter les cas tests et les mesures aux évolutions de MDFT. Un ensemble d'options (entièrement automatisable) nous permet d'étudier différents métriques de MDFT. En effet, après une modification, qu'il s'agisse d'un changement global d'algorithme ou de la plus minime des optimisations, nous souhaitons dans un premier temps nous assurer que les résultats scientifiques (\'Energie libre de solvatation, ...) sont inchangés, puis nous souhaitons étudier l'évolution des comportements informatiques (temps d'exécution, quantité de mémoire utilisée, ...).
+JUBE est un logiciel écrit en python et développé au \textit{Jülich Supercomputing Centre} qui permet d'une part, d'automatiser toutes les étapes nécessaires au lancement de cas tests et à leur analyse et d'autre part de conserver un historique des exécutions précédentes et des résultats obtenus. Il allie la robustesse nécessaire à la reproductibilité et, la flexibilité permettant d'adapter les cas tests et les mesures aux évolutions de MDFT. Un ensemble d'options (entièrement automatisable) nous permet d'étudier différentes métriques de MDFT. En effet, après une modification, qu'il s'agisse d'un changement global d'algorithme ou de la plus minime des optimisations, nous souhaitons dans un premier temps nous assurer que les résultats scientifiques (\'Energie libre de solvatation, ...) sont inchangés, puis nous souhaitons étudier l'évolution des comportements informatiques (temps d'exécution, quantité de mémoire utilisée, ...).
 
 Ce script a plusieurs objectifs:
 
 
 \subsubsection{ Les cas tests }
-Il doit permettre de lancer un ou plusieurs des 3 cas tests suivants en une seule option:
+Il doit permettre de lancer simplement un ou plusieurs des 3 cas tests suivants:
 
 \begin{table}[H]
   \begin{center}
     \begin{tabular}{c c c c c }
       \hline & \\[-1em]\hline
-      Nom & solute & Nombre de points & taille de la boite (\AA) & mmax  \\
+      Nom & solute & Nombre de points & taille de la boite (\AA) & $\mathrm{m}_\mathrm{max}$  \\
       \hline
       petit & Pyridine & 64 & 20 & 3  \\
       moyen & lysosyme & 128 & 25 & 3  \\
@@ -76,17 +71,17 @@ Il doit permettre de lancer un ou plusieurs des 3 cas tests suivants en une seul
 
 
 \subsubsection{ L'environnement }
-JUBE permet également l’exécution de MDFT sur différentes machines en s'adaptant à leurs environnements spécifiques. En effet, contrairement à des ordinateurs personnels, les super-calculateur disposent généralement d'un systèmes de gestion de tache comme SLURM ou encore d'un système de gestion de modules qui permettent de charger des logiciels ou librairies indispensables à la bonne compilation/exécution de MDFT ( GFORTRAN, FFTW3, JUBE, ...).
+JUBE permet également l’exécution de MDFT sur différentes machines en s'adaptant à leurs environnements spécifiques. En effet, contrairement à des ordinateurs personnels, les super-calculateur disposent généralement d'un système de gestion de tache comme SLURM ou encore d'un système de gestion de modules qui permettent de charger des logiciels ou librairies indispensables à la bonne compilation/exécution de MDFT ( GFORTRAN, FFTW3, JUBE, ...).
 
 
 \subsubsection{ Les options de compilations }
-Afin de ne pas être impacté par les simulations précédentes, les sources sont récupérées et recopiées depuis le dépôt distant (github[ref github]) et recompilées pour chaque nouvelle simulation. Afin d'étudier l'évolution au cours des modifications, il est possible de spécifier la version via le numéro de commit et/ou la branche à utiliser.
+Afin de ne pas être impacté par les calculs précédents, les sources sont récupérées et recopiées depuis le dépôt distant (github[ref github]) et recompilées pour chaque nouveau calcul. Afin d'étudier l'évolution au cours des modifications, il est possible de spécifier la version via le numéro de commit et/ou la branche à utiliser.
 
-Les options de compilation s'adaptent également à la mesure faite. Lors de la mesure du taux de vectorisation, il faut pouvoir désactiver la vectorisation afin d'avoir une mesure de référence. Nous reviendrons un peu plus tard sur les différentes mesures et les options associées. Il en sera de même pour les options d'exécution.
+Les options de compilation s'adaptent également aux mesures effectuées. Si l'on prend l'exemple du calcul du taux de vectorisation, deux calculs sont lancés. Le premier, avec l'option de compilation empêchant la vectorisation nous sert de référence, le second, sans cette option, permet l'évaluation du taux de vectorisation. Il en est de même pour les options d'exécution.
 
 
 \subsubsection{ les options d'exécutions }
-Afin de ne pas avoir un nombre infini de cas, la majorité des options sont gérées via les 3 cas tests décrit précédemment. Il existe cependant des options indépendantes du cas étudiées comme le nombre de processeurs utilisées ou encore le nombre d’itération du calcul de la fonctionnelle effectuées.
+Afin de ne pas avoir un nombre infini de cas, la majorité des options sont gérées via les 3 cas tests décrits précédemment. Il existe cependant des options indépendantes du cas étudiés comme le nombre de processeurs utilisées ou encore le nombre d’itération du calcul de la fonctionnelle effectuées.
 
 Il est également possible à cette étape de coupler MDFT aux logiciels d'analyses suivants:
 \begin{itemize}
@@ -97,90 +92,200 @@ Il est également possible à cette étape de coupler MDFT aux logiciels d'analy
 \item VTune
 \item valgrind
 \end{itemize}
-C'est logiciels seront détaillés un peu plus loin, dans une partie dédiée.
-
+Cette thèse n'étant pas orientée vers le HPC, nous n'entrerons pas dans le détail du rôle et de l’exécution de ces différents logiciel.
 
 
 \subsubsection{ Les grandeurs mesurées }
-Afin d'évaluer la stabilité et la performance de MDFT, nous avons étudiés les grandeurs listées ci-dessous:
+L'ensemble des métriques extraites grâce aux logiciels listés ci-dessus sont décrits ci-dessous:
 
 \begin{itemize}
 \item[$\bullet$] Les métriques globaux:
   \begin{itemize}
     \item \textbf{Temps d’exécution}: Le temps réel d'exécution est fournie par MDFT et exprimé en seconde. Il correspond au temps nécessaire à l'exécution de MDFT.
-    \item $\mathbf{\Delta G_{\mathrm{solv}}}$ : L'energie libre de solvatation fournie par MDFT et exprimée en $\mathrm{KJ.mol}^{-1}$.
+    \item $\mathbf{\Delta G_{\mathrm{solv}}}$ : L’énergie libre de solvatation fournie par MDFT et exprimée en $\mathrm{kJ.mol}^{-1}$.
     \item \textbf{Nombre d'itérations} : Correspond au nombre d'itération nécessaire à MDFT pour minimiser le système étudié.
   \end{itemize}
   \vspace*{1.5ex}% 
 
 \item[$\bullet$] Les métriques OpenMp:
   \begin{itemize}
-  \item \textbf{Répartition de charge} : La répartition de la charge, exprimée en \%, XXXXXXXX VOIR AVEC YACINE
-  \item \textbf{Temps OpenMP} : Exprimé en seconde, il correspond à la durée passée dans des parties du code parrallélisées en OpenMp.
-  \item \textbf{Ratio OpenMP} : Exprimé en pourcentage, le ratio OpenMP correspond au rapport entre le temps OpenMP et le temps total d'exécution. Un code séquentiel, à un ratio de 0, alors qu'un entièrement parallélisé en OpenMp aura un ratio le ratio maximum 1. 
+  \item \textbf{Répartition de charge} : La répartition de la charge, exprimée en \%. Il permet d'évaluer le déséquilibre entre les différents threads openMP.
+  \item \textbf{Temps OpenMP} : Exprimé en seconde, il correspond à la durée passée dans les parties du code parallélisées en OpenMp.
+  \item \textbf{Ratio OpenMP} : Exprimé en pourcentage, le ratio OpenMP correspond au rapport entre le temps OpenMP et le temps total d'exécution. Un code séquentiel, à un ratio de 0, alors qu'un code entièrement parallélisé en OpenMp aura le ratio maximum 1. 
   \end{itemize}
   \vspace*{1.5ex}% 
 
-\item[$\bullet$] Les métriques liés à la mémoire:
+\item[$\bullet$] Les métriques liées à la mémoire:
   \begin{itemize}
-  \item \textbf{Empreinte mémoire}: L'empreinte mémoire correspond à la quantité maximum de mémoire utilisée lors de la simulation et est exprimée en GB.
+  \item \textbf{Empreinte mémoire}: L'empreinte mémoire correspond à la quantité maximum de mémoire utilisée lors du calcul. Elle est exprimée en Go.
   \item \textbf{Intensité d'utilisation du cache}: L'intensité d'utilisation du cache est exprimée en \% et correspond à la fraction de données directement disponible en cache. Lors de la création ou de l'utilisation d'une variable, celle ci est copiée de la RAM vers le cache. Le cache est une mémoire restreinte, proche des processeurs, ce qui en rend l'accès très rapide. Lorsque le cache arrive à saturation, les variables les plus anciennes en sont supprimées et ne seront plus accessibles que dans la RAM. Lors d'un accès à une variable, le processus va dans un premier temps vérifier si elle est toujours dans le cache. C'est à ce taux de succès que correspond l'intensité d'utilisation du cache. Un ratio important correspond à un accès mémoire plus rapide et donc à un temps d'exécution plus faible.
   \end{itemize}
   \vspace*{1.5ex}% 
 
-\item[$\bullet$] Les métriques liés à l'utilisation des processeurs:
+\item[$\bullet$] Les métriques liées à l'utilisation des processeurs:
   \begin{itemize}
   \item \textbf{IPC}: L'IPC correspond au nombre d'instruction par cycle. Plus ce nombre est important et plus MDFT exploite la puissance fournie par le processeur.
-  \item \textbf{Temps d'exécution sans vectorisation}: Temps d’exécution d'une simulation sans vectorisation exprimée en sec. La vectorisation est desactivée à l'aide de l'option -fno-tree-vectorize pour Gfortran ou des options -no-simd et -no-vec pour ICC. 
+  \item \textbf{Temps d'exécution sans vectorisation}: Temps d’exécution d'un calcul sans vectorisation exprimée en sec. La vectorisation est désactivée à l'aide de l'option -fno-tree-vectorize pour Gfortran ou des options -no-simd et -no-vec pour ICC. 
   \item \textbf{\'Efficacité de la vectorisation}: L'efficacité de la vectorisation est mesurée en calculant le ratio entre le temps d'exécution avec et sans vectorisation. Plus ce nombre est important et plus MDFT exploite la puissance fournie par le processeur.
   \end{itemize}
   \vspace*{1.5ex}% 
 
 \end{itemize}
 
-Le script JUBE décrit ci-dessus, nous permet ainsi de suivre et de quantifier les évolutions de MDFT tout en nous assurant une constance dans les résultats fournies.
-
+Le script JUBE décrit ci-dessus, nous permet ainsi de suivre et de quantifier les évolutions de MDFT tout en nous assurant une constance dans les résultats fournis.
 
 
 \section{Optimisations}
-Lors de l'exécution de MDFT sur des systèmes biologiques, certaines parties dépendants du nombre d'atomes, sont apparues limitantes alors que leur temps d'exécution était négligeable jusque la. C'est le cas par exemple, du module qui calcule les forces Lennard Jones ou encore du minimiseur. En collaboration avec la Maison de La Simulation, du CEA, MDFT à également été parallélisé en OpenMP.
+Lors de l'exécution de MDFT sur des systèmes biologiques, certaines parties dépendants du nombre d'atomes, sont apparues limitantes alors que leur temps d'exécution était négligeable jusque la. Le script JUBE précédemment décrit nous à permit d'identifier facilement ces parties comme par exemple le module qui calcule les forces Lennard Jones ou encore le minimiseur. En collaboration avec la Maison de La Simulation, du CEA, MDFT à également été parallélisé en OpenMP.
 
 
 \subsection{Le module Lennard Jones}
-Lors de l’initialisation du système, et en particulier du calcul du $\mathrm{V}_\mathrm{ext}$, un module calcul l’interaction lennard-Jones, entre chaque atome du solute et chaque atome d'eau pour chaque point de grille et chaque orientation. Dans sa version naïve, le nombre de calculs effectués par ce module est de $N_{\mathrm{voxels}}*N_{\mathrm{orientations}}*N_{\mathrm{atomes\ du\ solute}}*N_{\mathrm{atomes\ du\ solvant}}$. Les systèmes biologiques, composés de plusieurs milliers d'atomes, nécessitent une grande boite de simulation. La quantité de calculs de ce module croit dont très rapidement.
-Le temps nécessaire à cette partie du calcul pour le lysosime est de XXX sec la ou il n'était que de XXX sec pour un méthane unifié.
+Lors de l’initialisation du système, et en particulier du calcul du $\mathrm{V}_\mathrm{ext}$, un module calcul l’interaction lennard-Jones, entre chaque atome du soluté et chaque atome d'eau pour chaque point de grille et chaque orientation. Dans sa version naïve, le nombre de calculs effectués par ce module est de $N_{\mathrm{voxels}}*N_{\mathrm{orientations}}*N_{\mathrm{atomes\ du\ solute}}*N_{\mathrm{atomes\ du\ solvant}}$. Les systèmes biologiques, composés de plusieurs milliers d'atomes, nécessitent une grande boite de simulation. La quantité de calculs de ce module croit dont très rapidement. L'optimisation de ce calcul à eu lieu en deux étapes décrites ci-dessous. L'algorithme naïf ainsi que l'algorithme optimisé sont disponibles en annexe \ref{chap:annexes:implementations}.
+
+\subsubsection{Ajout d'une limite}
+Comme on le voit sur la figure \ref{fig:lj}, le potentiel de lj tend rapidement vers 0. Il n'est donc pas nécessaire de calculer ce potentiel pour des molécules trop distantes. Nous avons donc ajouté une limite, configurable par l'utilisateur, au delà de laquelle le potentiel n'est plus calculé. Malheureusement, une limite simple, sphérique, ne permet qu'un gain limité car nous sommes toujours obligés de calculer la distance entre chaque atome du soluté et chaque atome d'eau pour chaque point de grille et chaque orientation pour ensuite la comparer à notre limite. Nous avons donc fait le choix de sous-espaces cubiques de tailles égales à la valeur de la limite. En échange de quelques calculs supplémentaires, dans les angles, il n'est plus nécessaire de tester chaque distance. En effet, une représentation cubique permet de limiter les boucles de calcul à cette zone.
+
+
+
+\pgfmathdeclarefunction{lj}{2}{%
+    \pgfmathparse{4*#1*((#2/x)^12-(#2/x)^6)}%
+}
+
+\begin{figure}[H]
+    \center    
+  \begin{tikzpicture}
+    \begin{axis}[
+            xlabel= distance (\AA),
+            ylabel= Potentiel de Lennard-Jones (kJ.mol$^{-1}$),
+            xmin = 2.95, xmax = 10,
+            ymin = -1, ymax = 2,
+            no markers,
+            legend style = {draw = none, cells={anchor=west}}
+      ]
+      \addplot[mark=none, black, very thick, domain=2.95:10, samples=400] {lj(0.65,3.166)};
+      \addplot[mark=none, black, very thick, dashed] plot coordinates {
+        (2.95,  0)
+        (10,  0)
+     };
+    \end{axis}
+  \end{tikzpicture}
+    \caption{Exemple du potentiel de Lennard-Jones entre deux atomes d'oxygènes de l'eau SPC/E.}
+    \label{fig:lj}
+\end{figure}
+
+
+\subsubsection{Mise en cache}
+Malgré la puissance actuelle des ordinateurs, le calcul de fonctions trigonométriques reste coûteux en temps. Dans une implémentation naïve, il est nécessaire de reconstruire la position de chaque atome du solvant, pour chaque atome du soluté, pour chaque point de grille et pour chaque orientation. Si l'on considère l'étude de l'une des plus petites protéines existantes, le lysosyme (1960 atomes), dans une boite divisée en 64 points dans chaque direction et pour une valeur de $\mathrm{m}_\mathrm{max}$=1, il est nécessaire d'effectuer $64^3*3*18*1960$ soit environ 27.7 milliards reconstructions de position. Nous avons donc stocké en mémoire, l'ensemble des positions relatives de chaque atome de solvant par rapport au point de grille étudié pour chaque orientation. Pour le même système, le nombre de reconstructions est donc aujourd'hui de 3*18 soit seulement 54. Le nombre de calculs est ainsi divisé par plus de 500 millions.
+
+
+\subsubsection{Performances}
+Si l'on reprend l'exemple du lysosyme (1960 atomes), dans une boite de 32 \AA\ de coté divisée en 64 points dans chaque direction et pour une valeur de $\mathrm{m}_\mathrm{max}$=1, avant optimisation le module Lennard-Jones était complété en 1 H 47 min. Grâce à l'ensemble de ces optimisations, le même calcul est aujourd'hui complété en moins de 6 sec. Ces optimisations ont permit de diviser le temps dédié à ce module par plus de 1000.
+
+%\lstinputlisting[language=Python, caption={Implémentation naïve de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b]{chapters/numerique/fortran/lennard_jones_naive.f90}
+
+%\lstinputlisting[language=Python, caption={Implémentation optimisée de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b]{chapters/numerique/fortran/lennard_jones_opti.f90}
+
+
+
+
+
+
 
 \subsection{Le minimiseur: steepest descent}
-Il existe différents types de minimiseur qui nous permettent de choisir entre la consomation mémoire et la performance. Parmi les plus utilisés, on peut citer:
-\begin{itemize}
-  \item Steepest Descent: C'est le minimiseur le plus simple. Le gradient est dirigé dans la direction de la plus grande pente.
-  \item Gradient Conjugué: XXXXXXXXXXXXX
-  \item Les minimiseurs de Newton: Ils nécessitent le calcul de la Hessienne mais permettent la résolution d'une fonction XXX en un seul pas de minimisation. AJOUTER EQUATION ICI
-  \item Les minimiseurs quasi-Newton: XXXXXXXX
-  \vspace*{1.5ex}% 
-\end{itemize}
+Comme nous l'avons décrit dans le chapitre \ref{chap:theorie}, le minimiseur nativement implémenté dans MDFT est L-BFGS. Ce minimiseur est le meilleur compromis pour des systèmes comportant de nombreuses variables comme c'est le cas avec MDFT. Cependant, le nombre de variable reste limité. En effet, il stocke en mémoire un tableau de taille $2*m*n + 5*n + 11*m*m + 8*m$ avec n le nombre de variables à minimiser et m le nombre de pas d'historique que l'on conserve. En fortran, les entiers sont codés sur 32 bits. Ils sont donc limités à un maximum de $2^{32}$ soit 2.29e$^9$. Si l'on réduit l'historique au minimum, soit 1, la taille du tableau est de $7n+16$. Notre minimiseur est donc limité aux systèmes de moins de $\frac{2.29e9-16}{7}$ soit 6.14$^{8}$ variables. 
+
+Dans notre cas, le nombre de variables est égale au nombre de points de grilles multiplié par le nombre d'orientations dans chaque direction, soit $N_g^3 * N_o$ avec $N_g$ le nombre de point de grille dans chaque dimension et $N_o$ le nombre d'orientations. La taille des boites de simulations est donc limitée à $\sqrt[3]{\frac{2^{32}-7}{7N_o}}$. La taille de boite maximale autorisée en fonction de la valeur de mmax est décrite dans le tableau \ref{tab:taille_boite_max}.
 
 
 
-A cause du nombre de variables minimisées par MDFT, il n'est pas possible de stocker la Hessienne en mémoire et donc de se tourner vers des minimiseurs de Newton. Le minimiseur nativement implémenté dans MDFT est donc L-BFGS. Ce minimiseur est le meilleur compromis pour des système de petites taille, cependant, dans le cas de systèmes biologiques, le nombre de variables augmente fortement, et les éléments de la Hessienne nécessaire à L-BFGS deviennent trop importants pour être stockés en RAM. Afin de permettre l'étude de système plus importants, nous avons implémenté un Steepest Descent
+\begin{table}[H]
+ \centering
+  \begin{tabular}{l | c | c }
+    \hline \multicolumn{3}{c}{} \\[-1em]\hline
+    $\mathrm{m}_\mathrm{max}$ & nombre d'orientations & Nombre de points de grilles autorisé \\
+    \hline
+    1  & 18 & 324 \\
+    2  & 75 & 201 \\
+    3  & 196 & 146 \\
+    4  & 405 & 114 \\
+    5  & 726 & 94 \\
+    \hline \multicolumn{3}{c}{} \\[-1em]\hline
+  \end{tabular}
+  \caption{Taille de boite maximum autorisée par L-BFGS en fonction du paramètre $\mathrm{m}_\mathrm{max}$.}
+  \label{tab:taille_boite_max}  
+\end{table}
 
 
+Afin de dépasser ces limites, nous avons donc implémenté un nouveau minimiseur: le steepest descent. Si l'on reprend l'exemple du lysosyme (1960 atomes), dans une boite de 64 \AA\ de coté divisée en 128 points dans chaque direction, les performances obtenues en fonction de la valeur de $\mathrm{m}_\mathrm{max}$ avec les deux minimiseurs sont regroupées dans le tableau \ref{tab:perf_minimiseurs}.
+
+
+
+
+\begin{table}[H]
+ \centering
+  \begin{tabular}{ c || c | c | c || c | c | c }
+    \hline \multicolumn{3}{c}{} \\[-1em]\hline
+         & \multicolumn{3}{c ||}{Mémoire utilisée (Go)} & \multicolumn{3}{c}{Temps de calcul} \\
+    \hline
+      $\mathrm{m}_\mathrm{max}$ & L-BFGS & SD & gain(\%) & L-BFGS & SD & gain(\%) \\
+    \hline
+    1  &  1.36 &  0.77 & 43.4 &  2 min 42 &  2 min 24 & 11.1 \\
+    2  &  8.71 &  4.29 & 50.7 &  8 min 47 &  8 min 18 &  5.5 \\
+    3  & 16.20 &  7.94 & 51.0 & 19 min 50 & 14 min 56 & 24.7 \\
+    4  &   /   & 20.38 &  /   &    /      & 18 min 37 &   /  \\
+    5  &   /   & 30.07 &  /   &    /      & 22 min 04 &   /  \\
+    \hline \multicolumn{3}{c}{} \\[-1em]\hline
+  \end{tabular}
+  \caption{Comparaisons des performances des minimiseurs L-BFGS et Steepest descent dans le cas de la solvatation du lysosyme. }
+  \label{tab:perf_minimiseurs}  
+\end{table}
+
+Comme on le voit dans ce tableau, en plus de rendre possibles les calculs les plus importants, le temps de calcul nécessaire au Steepest Descent est légèrement inférieur à celui nécessaire à L-BFGS. De plus, la mémoire utilisée par cette version de steepest-Descent est moitié moins importante que celle utilisée par L-BFGS.
 
 
 
 
 \subsection{La parallélisation OpenMP}
-Afin d'améliorer les performances de MDFT, et de bénéficier au maximum des architectures actuelles, les boucles les plus coûteuses en temps de calcul, ont été parallélisés en OpenMP. Ce travail à été effectué en collaboration avec la Maison de La Simulation.
+Afin d'améliorer les performances de MDFT, et de bénéficier au maximum des architectures actuelles, les boucles les plus coûteuses en temps de calcul, ont été parallélisées en OpenMP. Ce travail à été effectué par Yacine Ould-Rouis à la Maison de La Simulation. 
 
-\subsubsection{Identification des hot spots}
-La première étape nécessaire à toute optimisation est l'analyse des boucles les plus longue, appelées hot spots. Pour cela, nous nous sommes servi de l’outil de profilage VTune[ref VTune]. Cet outils permet une analyse HPC complète.
+Les deux cadres d'utilisation de MDFT les plus coûteux sont:
+\begin{itemize}
+\item l'étude de base de données complète
+\item l'étude d'une macro-molécule
+\end{itemize}
 
-\subsubsection{Modification du format de données}
+Dans le premier cas, le nombre de calculs à lancer est généralement supérieur au nombre de cœurs disponibles. La parallélisation n'a donc aucun avantage. En effet, à cause de la communication entre les différents processus, le temps de calcul nécessaire pour l’exécution d'un code parrallèle sur n cœurs est toujours supérieur au temps sur un cœur divisé par n. Dans ce cas de figure, il est donc plus intéressant de lancer chaque calcul en série soit sur un seul cœur.
 
-
-\subsubsection{Performances finales}
-
+Dans le second cas, c'est le temps de restitution qui est important. La parallélisation permet donc ici un gain de temps considérable. Les temps de calculs en fonction du nombre de cœurs openMP sont disponibles dans le tableau \ref{tab:perf_minimiseurs}. Le système étudié est le lysosyme dans une boite de simulation de 64 \AA\ de coté divisée en 128 points de grille dans chaque direction pour une valeur de $\mathrm{m}_\mathrm{max}$=3.
 
 
 
-\boitemagique{A retenir}{Dans ce chapitre, nous avons présenté les développements numériques et optimisation nécessaires à l'application de MDFT sur des systèmes biologiques}
+\begin{table}[H]
+ \centering
+  \begin{tabular}{ c | c | c }
+      Nombre de cœurs & Temps de calcul & gain(\%)\\
+    \hline
+    sans openMP (ref) & 25 min & 0\\
+     1 & 31 min 44 & -27.0 \\
+     2 & 16 min 34 &  33.4 \\
+     4 &  9 min 32 &  61.8 \\
+     8 &  5 min 30 &  78.0 \\
+    12 &  4 min 03 &  83.8 \\
+    24 &  2 min 34 &  89.8 \\
+    \hline \multicolumn{3}{c}{} \\[-1em]\hline
+  \end{tabular}
+  \caption{Temps de calcul en fonction du nombre de cœurs openMP. Le système étudié est le lysosyme dans une boite de simulation de 64 \AA\ de coté divisée en 128 points de grille dans chaque direction pour une valeur de $\mathrm{m}_\mathrm{max}$=3.}
+  \label{tab:perf_minimiseurs}  
+\end{table}
+
+On voit que l'utilisation de 24 cœurs permet de faire passer le temps de calcul de 25 min à seulement 2 min 34 et ainsi de le diviser par 10. Il aurait bien sur été possible d'encore plus optimiser la parallélisation de MDFT, cependant le choix à été fait de s’arrêter ici afin que le code ne perde en lisibilité.
+
+
+
+% \subsubsection{Identification des hot spots}
+% La première étape nécessaire à toute optimisation est l'analyse des boucles les plus longue, appelées hot spots. Pour cela, nous nous sommes servi de l’outil de profilage VTune[ref VTune]. Cet outils permet une analyse HPC complète.
+
+% \subsubsection{Modification du format de données}
+
+
+\boitemagique{A retenir}{Dans ce chapitre, nous avons dans un premier décrit la mise en place d'un outils permettant un suivit simple et efficace de l'évolution de MDFT. Nous avons ensuite présenté les développements numériques et optimisations qui permettent aujourd'hui d'atteindre des tailles de systèmes intéressants en biologie dans des temps de calculs raisonnables.}

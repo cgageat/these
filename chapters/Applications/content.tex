@@ -1,4 +1,5 @@
 \chapter{Applications}
+\label{chap:applications}
 
 \boitemagique{Objectif}{
 Dans de ce chapitre nous présentons deux exemples d'applications de MDFT sur des systèmes biologiques. Le premier exemple permet d'évaluer la qualité de la prédiction de la structure de solvatation et le second permet dévaluer l'autre pan de MDFT soit la prédiction des énergies libres de solvatation.
@@ -54,9 +55,6 @@ Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin
    \caption{Représentation en structure secondaire de la protéine 4M7G. }
    \label{fig:struct_secondaires}
 \end{figure}
-
-
-La séquence de cette protéine est disponible en annexe (voir annexe [REFFF]).
 
 
 \subsection{Protocole}
@@ -178,7 +176,7 @@ La dernière partie de cette étude consiste à étudier notre solvant à l'int�
 Lors du développement d'un nouveau médicament, les calculs d'énergies libres de liaison sont indispensables et interviennent à différentes étapes du procédé. Ils permettent par exemple d'évaluer l'affinité d'un petit composé, candidat médicament, avec (i) sa cible thérapeutique et ainsi d'évaluer son efficacité et (ii) avec des cibles secondaires et ainsi d'évaluer le risque d'effets secondaires. Durant les premières étapes, un premier tri large est effectué et la rapidité est favorisée à la précision. La méthode de choix est donc MM-PBSA\cite{genheden_mm/pbsa_2015}. Cette méthode implicite permet une évaluation quasi-instantanée de l'énergie libre de liaison en échange de fortes approximations. Un solvant implicite ne permet par exemple pas de prendre en compte les effets stériques des molécules d'eau ou encore les liaisons hydrogènes qu'elles pourraient former avec le complexe solvaté. Dans cette partie, nous dérivons MM-PBSA en une nouvelle méthode MM-MDFT. Les résultats MM-PBSA de 46 complexes protéine-ligand, récemment publiés par Cheron et Al.\cite{cheron_effect_2017}, sont comparés à ceux obtenus par MM-MDFT.
 
 \subsection{Théorie}
-Par définition, le calcul exact d'une énergie libre de liaison, implique un échantillonnage complet du système étudié. Dans le cas d'un complexe rigide protéine-ligand, ce calcul implique l'échantillonnage de toutes les conformations du solvant. Afin de simplifier et d’accélérer les calculs, il est d'usage d'appliquer le cycle thermodynamique (voir figure \ref{fig:Energie_libre_de_binding} ) suivant: Dans un premier temps, la protéine et le ligand sont désolvatés. Une fois dans le vide, le calcul de l'énergie libre de liaison correspond à la somme des termes inter et intra-moléculaires moyennés sur l'ensemble des conformations possibles. Dans le cas de molécules rigides, les énergies internes des deux composés ne sont pas modifiées lors de la liaison et peuvent donc être ignorées. L'énergie libre de liaison correspond ainsi à la somme des termes intra-moléculaires. Enfin, le complexe nouvellement formé est de nouveau solvaté. Comme nous l'avons détaillé dans le chapitre ( voir chapitre XXXXXXXX ), il existe différentes méthode permettant le calcul de l'énergie libre de solvatation. Les systèmes biologiques ne permettent pas, de par leur taille, d'utiliser des méthodes explicites telles que l'intégration thermodynamique associées à des simulations de dynamique moléculaire ou de Monte Carlo. Les méthodes implicites telles que \textit{Poisson-Boltzman and Surface-Area} (PBSA) sont donc favorisées.
+Par définition, le calcul exact d'une énergie libre de liaison, implique un échantillonnage complet du système étudié. Dans le cas d'un complexe rigide protéine-ligand, ce calcul implique l'échantillonnage de toutes les conformations du solvant. Afin de simplifier et d’accélérer les calculs, il est d'usage d'appliquer le cycle thermodynamique (voir figure \ref{fig:Energie_libre_de_binding} ) suivant: Dans un premier temps, la protéine et le ligand sont désolvatés. Une fois dans le vide, le calcul de l'énergie libre de liaison correspond à la somme des termes inter et intra-moléculaires moyennés sur l'ensemble des conformations possibles. Dans le cas de molécules rigides, les énergies internes des deux composés ne sont pas modifiées lors de la liaison et peuvent donc être ignorées. L'énergie libre de liaison correspond ainsi à la somme des termes intra-moléculaires. Enfin, le complexe nouvellement formé est de nouveau solvaté. Comme nous l'avons détaillé dans le chapitre ( voir chapitre \ref{chap:introduction} ), il existe différentes méthode permettant le calcul de l'énergie libre de solvatation. Les systèmes biologiques ne permettent pas, de par leur taille, d'utiliser des méthodes explicites telles que l'intégration thermodynamique associées à des simulations de dynamique moléculaire ou de Monte Carlo. Les méthodes implicites telles que \textit{Poisson-Boltzman and Surface-Area} (PBSA) sont donc favorisées.
 
 
 
@@ -708,11 +706,5 @@ L'énergie libre de solvatation du système correspond, dans ce cas, à la moyen
 \boitemagique{A Retenir}{
 Dans ce chapitre, nous avons montré qu'il est possible avec MDFT (i) d'étudier avec précision des systèmes biologiques, (ii) de retrouver les molécules d'eau expérimentales et les poches à l'intérieur de protéines et (iii) d'améliorer la prédiction d'énergie libre de liaison en solution tout en fournissant la structure de solvatation.
 }
-
-
-
-
-\printbibliography
-
 
 

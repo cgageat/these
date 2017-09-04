@@ -1,4 +1,5 @@
 \chapter{MDFT: la théorie de la fonctionnelle de la densité moléculaire}
+\label{chap:theorie}
 
 \boitemagique{Objectif}{
 Dans ce chapitre nous décrivons la théorie de la fonctionnelle de la densité moléculaire dans l'approximation HNC, son implémentation ainsi que quelques corrections de cette approximation.
@@ -8,7 +9,7 @@ Dans ce chapitre nous décrivons la théorie de la fonctionnelle de la densité 
 La théorie de la fonctionnelle de la densité moléculaire (MDFT) permet l'étude de la solvatation de composés de n'importe qu'elle taille et n'importe qu'elle forme. Cette théorie et son code associé, permettent, en quelques secondes seulement, (i) de calculer l'énergie libre de solvatation et (ii) de générer une carte détaillée en 3 dimensions de la densité du solvant autour du soluté.
 
 
-L'origine de la théorie de la fonctionnelle de la densité (DFT) de l'état liquide réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle à pour variable la densité du solvant $rho\left(\boldsymbol{r},\Omega \right)$, à chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$. La fonctionnelle est définie comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle correspond donc à l'énergie libre de solvatation du soluté étudié. 
+L'origine de la théorie de la fonctionnelle de la densité (DFT) de l'état liquide réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle à pour variable la densité du solvant $\rho\left(\boldsymbol{r},\Omega \right)$, à chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$. La fonctionnelle est définie comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle correspond donc à l'énergie libre de solvatation du soluté étudié. 
 
 \section{L'approximation HNC}
 
@@ -62,7 +63,7 @@ Cette minimisation à été implémentée dans un code en fortran moderne du mê
 
 
 \subsection{La discrétisation}
-Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatiale, découpe l'espace en voxels. Le second niveau, angulaire[REF PAPIER LU], permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre est disponible dans le tableau \ref{tab:mmax};
+Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatiale, découpe l'espace en voxels. Le second niveau, angulaire\cite{ding_cea-01564512}, permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre est disponible dans le tableau \ref{tab:mmax};
 
 \begin{table}[H]
  \centering
@@ -120,7 +121,7 @@ avec
 \end{eqnarray}
 
 
-Cette méthode ne permet cependant pas à elle seule de diminuer le temps de calcul. Cette propriété à donc été couplées à l'utilisation des FFT (Fast Fourier Tranform) et en particulier de la librairie FFTW3 pour la partie spatiale et de FGSHT (fast generalized spherical harmonic transform) récemment proposé par Ding et al [XX REF THESE LU] pour la partie angulaire. Le protocole suivi est le suivant:
+Cette méthode ne permet cependant pas à elle seule de diminuer le temps de calcul. Cette propriété à donc été couplées à l'utilisation des FFT (Fast Fourier Tranform) et en particulier de la librairie FFTW3 pour la partie spatiale et de FGSHT (fast generalized spherical harmonic transform) récemment proposé par Ding et al\cite{ding_thesis} pour la partie angulaire. Le protocole suivi est le suivant:
 
 \begin{eqnarray}
 \Delta\hat{\rho}\left(\boldsymbol{k}_k,\Omega_l\right) &=& \mathrm{FT}[\Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right)] \\
@@ -142,11 +143,11 @@ Et enfin:
 \gamma(\boldsymbol{r}_i,\Omega_j) &=& \mathrm{FT}^{-1}[\hat{\gamma}(\boldsymbol{k}_i,\Omega_j)]
 \end{eqnarray}
 
-Les auteurs [XX REF THESE LU] ont montré que le couplage de ces deux méthodes permet d'obtenir des temps de calculs du même ordre de grandeurs pour chacune des 3 parties de la fonctionnelle. 
+Les auteurs\cite{ding_thesis} ont montré que le couplage de ces deux méthodes permet d'obtenir des temps de calculs du même ordre de grandeurs pour chacune des 3 parties de la fonctionnelle. 
 
 
 \subsection{Le minimiseur}
-Le minimiseur utilisé pour minimiser notre fonctionnelle est L-BFGS (Limited-memory Broyden-Fletcher-Goldfarb-Shanno) [XXX REF lbfgs]. L-BFGS correspond à une version de BFGS [XX REF BFGS] optimisée pour les problèmes composés de nombreuses variables comme c'est le cas de la MDFT. Contrairement à BFGS qui conserve une approximation de la hessienne sous la forme d'une matrice dense, L-BFGS conserve uniquement quelques vecteurs représentatifs ainsi que l'historique sur quelques pas de la minimisation. L-BFGS nécessite en entrée, l'ensemble des variables à minimiser ainsi que le gradient de la fonctionnelle $\nabla F[\rho\left(\boldsymbol{r}_i,\Omega_j\right)]$ défini comme:
+Le minimiseur utilisé pour minimiser notre fonctionnelle est L-BFGS (Limited-memory Broyden-Fletcher-Goldfarb-Shanno)\cite{Byrd_lbfgs_1995}. L-BFGS correspond à une version de BFGS\cite{bfgs_2006} optimisée pour les problèmes composés de nombreuses variables comme c'est le cas de la MDFT. Contrairement à BFGS qui conserve une approximation de la hessienne sous la forme d'une matrice dense, L-BFGS conserve uniquement quelques vecteurs représentatifs ainsi que l'historique sur quelques pas de la minimisation. L-BFGS nécessite en entrée, l'ensemble des variables à minimiser ainsi que le gradient de la fonctionnelle $\nabla F[\rho\left(\boldsymbol{r}_i,\Omega_j\right)]$ défini comme:
 
 
 \begin{eqnarray}
@@ -155,7 +156,7 @@ Le minimiseur utilisé pour minimiser notre fonctionnelle est L-BFGS (Limited-me
 &-& \mathrm{k_B}T \gamma(\boldsymbol{r}_i,\Omega_j) \nonumber
 \end{eqnarray}
 
-Le calcul du gradient de chaque partie est détaillé en annexe XXX.
+Le calcul du gradient de chaque partie est détaillé en annexe \ref{chap:annexes:grad}.
 
 \section{Les corrections}
 Pour aller plus loin que la théorie HNC, et ainsi corriger l'approximation faite dans la fonctionnelle d'excès, il est possible (i) d'appliquer des corrections à posteriori ou (ii) d'ajouter un quatrième terme à notre fonctionnelle, une fonctionnelle de bridge.
