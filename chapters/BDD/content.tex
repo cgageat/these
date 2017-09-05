@@ -20,7 +20,7 @@ Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 
 
 
 \csvautolongtable[separator=comma,
-                    table head=\caption{Répartition des groupes chimiques présents dans FreeSolv}\label{tab:freeSolvGroupNumbers}\\\hline
+                    table head=\caption{Répartition des groupes chimiques présents dans FreeSolv.}\label{tab:freeSolvGroupNumbers}\\\hline
                     \csvlinetotablerow\\\hline
                     \endfirsthead\hline
                     \csvlinetotablerow\\\hline
@@ -68,7 +68,7 @@ Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer 
     Ions  & 3 & bridge gros grain & 8 \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{Liste des études lancées dans ce chapitre. Au total, 3874 calculs ont été lancés et analysés.}
+  \caption[Liste des benchmark lancés.]{Liste des calculs nécessaires pour ce chapitre. Au total 3874 calculs ont été lancés et analysés.}
   \label{tab:calculs_lances}  
 \end{table}
 
@@ -76,6 +76,7 @@ Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer 
 
 Le format JSON (voir code \ref{code:json}) est un format générique de stockage et de transfert de l'information. Ce format, très utilisé par les technologies web et mobiles, permet de stocker et transférer facilement et lisiblement des tableaux et dictionnaires de tous types (nombre, texte). Un des avantages majeurs de ce format de données est qu'il est implémenté dans de nombreux langages \footnote{\url{http://www.json.org/}}, il est ainsi facile d'interfacer \textit{MDFT database tool} à d'autres codes, en particulier en fortran et python comme les outils \textit{machine learning} développés au laboratoire.. 
 
+XXX short caption ici ?????
 \begin{lstlisting}[caption={Exemple de fichier json. Ici on décrit un atome, son nom, son symbole, sa position ainsi que ses paramètres de champs de force.}, label={code:json},captionpos=b]
   "atom": {
       "name": "Hydrogen", 
@@ -116,7 +117,7 @@ La première commande permet de transformer la base de données initiale en des 
     --scsf & \textit{Solute charge scale factor}: Préfacteur permettant d'atténuer les charges partielles & $\mathbf{R}[0-1]$ \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{Liste des paramètres disponibles lors de la première étape, l'étape de préparation des fichiers. Chaque option est accompagnée des valeurs qu'elle peut prendre.}
+  \caption[Description des paramètres disponibles lors de la préparation des fichiers par \textit{MDFT Database Tool}.]{Description des paramètres disponibles lors de la préparation des fichiers par \textit{MDFT Database Tool}. Chaque option est accompagnée de sa déscription et des valeurs qu'elle peut prendre.}
   \label{tab:processParameters}  
 \end{table}
 
@@ -155,7 +156,7 @@ Cette étape permet de transformer les données brutes en images facilement anal
    \begin{subfigure}[b]{0.59\textwidth}
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/PC_error_by_groups.png}
     \end{subfigure}
-  \caption{Exemple d'images d'analyses. En haut à gauche un exemple de violon. En bas à gauche, un exemple de corrélation et à droite un exemple d'analyse par groupe chimique.}
+  \caption[Exemple d'images d'analyses fournies pas \textit{MDFT Database Tool}.]{Exemple d'images d'analyses fournies pas \textit{MDFT Database Tool}. En haut à gauche un exemple de violon. En bas à gauche, un exemple de corrélation et à droite un exemple d'analyse par groupe chimique.}
   \label{fig:examples}
 \end{figure}
 
@@ -202,7 +203,7 @@ Pour rappel, l'approximation HNC engendre une forte surestimation de la pression
        \caption{$\mathrm{m}_\mathrm{max}$=3}
        \label{fig:distrib_error_PC_PCPlus:mmax3}
     \end{subfigure}
-  \caption{Distribution de l'écart entre l'énergie libre de solvatation calculée par MDFT et par dynamique moléculaire sur la base de données freesolv. En bleu, MDFT sans correlation de pression, en vert MDFT avec la correction de pression \textit{PC} et en rouge, MDFT avec la correction de pression \textit{PC+}, pour $\mathrm{m}_\mathrm{max}$=1 et 3.}
+  \caption[Distribution de l'écart entre l'énergie libre de solvatation calculée par MDFT et par dynamique moléculaire sur la base de données freesolv.]{Distribution de l'écart entre l'énergie libre de solvatation calculée par MDFT et par dynamique moléculaire sur la base de données freesolv. En bleu, MDFT sans correlation de pression, en vert MDFT avec la correction de pression \textit{PC} et en rouge, MDFT avec la correction de pression \textit{PC+}, pour $\mathrm{m}_\mathrm{max}$=1 et 3.}
   \label{fig:distrib_error_PC_PCPlus}
 \end{figure}
 
@@ -260,7 +261,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/correlation__mdft_energy_pc__vs__calc}
           }
-       \label{fig:correlation_avec_sans_cgb:mmax$3_pc}
+       \label{fig:correlation_avec_sans_cgb:mmax3_pc}
     \end{subfigure}
    \begin{subfigure}[b]{0.30\textwidth}
        \centering
@@ -272,7 +273,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
     \end{subfigure}
     
     
-  \caption{Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données freesolv. Sur la première ligne $\mathrm{m}_\mathrm{max}$=1, alors que sur la seconde $\mathrm{m}_\mathrm{max}$=3. La première colonne correspond à un calcul MDFT sans correction, la seconde à MDFT avec la correction de pression \textit{PC} et la dernière MDFT avec le bridge gros grain. }
+  \caption[Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données freesolv.]{Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données freesolv. Sur la première ligne $\mathrm{m}_\mathrm{max}$=1, alors que sur la seconde $\mathrm{m}_\mathrm{max}$=3. La première colonne correspond à un calcul MDFT sans correction, la seconde à MDFT avec la correction de pression \textit{PC} et la dernière MDFT avec le bridge gros grain. }
   \label{fig:correlation_avec_sans_cgb}
 \end{figure}
 \end{sidewaysfigure}
@@ -298,7 +299,7 @@ Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement l
       \hline & \\[-1em]\hline%
     \end{tabular}
   \end{center}
-  \caption{Coefficient de corrélation des énergies libres de solvatation calculées par différentes approximations de MDFT par rapport aux valeurs de référence calculées par dynamique moléculaire. On rappel que plus la valeur est proche et meilleure sera la corrélation.}
+  \caption[Coefficient de corrélation des énergies libres de solvatation calculées par MDFT par rapport aux valeurs calculées par DM.]{Coefficient de corrélation des énergies libres de solvatation calculées par différentes approximations de MDFT par rapport aux valeurs de référence calculées par dynamique moléculaire. On rappel que plus la valeur est proche et meilleure sera la corrélation.}
   \label{tab:correlation}  
 \end{table}
 
@@ -328,7 +329,7 @@ C'est dans le but de reproduire les énergies libre de solvatations expérimenta
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/groups/groupes_chimiques.eps}}
   }
-  \caption{Représentation en 2 dimensions des groupes chimiques étudiés dans ce chapitre. \protect\footnotemark}
+  \caption[Représentation en 2 dimensions des groupes chimiques de la base de données FreeSolv étudiés.]{Représentation en 2 dimensions des groupes chimiques étudiés dans ce chapitre. \protect\footnotemark}
   \label{fig:groupes_chimiques}
 \end{figure}
 \footnotetext{Image réalisée avec le logiciel MarvinSketch 17.17.0 , 2017, ChemAxon (\url{http://www.chemaxon.com}).}
@@ -338,7 +339,7 @@ C'est dans le but de reproduire les énergies libre de solvatations expérimenta
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/PC_error_by_groups}}
   }
-  \caption{Erreur absolue moyenne calculée pour chaque groupe chimique, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec la correction de pression \textit{PC}. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
+  \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec la correction \textit{PC}.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base de données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec la correction de pression \textit{PC}. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
   \label{fig:AUE:mmax3}
 \end{figure}
 
@@ -364,7 +365,7 @@ Cette étude nous permet également de confirmer deux points faibles de MDFT: l'
   \resizebox{\linewidth}{!}{
          \fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3_cgb/HNC_error_by_groups}}
   }
-  \caption{Erreur absolue moyenne calculée pour chaque groupe chimique, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec le bridge gros grain. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
+  \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec le bridge gros grain.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec le bridge gros grain. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
   \label{fig:AUE:mmax3_cgb}
 \end{figure}
 
@@ -417,7 +418,7 @@ Dans un premier temps nous avons comparé les énergies libres de solvatations c
 %       \caption{$\mathrm{m}_\mathrm{max}$=3}
 %       \label{fig:distrib_error_PC_PCPlus:mmax3}
     \end{subfigure}
-  \caption{Corrélation de l'énergie libre de solvatation calculée par MDFT, par dynamique moléculaire et expérimentales pour un ensemble de 4 anions et 4 cations.}
+  \caption[Corrélation de l'énergie libre de solvatation calculée par rapport aux valeurs expérimentales pour les ions.]{Corrélation de l'énergie libre de solvatation calculée par MDFT, par dynamique moléculaire et expérimentales pour un ensemble de 4 anions et 4 cations.}
   \label{fig:correlation_ions}
 \end{figure}
 

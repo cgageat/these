@@ -52,7 +52,7 @@ Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin
 \begin{figure}[H]
    \centering
    \fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/4m7g.png}}
-   \caption{Représentation en structure secondaire de la protéine 4M7G. }
+   \caption{Représentation en structure secondaire de la protéine 4M7G.}
    \label{fig:struct_secondaires}
 \end{figure}
 
@@ -101,7 +101,7 @@ Afin de ne pas être influencé par les résultats expérimentaux, nous avons su
   \draw[-latex] (MD.south) -- (protein_gromacs_water.north);
   
   \end{tikzpicture}
-      \caption{Protocole de détection des molécules d'eau autour de la protéine 4M7G. La protéine est représentée en surface. Les sphères rouges correspondent aux molécules d'eau cristallographiques. Les zones de forte probabilité de présence proposées par dynamique moléculaire sont en bleu et celle proposées par MDFT sont en vert.}
+      \caption[Protocole de détection des molécules d'eau autour de la protéine 4M7G.]{Protocole de détection des molécules d'eau autour de la protéine 4M7G. La protéine est représentée en surface. Les sphères rouges correspondent aux molécules d'eau cristallographiques. Les zones de forte probabilité de présence proposées par dynamique moléculaire sont en bleu et celle proposées par MDFT sont en vert.}
       \label{fig:water_molecule_protocol}
 \end{figure}
 
@@ -136,7 +136,7 @@ Dans un premier temps, nous évaluons l'efficacité de notre bridge en comparant
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/water_molecules_grey/prot_ext_hnc_bridge_md.png}}
-	\captionof{figure}{ Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G. En jaune, les zones prédites par MDFT dans l'approximation HNC et en vert MDFT avec notre nouveau bridge. La référence, en bleu, est calculée par dynamique moléculaire. }
+	\captionof{figure}[Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G.]{Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G. En jaune, les zones prédites par MDFT dans l'approximation HNC et en vert MDFT avec notre nouveau bridge. La référence, en bleu, est calculée par dynamique moléculaire. }
       \label{fig:surface_protein_hnc}
 \end{center}
 
@@ -149,7 +149,7 @@ Dans un second temps, nous comparons la position de ces zones de fortes probabil
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/water_molecules_grey/prot_water_bridge_md}}
-	\captionof{figure} {Comparaison des molécules d'eau cristallographiques et des résultats produits en dynamique moléculaire et par MDFT avec notre nouveau bridge à la surface de la protéine 4M7G. Les sphères rouges correspondent aux oxygènes des molécules d'eau cristallographiques. Les zones de forte probabilité de présence proposées par dynamique moléculaire sont représentées en bleu et celles proposées par MDFT sont en vert.}
+	\captionof{figure}[Comparaison des molécules d'eau cristallographiques et des résultats produits en dynamique moléculaire et par MDFT à la surface de la protéine 4M7G.]{Comparaison des molécules d'eau cristallographiques et des résultats produits en dynamique moléculaire et par MDFT avec notre nouveau bridge à la surface de la protéine 4M7G. Les sphères rouges correspondent aux oxygènes des molécules d'eau cristallographiques. Les zones de forte probabilité de présence proposées par dynamique moléculaire sont représentées en bleu et celles proposées par MDFT sont en vert.}
       \label{fig:surface_water_molecule}
 \end{center}
 
@@ -164,7 +164,7 @@ La dernière partie de cette étude consiste à étudier notre solvant à l'int�
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/water_molecules_grey/prot_interieur_gris}}
-	\captionof{figure}{Comparaison des molécules d'eau cristallographiques et des résultats produits en dynamique moléculaire et par MDFT à l'intérieur de 4M7G. La protéine est représentée en surface. Les sphères rouges correspondent aux molécules d'eau cristallographiques. Les zones de forte probabilité de présence proposées par dynamique moléculaire sont en bleu et celle proposées par MDFT sont en vert.}
+	\captionof{figure}[Comparaison des molécules d'eau cristallographiques et des résultats produits en dynamique moléculaire et par MDFT à l'intérieur de 4M7G.]{Comparaison des molécules d'eau cristallographiques et des résultats produits en dynamique moléculaire et par MDFT à l'intérieur de 4M7G. La protéine est représentée en surface. Les sphères rouges correspondent aux molécules d'eau cristallographiques. Les zones de forte probabilité de présence proposées par dynamique moléculaire sont en bleu et celle proposées par MDFT sont en vert.}
       \label{fig:interieur_water_molecule}
 \end{center}
 
@@ -265,7 +265,7 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
 \endfoot
 
 \hline \hline
-\caption{Description des systèmes utilisés dans l'étude MM-MDFT. Pour chaque système la charge du complexe, de la protéine et du ligand seuls sont indiqués ainsi que le nombre d'atome composant le ligand.} \label{tab:MMPBSA_systemes} \\
+\caption[Description des systèmes utilisés dans l'étude MM-MDFT.]{Description des systèmes utilisés dans l'étude MM-MDFT. Pour chaque système la charge du complexe, de la protéine et du ligand seuls sont indiqués ainsi que le nombre d'atome composant le ligand.} \label{tab:MMPBSA_systemes} \\
 \endlastfoot
 
       \hline & \\[-1em]\hline
@@ -330,7 +330,7 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=0.8\textwidth]{chapters/Applications/images/structure_proteine_mmpbsa.png}}
-	\captionof{figure}{Structure 3D de la protéine BACE1 en commun dans tous les complexes étudiés.}
+	\captionof{figure}[Structure 3D de la protéine BACE1.]{Structure 3D de la protéine BACE1 en commun dans tous les complexes étudiés.}
     \label{fig:structure_proteine_MMPBSA}
 \end{center}
 
@@ -338,7 +338,7 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=0.8\textwidth]{chapters/Applications/images/structures_mmpbsa.png}}
-	\captionof{figure}{Structure 2D des ligands de chaque complexe étudié}
+	\captionof{figure}[Structure 2D des ligands de chaque complexe utilisés dans l'étude MM-MDFT.]{Structure 2D des ligands de chaque complexe étudié.}
     \label{fig:structures_MMPBSA}
 \end{center}
 
@@ -427,7 +427,7 @@ La figure \ref{fig:MMPBSA_MMMDFT_complete} compare les énergies libres de solva
           \end{tikzpicture}
           }
      \end{subfigure}
-    \caption{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT pour différents paramètres de la fonctionnelle comparée à l'énergie libre de liaison expérimentale pour chacun des complexes étudiés.}
+    \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT. Les valeurs calculées sont comparées à l'énergie libre de liaison expérimentale pour chacun des complexes étudiés pour différents paramètres de la fonctionnelle.}
     \label{fig:MMPBSA_MMMDFT_complete}
 \end{figure}
 
@@ -569,7 +569,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
           \end{tikzpicture}
           }
      \end{subfigure}
-    \caption{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT pour différents paramètres de la fonctionnelle comparée à l'énergie libre de liaison expérimentale pour chacun des complexes étudiés. Les complexes dont le ligand comporte au moins un Chlore sont représentés en rouge. Ceux qui comportent au moins un Fluor sont en bleu et ceux ne comportant pas d'halogène sont en noir. }
+    \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction du type d'halogène.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction du type d'halogène. Les valeurs calculées sont comparées aux valeurs expérimentales pour différents paramètres de la fonctionnelle et pour chacun des complexes étudiés. Les complexes dont le ligand comporte au moins un Chlore sont représentés en rouge. Ceux qui comportent au moins un Fluor sont en bleu et ceux ne comportant pas d'halogène sont en noir. }
     \label{fig:MMPBSA_MMMDFT_complete_by_halogene}
 \end{figure}
 
@@ -673,7 +673,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
           \end{tikzpicture}
           }
      \end{subfigure}
-    \caption{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT pour différents paramètres de la fonctionnelle comparée à l'énergie libre de liaison expérimentale pour chacun des complexes étudiés. En rouge les complexes dont le ligand comporte un Souffre, en noir ceux n'en comportant pas.}
+    \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction le présence de Souffre.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction le présence de Souffre. Les valeurs calculées sont comparées aux valeurs expérimentales pour différents paramètres de la fonctionnelle pour chacun des complexes étudiés. En rouge les complexes dont le ligand comporte un Souffre, en noir ceux n'en comportant pas.}
     \label{fig:MMPBSA_MMMDFT_complete_by_souffre}
 \end{figure}
 

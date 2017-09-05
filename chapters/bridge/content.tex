@@ -58,7 +58,7 @@ En solution, ce phénomène se traduit, dans le cas de gros composés hydrophobe
       \addplot[mark=none, black, very thick, domain=0:10, samples=400] {demouillage(-3.5,1)};
     \end{axis}
   \end{tikzpicture}
-    \caption{Représentation du démouillage autour d'une sphère hydrophobe de rayon R.}
+    \caption[Représentation du démouillage autour d'une sphère hydrophobe.]{Représentation du démouillage autour d'une sphère hydrophobe de rayon R.}
     \label{fig:demouillage}
 \end{figure}
 
@@ -118,7 +118,7 @@ En solution, ce phénomène se traduit, dans le cas de gros composés hydrophobe
       \legend{HNC}
     \end{axis}
   \end{tikzpicture}
-    \caption{\'Energie libre pour une unité de volume du solvant homogène de densité $\rho_{\mathrm{bulk}}$ dans l'approximation HNC. $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards ( 1 $\mathrm{kg.L}^{-1}$ ).}
+    \caption[\'Energie libre pour une unité de volume du solvant homogène.]{\'Energie libre pour une unité de volume du solvant homogène de densité $\rho_{\mathrm{bulk}}$ dans l'approximation HNC. $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards ( 1 $\mathrm{kg.L}^{-1}$ ).}
     \label{fig:fonctionelle_HNC}
 \end{figure}
 
@@ -267,7 +267,7 @@ Afin d'évaluer les performances des différentes implémentations de MDFT, nous
 
     \end{axis}
   \end{tikzpicture}
-  \caption{Temps de calcul nécessaire à la simulation de la solvatation d'un atome de méthane unifié en fonction du nombre de points de grille dans chaque dimension. Le temps nécessaire à la version 3D est représenté en noir, le temps nécessaire à la version à symétrie sphérique sans optimisation est représenté en rouge et avec optimisation en bleu.}
+  \caption[Temps de calcul nécessaire à la simulation de la solvatation d'un atome de méthane unifié.]{Temps de calcul nécessaire à la simulation de la solvatation d'un atome de méthane unifié en fonction du nombre de points de grille dans chaque dimension. Le temps nécessaire à la version 3D est représenté en noir, le temps nécessaire à la version à symétrie sphérique sans optimisation est représenté en rouge et avec optimisation en bleu.}
   \label{fig:temps_calcul_methane_versions}
 \end{figure}
 
@@ -359,7 +359,7 @@ Il existe différents noyaux de convolutions permettant l'obtention d'une densit
       \legend{heavyside, gaussienne}
     \end{axis}
   \end{tikzpicture}
-    \caption{Noyaux de convolution utilisés dans l'étude paramétrique permettant la définition du bridge gros grain. En noir le heavyside et en rouge la gaussienne.}
+    \caption[Noyaux de convolution utilisés dans l'étude paramétrique permettant la définition du bridge gros grain.]{Noyaux de convolution utilisés dans l'étude paramétrique permettant la définition du bridge gros grain. En noir le heavyside et en rouge la gaussienne.}
     \label{fig:noyaux}
 \end{figure}
 
@@ -391,7 +391,7 @@ Nous nous sommes ensuite intéressé à la gaussienne (en rouge sur la figure \r
       \legend{$B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
     \end{axis}
   \end{tikzpicture}
-    \caption{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$). $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
+    \caption[\'Energie libre d'une unité de volume du solvant homogène en fonction du paramètre B.]{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$).}{ $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
     \label{fig:etude_B}
 \end{figure}
 
@@ -417,7 +417,7 @@ Pour chaque valeur de ce paramètre B, nous avons tracé l'énergie libre de sol
         \legend{$\sigma=0.866$, $\sigma=0.900$, $\sigma=0.935$, $\sigma=0.966$, $\sigma=1.000$}
       \end{axis}
     \end{tikzpicture}
-	\caption{\'Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface pour différentes valeurs de $\sigma$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ/m$^2$\cite{vega_surface_2007}.}
+	\caption[\'Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface en fonction de $\sigma$.]{\'Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface en fonction de $\sigma$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ/m$^2$\cite{vega_surface_2007}.}
     \label{fig:etude_sigma}
 \end{figure}
 
@@ -656,7 +656,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'Energ
     \end{tikzpicture}
   }
   \end{subfigure}
-    \caption{ \`Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Ces courbes en rouge, sont comparés à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996} }
+    \caption[\`Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface pour différentes valeurs de B.]{ \`Energie libre de solvatation d'une sphère dure grossissante divisée par sa surface calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Ces courbes en rouge, sont comparés à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996} }
     \label{fig:comparaison_hummer}
 \end{figure}
 \end{sidewaysfigure}
@@ -691,7 +691,7 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
     Xénon       &  6.06 &  6.47 & 31.23 & 15.02 & 13.50 & 12.48 & 11.71 & 11.20 & 10.74 & \textbf{10.33}  \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{Valeurs de l'énergie libre de solvatation (en $kj.mol^{-1}$) du méthane unifié et des gaz rares: Argon, Xénon, Krypton, Néon pour les différents paramètres possibles de la fonctionnelle de bridge gros grain. Les valeurs les plus proches de notre référence, la dynamique moléculaire, sont en gras.}
+  \caption[\`Energie libre de solvatation du méthane unifié et des gaz rares.]{Valeurs de l'énergie libre de solvatation (en $kj.mol^{-1}$) du méthane unifié et des gaz rares: Argon, Xénon, Krypton, Néon}{ pour les différents paramètres possibles de la fonctionnelle de bridge gros grain. Les valeurs les plus proches de notre référence, la dynamique moléculaire, sont en gras.}
   \label{tab:energie_libre_molecules_models}  
 \end{table}
 
@@ -943,7 +943,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
       \end{tikzpicture}
     }
   \end{subfigure}
-    \caption{ Fonction de distribution radiale du solvant autour de sphères dures de rayon 2.0, 4.0, 6.0, 8.0 et 10.0 $\text{\AA}$. Les RDF ont été calculés avec MDFT dans l'approximation HNC puis pour chaque paramètres du bridge. Les références ont été calculées par Monte Carlo\cite{huang_hydrophobic_2002} (pointillés bleu). }
+    \caption[Fonction de distribution radiale du solvant autour de petites sphères dures.]{ Fonction de distribution radiale du solvant autour de sphères dures de rayon 2.0, 4.0, 6.0, 8.0 et 10.0 $\text{\AA}$. Les RDF ont été calculés avec MDFT dans l'approximation HNC puis pour chaque paramètres du bridge. Les références ont été calculées par Monte Carlo\cite{huang_hydrophobic_2002} (pointillés bleu). }
     \label{fig:g_r_HS}
 \end{figure}
 \end{sidewaysfigure}
@@ -1113,7 +1113,7 @@ La dernier résultat observé est le profil du solvant autour de nos molécules 
     \end{tikzpicture}
     }
   \end{subfigure}
-  \caption{Fonction de distribution radiale du méthane et des gaz rares. Les RDFs ont été calculées avec MDFT dans l'approximation HNC (en noir) et les deux paramètres extrêmes disponibles pour notre bridge (en marron et noir). Les références (en pointillées bleu) ont été calculées par dynamique moléculaire.}
+  \caption[Fonction de distribution radiale du méthane et des gaz rares.]{Fonction de distribution radiale du méthane et des gaz rares. Les RDFs ont été calculées avec MDFT dans l'approximation HNC (en noir) et les deux paramètres extrêmes disponibles pour notre bridge (en marron et noir). Les références (en pointillées bleu) ont été calculées par dynamique moléculaire.}
   \label{fig:g_of_r_molecules_modeles}
 \end{figure}
 
@@ -1153,7 +1153,7 @@ Une fois le bridge développé, nous l'avons implémenté dans la version 3D de 
     Xenon      &  6.06 &  6.47 & 31.23 & 9.81 & 10.33 & 11.26 \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{\'Energie libre de solvatation du méthane et des gaz rares en $\mathrm{kJ}.\mathrm{mol}^{-1}$ avec MDFT dans l'approximation HNC et avec le bridge. Les valeurs sont comparées à nos références calculées par Dynamique moléculaire et aux valeurs expérimentales\cite{straatsma_free_1986}.}
+  \caption[\'Energie libre de solvatation du méthane et des gaz rares.]{\'Energie libre de solvatation du méthane et des gaz rares en $\mathrm{kJ}.\mathrm{mol}^{-1}$ avec MDFT dans l'approximation HNC et avec le bridge. Les valeurs sont comparées à nos références calculées par Dynamique moléculaire et aux valeurs expérimentales\cite{straatsma_free_1986}.}
   \label{tab:deltag_1D_3D}  
 \end{table}
 
@@ -1260,7 +1260,7 @@ La différence majeure entre ces deux versions est la périodicité. La version 
     \end{tikzpicture}
     }
   \end{subfigure}
-  \caption{ Fonctions de distribution radiale autour du méthane et des gaz rares. Les RDF ont été calculés avec les versions de MDFT à symétrie sphérique et 3D, dans l'approximation HNC et avec le bridge gros grain. Les références ont été calculées par Dynamique moléculaire.. }
+  \caption[Fonctions de distribution radiale autour du méthane et des gaz rares en 3D.]{ Fonctions de distribution radiale autour du méthane et des gaz rares. Les RDF ont été calculés avec les versions de MDFT à symétrie sphérique et 3D, dans l'approximation HNC et avec le bridge gros grain. Les références ont été calculées par Dynamique moléculaire.}
     \label{fig:g_of_r_methane_3D}
 \end{figure}
 
