@@ -326,21 +326,22 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
 
 
 
-
-\begin{center}
-    \captionsetup{type=figure}
-	\fbox{\includegraphics[width=0.8\textwidth]{chapters/Applications/images/structure_proteine_mmpbsa.png}}
-	\captionof{figure}[Structure 3D de la protéine BACE1.]{Structure 3D de la protéine BACE1 en commun dans tous les complexes étudiés.}
-    \label{fig:structure_proteine_MMPBSA}
-\end{center}
-
-
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=0.8\textwidth]{chapters/Applications/images/structures_mmpbsa.png}}
 	\captionof{figure}[Structure 2D des ligands de chaque complexe utilisés dans l'étude MM-MDFT.]{Structure 2D des ligands de chaque complexe étudié.}
     \label{fig:structures_MMPBSA}
 \end{center}
+
+
+\begin{center}
+    \captionsetup{type=figure}
+	\fbox{\includegraphics[width=0.75\textwidth]{chapters/Applications/images/structure_proteine_mmpbsa.png}}
+	\captionof{figure}[Structure 3D de la protéine BACE1.]{Structure 3D de la protéine BACE1 commune à tous les complexes étudiés.}
+    \label{fig:structure_proteine_MMPBSA}
+\end{center}
+
+
 
 
 
@@ -353,6 +354,14 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
 La figure \ref{fig:MMPBSA_MMMDFT_complete} compare les énergies libres de solvatation calculées (a) par MM-PBSA, (b) par MM-MDFT avec la correction de pression PC, (c) par MM-MDFT avec la correction de pression PC et (d) par MM-MDFT avec le bridge gros grain, aux valeurs expérimentales pour chacun des 46 complexes protéine-ligands étudiés. Pour chaque jeux de données, nous avons ensuite calculé le coefficient de corrélation $\mathrm{R}^2$ (voir tableau \ref{tab:MMPBSA_correlation}). 
 
 
+
+Les résultats obtenus avec MM-MDFT sans bridge, avec la correction de pression PC ou PC+ sont légèrement moins bons ($\mathrm{R}^2$=0.61 et $\mathrm{R}^2$=0.62) que ceux obtenus avec MM-PBSA ($\mathrm{R}^2$=0.66). Au contraire, les résultats obtenus avec $\mathrm{m}_\mathrm{max}=1$ et le bridge gros grain, sont quant à eux légèrement plus corrélés que notre référence MM-PBSA aux valeurs expérimentales. En plus de cette amélioration de la prédiction des valeurs d'énergie libre de liaison, dans le même temps, MM-MDFT nous propose les structures de solvatation de la protéine, du ligand ainsi que du complexe.
+
+Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas représentatifs de l'espace chimique. Afin de nous assurer que MDFT n'était pas biaisé par rapport à certains composés, nous avons dans un premier temps coloré les points en fonction des halogènes qu'il contenaient ( voir figure \ref{fig:MMPBSA_MMMDFT_complete_by_halogene} ). Dans un second temps nous avons coloré les composés contenant au moins un atome de Souffre. Dans les deux cas, les différentes catégories sont uniformément réparties dans le nuage de point. Le souffre ainsi que les différents halogènes présents sont donc correctement modélisés.
+
+
+
+\clearpage
 \begin{figure}[H]
     \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -434,11 +443,6 @@ La figure \ref{fig:MMPBSA_MMMDFT_complete} compare les énergies libres de solva
 
 
 
-Les résultats obtenus avec MM-MDFT sans bridge, avec la correction de pression PC ou PC+ sont légèrement moins bons ($\mathrm{R}^2$=0.61 et $\mathrm{R}^2$=0.62) que ceux obtenus avec MM-PBSA ($\mathrm{R}^2$=0.66). Au contraire, les résultats obtenus avec $\mathrm{m}_\mathrm{max}=1$ et le bridge gros grain, sont quant à eux légèrement plus corrélés que notre référence MM-PBSA aux valeurs expérimentales. En plus de cette amélioration de la prédiction des valeurs d'énergie libre de liaison, dans le même temps, MM-MDFT nous propose les structures de solvatation de la protéine, du ligand ainsi que du complexe.
-
-
-
-
 
 \begin{table}[H]
   \begin{center}
@@ -456,7 +460,7 @@ Les résultats obtenus avec MM-MDFT sans bridge, avec la correction de pression 
   %    \hline
 %      e & $\mathrm{m}_\mathrm{max}$ 3 PC  & 0.28  \\
   %    \hline
-%      f & $\mathrm{m}_\mathrm{max}$ 3 PC+  & 0.27  \\
+%~ %      f & $\mathrm{m}_\mathrm{max}$ 3 PC+  & 0.27  \\
   %    \hline
 %      g & $\mathrm{m}_\mathrm{max}$ 3 + bridge  & 0.55  \\
   %    \hline
@@ -469,10 +473,10 @@ Les résultats obtenus avec MM-MDFT sans bridge, avec la correction de pression 
 \end{table}
 
 
-Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas représentatifs de l'espace chimique. Afin de nous assurer que MDFT n'était pas biaisé par rapport à certains composés, nous avons dans un premier temps coloré les points en fonction des halogènes qu'il contenaient ( voir figure \ref{fig:MMPBSA_MMMDFT_complete_by_halogene} ). Dans un second temps nous avons coloré les composés contenant au moins un atome de Souffre. Dans les deux cas, les différentes catégories sont uniformément réparties dans le nuage de point. Le souffre ainsi que les différents halogènes présents sont donc correctement modélisés.
 
 
-\begin{figure}[H]
+\clearpage
+\begin{figure}[h]
     \begin{subfigure}[b]{0.50\textwidth}
         \centering
         \caption{MM-PBSA}
@@ -580,7 +584,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 
 
-\begin{figure}[H]
+\begin{figure}[h]
     \begin{subfigure}[b]{0.50\textwidth}
         \centering
         \caption{MM-PBSA}
@@ -683,14 +687,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 
 
-%Les meilleurs résultats obtenus avec MM-MDFT, le sont pour $\mathrm{m}_\mathrm{max}$ 1 avec le bridge gros grain. Dans cette configuration MM-MDFT à une corrélation par rapport aux valeurs expérimentales $\mathrm{R}^2$=0,69 pour 0,66 avec MM-PBSA (voir figure \ref{fig:MMPBSA_MMMDFT_complete}. Tous les autres paramètres de la fonctionnelle donnent une corrélation plus basse que MM-PBSA. Les résultats obtenus pour un $\mathrm{m}_\mathrm{max}$ 1 sans bridge, ainsi que pour $\mathrm{m}_\mathrm{max}$ 3 et 5 avec le bridge gros grain restent proches de notre référence avec un $\mathrm{R}^2$ compris entre 0,58 et 0,62. Les résultats obtenus avec $\mathrm{m}_\mathrm{max}$ 3 sans bridge sont par contre. Nous rappelons au lecteur, que MM-MDFT fourni, en plus des énergies libre de liaison, les structures de solvatation des complexes et des composés initiaux.
 
-
-%Les résultats obtenus pour $\mathrm{m}_\mathrm{max}$ 3 sans bridges sont plus surprenants, ils sont complètement décorrélés des valeurs expérimentales $\mathrm{R}^2$ inférieur à 0,3. Cela peut être expliqué par le caractère préliminaire et très simplifié de cette application. 
-
-
-
-En conclusion, nous avons montré dans ce chapitre que les calculs MDFT avec notre nouveau bridge et $\mathrm{m}_\mathrm{max}$=1 améliore les résultats tout en apportant le détail des structures de solvant autour de la protéine, du ligand et du complexe, dans des temps de calculs similaires à MM-PBSA. Nous rappelons également au lecteur, que les résultats MM-PBSA ont été optimisés pour cette protéine, ce qui n'est pas le cas des calculs MDFT. Nous avons ici utilisé nos paramètres par défaut soit l'eau SPC/E avec une force ionique nulle. Cheron et Al ont montré que ces paramètres sont sous-optimums, et ont eux utilisé de l'eau TIP3P et une force ionique 3M.
 
 
 
@@ -700,7 +697,10 @@ Dans cette étude préliminaire, nous n'avons considéré qu'une seule conformat
 L'énergie libre de solvatation du système correspond, dans ce cas, à la moyenne des énergies libre de solvatation calculées pour chaque conformation. Pour MM-PBSA, l'utilisation de cette méthode, appelée communément "l'approximation de trajectoire unique", permet d'améliorer la corrélation de MM-PBSA à $\mathrm{R}^2$=0.71. Au moment de la rédaction de ce rapport, des calculs similaires était en cours pour MM-MDFT.
 
 
- \vspace{8\baselineskip}
+
+\clearpage
+\strut
+\vspace{10\baselineskip}
 
 
 \boitemagique{A Retenir}{

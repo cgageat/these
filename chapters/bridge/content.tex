@@ -43,7 +43,7 @@ En solution, ce phénomène se traduit, dans le cas de gros composés hydrophobe
     %0.5*(tanh(x-5)+1)
 }
 
-\begin{figure}[H]
+\begin{figure}[h]
     \center    
   \begin{tikzpicture}
     \begin{axis}[
@@ -103,7 +103,7 @@ En solution, ce phénomène se traduit, dans le cas de gros composés hydrophobe
 
 
 
-\begin{figure}[H]
+\begin{figure}[h]
     \center
   \begin{tikzpicture}
     \begin{axis}[
@@ -335,7 +335,7 @@ Il existe différents noyaux de convolutions permettant l'obtention d'une densit
     \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
 
-\begin{figure}[H]
+\begin{figure}[h]
     \center    
   \begin{tikzpicture}
     \begin{axis}[
@@ -674,7 +674,7 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
 
 
 
-\begin{table}[H]
+\begin{table}[h]
   \centering
   \begin{tabular}{ l c c c c c c c c c c c }
    \hline & \\[-1em]\hline
@@ -958,6 +958,54 @@ Les références, calculées par Monte Carlo, pour des sphères de diamètre cro
 La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.10*^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma$ correspondants.
 
 
+Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelques soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA sont les plus efficaces, quelques soit la molécule étudiée.
+
+\boitesimple{ Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA. }
+
+
+
+\subsection{Conclusion}
+Afin de choisir les meilleurs paramètres de ce modèle, nous avons comparés les résultats pour chaque couple B, $\sigma$, à des références d'énergie libre de solvatation et de profils de solvant d'une part sur des sphères dures, indispensables au développement de ce bridge, et d'autre part sur des molécules modèles plus réalistes: le méthane, et les gaz rares.
+On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA\ apparaissent comme le meilleur choix possible. Le bridge retenu est donc:
+
+\boitesimplelarge{
+\begin{equation} \label{eq:fbridge_complete}
+F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15.10^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
+\end{equation} 
+}
+
+Le gradient de cette fonctionnelle de bridge est disponible en annexe \ref{sec:annexes:grad:bridge}.
+
+\section{Implémentation 3D}
+Une fois le bridge développé, nous l'avons implémenté dans la version 3D de MDFT. Nous avons, dans un premier temps comparé les résultats obtenus sur nos molécules modèles, avant de nous intéresser à des molécules d’intérêt biologiques: des protéines.
+
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{ l c c c c c c c }
+    \hline & \\[-1em]\hline
+    compound   & exp  & MD & MDFT & MDFT & MDFT  & MDFT \\
+               &      &    & (HNC)  & (HNC+PC)  & (HNC+B) & (HNC+B3D) \\
+    \hline
+    Methane    &       &  9.23 & 28.14 & 7.73 & 11.99 & 12.25 \\
+    Neon       & 10.36 & 11.73 & 19.04 & 7.59 & 13.10 & 11.26 \\
+    Argon      &  8.40 &  8.61 & 22.89 & 7.26 & 11.01 & 10.92 \\
+    Krypton    &  6.96 &  8.03 & 26.41 & 7.51 & 10.74 & 10.99 \\
+    Xenon      &  6.06 &  6.47 & 31.23 & 9.81 & 10.33 & 11.26 \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption[\'Energie libre de solvatation du méthane et des gaz rares.]{\'Energie libre de solvatation du méthane et des gaz rares en $\mathrm{kJ}.\mathrm{mol}^{-1}$ avec MDFT dans l'approximation HNC et avec le bridge. Les valeurs sont comparées à nos références calculées par Dynamique moléculaire et aux valeurs expérimentales\cite{straatsma_free_1986}.}
+  \label{tab:deltag_1D_3D}  
+\end{table}
+
+Comme nous le voyons dans le tableau \ref{tab:deltag_1D_3D}, les énergies libre de solvatation produites par la version à symétrie sphérique et la version 3D de MDFT sont proches. Il n'est cependant pas étonnant d'observer de légères différences entre les résultats fournit par la version 2D et la version à symétrie sphérique car ces version diffèrent sur plusieurs points. 
+
+
+La différence majeure entre ces deux versions est la périodicité. La version 3D de MDFT considère le système périodique dans les 3 directions alors que la version à symétrie sphérique, par définition, n'est pas périodique. Elle correspond à un soluté unique plongé dans une infinité de solvant. La seconde différence importante est la finesse de la grille. Les calculs ont été effectués avec un écart de 0.5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0.1 \AA dans la version à symétrie sphérique. Cette différence peut entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
+
+En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r_methane_3D} que la version 3D est bien plus précise que la version à symétrie sphérique. Les profils fournis sont quasi-identiques à ceux de référence issus de dynamique moléculaire.
+
+
 
 %g_of_r_molecules_modeles
 
@@ -1117,52 +1165,6 @@ La dernier résultat observé est le profil du solvant autour de nos molécules 
   \label{fig:g_of_r_molecules_modeles}
 \end{figure}
 
-Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelques soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA sont les plus efficaces, quelques soit la molécule étudiée.
-
-\boitesimple{ Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA. }
-
-
-
-\subsection{Conclusion}
-Afin de choisir les meilleurs paramètres de ce modèle, nous avons comparés les résultats pour chaque couple B, $\sigma$, à des références d'énergie libre de solvatation et de profils de solvant d'une part sur des sphères dures, indispensables au développement de ce bridge, et d'autre part sur des molécules modèles plus réalistes: le méthane, et les gaz rares.
-On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma$ = 0.935 \AA\ apparaissent comme le meilleur choix possible. Le bridge retenu est donc:
-
-\boitesimplelarge{
-\begin{equation} \label{eq:fbridge_complete}
-F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15.10^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
-\end{equation} 
-}
-
-Le gradient de cette fonctionnelle de bridge est disponible en annexe \ref{sec:annexes:grad:bridge}.
-
-\section{Implémentation 3D}
-Une fois le bridge développé, nous l'avons implémenté dans la version 3D de MDFT. Nous avons, dans un premier temps comparé les résultats obtenus sur nos molécules modèles, avant de nous intéresser à des molécules d’intérêt biologiques: des protéines.
-
-
-\begin{table}
-  \centering
-  \begin{tabular}{ l c c c c c c c }
-    \hline & \\[-1em]\hline
-    compound   & exp  & MD & MDFT & MDFT & MDFT  & MDFT \\
-               &      &    & (HNC)  & (HNC+PC)  & (HNC+B) & (HNC+B3D) \\
-    \hline
-    Methane    &       &  9.23 & 28.14 & 7.73 & 11.99 & 12.25 \\
-    Neon       & 10.36 & 11.73 & 19.04 & 7.59 & 13.10 & 11.26 \\
-    Argon      &  8.40 &  8.61 & 22.89 & 7.26 & 11.01 & 10.92 \\
-    Krypton    &  6.96 &  8.03 & 26.41 & 7.51 & 10.74 & 10.99 \\
-    Xenon      &  6.06 &  6.47 & 31.23 & 9.81 & 10.33 & 11.26 \\
-    \hline & \\[-1em]\hline
-  \end{tabular}
-  \caption[\'Energie libre de solvatation du méthane et des gaz rares.]{\'Energie libre de solvatation du méthane et des gaz rares en $\mathrm{kJ}.\mathrm{mol}^{-1}$ avec MDFT dans l'approximation HNC et avec le bridge. Les valeurs sont comparées à nos références calculées par Dynamique moléculaire et aux valeurs expérimentales\cite{straatsma_free_1986}.}
-  \label{tab:deltag_1D_3D}  
-\end{table}
-
-Comme nous le voyons dans le tableau \ref{tab:deltag_1D_3D}, les énergies libre de solvatation produites par la version à symétrie sphérique et la version 3D de MDFT sont proches. Il n'est cependant pas étonnant d'observer de légères différences entre les résultats fournit par la version 2D et la version à symétrie sphérique car ces version diffèrent sur plusieurs points. 
-
-
-La différence majeure entre ces deux versions est la périodicité. La version 3D de MDFT considère le système périodique dans les 3 directions alors que la version à symétrie sphérique, par définition, n'est pas périodique. Elle correspond à un soluté unique plongé dans une infinité de solvant. La seconde différence importante est la finesse de la grille. Les calculs ont été effectués avec un écart de 0.5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0.1 \AA dans la version à symétrie sphérique. Cette différence peut entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
-
-
 \begin{figure}[H]
 \centering
  \begin{subfigure}{.5\textwidth}
@@ -1265,27 +1267,13 @@ La différence majeure entre ces deux versions est la périodicité. La version 
 \end{figure}
 
 
-En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r_methane_3D} que la version 3D est bien plus précise que la version à symétrie sphérique. Les profils fournis sont quasi-identiques à ceux de référence issus de dynamique moléculaire.
-
 
 
 \subsubsection{Système biologique}
 
 Enfin, nous avons étudié la prédiction de profils de solvatation autour de plus grosses molécules et en particulier autour d'une protéine. Cet exemple sera traité et analysé plus en détails dans le chapitre \ref{chap:applications}.
 
-
-% IMAGE TEMPORAIRE EN ATTENDANT DE TOUTES LES REFAIRE XXXXXX
-% \begin{figure}[H]
-%   \centering
-%   \resizebox{\linewidth}{!}{
-%     \fbox{\includegraphics[width=\textwidth]{chapters/bridge/images/protein_mdft_gromacs_water.png}}
-%   }
-%   \caption{Zones de forte densité en solvant autour de la protéine 4M7G, calculées par MDFT dans l’approximation HNC en XXX COULEUR et avec le bridge en XXX COULEUR. La référence, en XXX COULEUR, est calculée par Dynamique moléculaire. }
-%   \label{fig:g_of_r_protein}
-% \end{figure}
-% IMAGE TEMPORAIRE EN ATTENDANT DE TOUTES LES REFAIRE XXXXXX
-
-
+\vspace{8\baselineskip}
 
 \boitemagique{A retenir}{
 Dans ce chapitre nous décrivons le développement d'un nouveau bridge \textbf{simple} et \textbf{rapide}. Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles, en reproduisant une pression et une tension de surface correcte. Il améliore également fortement le calcul de l'énergie libre de solvatation et la prédiction de structure de solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques. 

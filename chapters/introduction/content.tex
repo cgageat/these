@@ -1,21 +1,104 @@
 \chapter{Introduction}
 \label{chap:introduction}
-XXXXXXXXXXXXXXXXXXX dire que si on diminue le cout ca ouvre le marché vers d'autres médicaments XXXXXXXXXXXXXXXXXXXXXX 
+
+
+% \begin{figure}[H]
+%   \center
+%   \begin{tikzpicture}
+
+%     \draw[fill=white!70!cyan] (1,0,0)--(7,0,0)--(8,1,0)--(0,1,0)--cycle;
+%     \draw[fill=white!70!green] (2,-1,0)--(6,-1,0)--(7,0,0)--(1,0,0)--cycle;
+%     \draw[fill=white!70!red] (3,-2,0)--(3.7,-4,0)--(4.3,-4,0)--(5,-2,0)--(6,-1,0)--(2,-1,0)--cycle;
+%     %\draw[fill=white!70!cyan] (0,6,0)--(3,6,0)--(3,9,0)--(0,9,0)--cycle;
+
+%     \draw[fill=red]  (4.5,-5,0) circle (0.3);
+%     \draw[red, fill=red] (4.5,-5.3,0)--(4,-5.3,0)--(4,-4.7,0)--(4.5,-4.7,0)--cycle;
+% 	\draw[fill=red] (4.5,-5.3,0)--(4,-5.3,0)--(4,-4.7,0)--(4.5,-4.7,0);
+% 	\draw[fill=white] (3.5,-5,0) circle (0.3);
+%     \draw[white, fill=white] (3.5,-5.3,0)--(4,-5.3,0)--(4,-4.7,0)--(3.5,-4.7,0)--cycle;
+%     \draw[fill=white] (3.5,-5.3,0)--(4,-5.3,0)--(4,-4.7,0)--(3.5,-4.7,0);
+
+
+%    \draw (4,1.5) node{\textasciitilde 1M composés} ;
+%    \draw (4,0.5) node{\textasciitilde 10K composés} ;
+%    \draw (4,-0.5) node{\textasciitilde 250 composés} ;
+%    \draw (4,-1.5) node{\textasciitilde 5 composés} ;
+
+%   \end{tikzpicture}
+%     \caption{XXXXXXXXXX}
+%     \label{fig:entonnoir_drug_design}
+% \end{figure}
+
+
+
+\begin{figure}[H]
+  \center
+  \begin{tikzpicture}
+
+    \draw[fill=white!30!yellow] (0,1,0)--(3,3,0)--(3,9,0)--(0,11,0)--cycle;
+    \draw[fill=white!30!orange] (3,3,0)--(6,4.5,0)--(6,7.5,0)--(3,9,0)--cycle;
+    \draw[fill=white!30!red] (6,4.5,0)--(12,5.5,0)--(12,6.5,0)--(6,7.5,0)--cycle;
+
+
+    \draw (-1.5,6) node[above]{\textasciitilde M} ;
+    \draw (-1.5,6) node[below]{composés} ;
+    \draw (1.5,6) node[above]{\textasciitilde 10K} ;
+    \draw (1.5,6) node[below]{composés} ;
+    \draw (4.5,6) node[above]{\textasciitilde 250} ;
+    \draw (4.5,6) node[below]{composés} ;
+    \draw (9,6) node[above]{\textasciitilde 5} ;
+    \draw (9,6) node[below]{composés} ;
+    
+    \draw (1.5,11.5) node[above]{recherche et} ;
+    \draw (1.5,11.5) node[below]{découverte} ;
+    \draw (4.5,9.5) node[above]{développement} ;
+    \draw (4.5,9.5) node[below]{pré clinique} ;
+    \draw (9,8) node[above]{essais} ;
+    \draw (9,8) node[below]{cliniques} ;
+
+     \draw[fill=red]  (14.5,6,0) circle (0.3);
+     \draw[red, fill=red] (14.5,6.3,0)--(14,6.3,0)--(14,5.7,0)--(14.5,5.7,0)--cycle;
+  	 \draw[fill=red] (14.5,6.3,0)--(14,6.3,0)--(14,5.7,0)--(14.5,5.7,0);
+     \draw[fill=white] (13.5,6,0) circle (0.3);
+     \draw[white, fill=white] (13.5,6.3,0)--(14,6.3,0)--(14,5.7,0)--(13.5,5.7,0)--cycle;
+     \draw[fill=white] (13.5,6.3,0)--(14,6.3,0)--(14,5.7,0)--(13.5,5.7,0);
+
+     \draw[line width=2pt, latex-latex] (0,0) -- (3,0);
+     \draw[line width=2pt, latex-latex] (3,0) -- (6,0);
+     \draw[line width=2pt, latex-latex] (6,0) -- (12,0);
+
+    \draw (1.5,0) node[below]{3 années} ;
+    \draw (4.5,0) node[below]{1-2 années} ;
+    \draw (9,0) node[below]{6-7 années} ;
+
+  \end{tikzpicture}
+    \caption{XXXXXXXXXX}
+    \label{fig:entonnoir_drug_design}
+\end{figure}
+
+
+
+XXXXXXXXXXXXXXXXXXX dire que si on diminue le coût ça ouvre le marché vers d'autres médicaments XXXXXXXXXXXXXXXXXXXXXX 
 
 Entre l'identification d'une cible thérapeutique et la mise sur la marché d'un nouveau médicament, une dizaine d'années de recherche et plus d'un milliard d’euros sont nécessaires [XXX REF]. Afin d'accélérer ce processus et ainsi d'en diminuer le coût, les simulations informatiques sont massivement utilisées. Pour s'approcher au maximum des conditions réelles, et donc de ce qu'il se passe dans le corps humain, ces simulations doivent avoir lieux dans l'eau, c'est à dire en solution. Malgré la puissance de calcul des ordinateurs actuels, ces simulations restent limitées à cause du nombre important de molécules d'eau nécessaires. Afin de s'adapter au mieux aux besoins des différentes études, il existe plusieurs représentations du solvant qui permettent de choisir entre vitesse et précision. Dans ce manuscrit, nous allons présenter la théorie de la fonctionnelle de la densité moléculaire (MDFT) qui allie vitesse et précision. Mon projet de thèse consiste à effectuer le premier pas vers toutes ces applications en adaptant la théorie ainsi que son implémentation aux systèmes biologiques.
 
 
 
 \section{Contexte}
-Avant d'envisager le développement d'une nouvelle solution thérapeutique il est nécessaire de comprendre les phénomènes à l'origine de la maladie que l'on souhaite guérir. La première étape consiste donc à comprendre la cascade biologique à l'origine de cette maladie. Une fois le phénomène identifié, les chercheurs vont sélectionner une protéine impliquée dans cette cascade. Cette molécule sera appelée "cible". A partir de cet instant, le développement d'un médicament va consister à trouver  parmi plusieurs millions de petits composés le meilleur candidat avant de l'optimiser. Ce candidat doit répondre à plusieurs critères: il doit (i) pouvoir accéder en quantité suffisante à la protéine cible, (ii) se lier à elle et l'inhiber afin de bloquer la cascade biologique à l'origine de la maladie visée et (iii) se lier le moins possible à d'autres protéines afin de minimiser les effets secondaires. Pour des raisons de sécurité, de temps et de coût, il est bien sur impossible de tester l'ensemble de ces millions de molécules en laboratoire ou en essai clinique. Les simulations informatiques sont donc massivement utilisées afin d'effectuer un premier tri et de passer de plusieurs millions de candidats à seulement quelques milliers. Les candidats ayant passés avec succès les différents tests (toxicité, affinité avec la cible, ...) seront ensuite synthétisés et testées en laboratoire. Une poignée de molécule prometteuse sera enfin testée en essai clinique. C'est seulement à l'issu de ce processus long et coûteux qu'une molécule pourra devenir un médicament.
+Avant d'envisager le développement d'une nouvelle solution thérapeutique il est nécessaire de comprendre les phénomènes à l'origine de la maladie que l'on souhaite guérir. La première étape consiste donc à comprendre la cascade biologique à l'origine de cette maladie. Une fois le phénomène identifié, les chercheurs vont sélectionner une protéine impliquée dans cette cascade. Cette molécule sera appelée "cible". A partir de cet instant, le développement d'un médicament va consister à trouver  parmi plusieurs millions de petits composés le meilleur candidat avant de l'optimiser. Ce candidat doit répondre à plusieurs critères: il doit (i) pouvoir accéder en quantité suffisante à la protéine cible, (ii) se lier à elle et l'inhiber afin de bloquer la cascade biologique à l'origine de la maladie visée et (iii) se lier le moins possible à d'autres protéines afin de minimiser les effets secondaires. Pour des raisons de sécurité, de temps et de coût, il est bien sur impossible de tester l'ensemble de ces millions de molécules en laboratoire ou en essai clinique. Les simulations informatiques sont donc massivement utilisées afin d'effectuer un premier tri et de passer de plusieurs millions de candidats à seulement quelques milliers. Les candidats ayant passés avec succès les différents tests (toxicité, affinité avec la cible, ...) seront ensuite synthétisés et testés en laboratoire. Une poignée de molécules prometteuses sera enfin testée en essai clinique. C'est seulement à l'issu de ce processus long et coûteux qu'une molécule pourra devenir un médicament. Tous ces phénomènes se déroulent dans le corps humain et donc en solution, le solvant aura donc un rôle clé dans l'ensemble de ces processus.
 
 
-Ces phénomènes se déroulent dans le corps humain et donc en solution, le solvant joue donc un rôle important dans le calcul de nombreux calculs et simulations que ce soit pour (i) permettre une meilleure compréhension de la cascade biologique à l'origine de la maladie visée ou (ii) pour guider la sélection des meilleurs candidats. 
+
+%Ces phénomènes se déroulent dans le corps humain et donc en solution, le solvant joue donc un rôle important dans le calcul de nombreux calculs et simulations que ce soit pour (i) permettre une meilleure compréhension de la cascade biologique à l'origine de la maladie visée ou (ii) pour guider la sélection des meilleurs candidats. 
 
 
 
 \section{Solvatation}
-La solvatation est le phénomène chimique qui consiste à plonger un composé, le soluté, qu'il soit solide, liquide ou gazeux dans une solution. Une fois en solution, la stabilité ainsi que le rôle du soluté seront fortement influencés par les molécules de solvant\cite{NickPace_protein_2004,levy_water_2004,Meyer_internal_1992,Ladbury_just_1996}. 
+La solvatation est le phénomène chimique qui consiste à plonger un composé, le soluté, qu'il soit solide, liquide ou gazeux dans une solution. Une fois en solution, la stabilité ainsi que le rôle du soluté seront fortement influencés par les molécules de solvant\cite{NickPace_protein_2004,levy_water_2004,Meyer_internal_1992,Ladbury_just_1996,GarcaSosa_hydration_2013,Lemieux_how_1996,Tame_role_1996,Li_effect_2005,Snyder_mechanism_2011,Wang_ligand_2011,Mobley_binding_2009,Barillari2007,Olano_hydration_2004,Bren_individual_2012,Ahmed_bound_2011,VAIANA_molecular_2006,Genheden_accurate_2011,Abel_contribution_2011,Biela_ligand_2012,Stegmann_thermodynamic_2009}. 
+
+XXX Expérimentalement XXX
+
+
 
 La façon de considérer le solvant au travers des simulations numériques reste un challenge actuel: En effet, par définition, les molécules de solvant sont prépondérantes dans la boite de simulation ce qui fait que la majorité du temps de calcul leur est consacré. Elles représentent donc le facteur limitant de la simulation. Pour dépasser les limites imposées pas une représentation explicite de ces molécules, des modèles implicites ont été proposés. Ces méthodes représentent le solvant sous la forme d'un milieu diélectrique continue. Le manque de détails moléculaire de ces méthodes comme les liaisons hydrogènes ou la gène stérique ne permet pas un calcul rigoureux des contributions entropiques. Malgré cela, une bonne paramétrisation leur à permis un développement rapide et efficace, avec parfois des prédictions d'énergies libres en bon accord avec les simulations numériques explicites pour des temps de calculs inférieurs de plusieurs ordres de grandeurs. 
 
@@ -54,7 +137,7 @@ La théorie de la fonctionnelle de la densité moléculaire (MDFT) est encore un
 L'énergie libre de solvatation correspond à l'énergie libre nécessaire au transfert de notre soluté depuis le vide jusqu'en solution. En d'autres termes, sur la figure \ref{fig:solvatation_def}, elle correspond à la différence d'énergie libre entre le système final (soluté en solution) et le système initial (soluté dans le vide + boite d'eau). L'énergie libre d'un système n'est pas directement calculable, elle se calcule comme la moyenne de boltzmann des énergies potentielles de l'ensemble des conformations possibles d'un système. Si on prend l'exemple d'une petite protéine de seulement 100 acides aminés et que l'on considère seulement 3 conformations par acide aminé. Le nombre de conformation possible est supérieur à 5e47. Pour chaque conformation obtenue, il faut prendre en compte toutes les conformations possibles de la chaîne principale. Et pour chaque conformation de la chaîne principale, il faut également prendre en compte toutes les conformations possibles pour les milliers de molécules d'eau qui l'entour. Il est donc impossible de prendre en compte numériquement l'ensemble de ces conformations. Afin de rendre ces calculs possibles, différentes approximations, plus ou moins précises, de ce calcul ont été proposées.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
   \center
   \begin{tikzpicture}
   \tikzstyle{lien}=[->,>=stealth,rounded corners=5pt,thick]

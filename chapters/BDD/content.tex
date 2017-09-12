@@ -52,7 +52,7 @@ Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer 
 
 
 
-\begin{table}[H]
+\begin{table}[h]
   \begin{tabular}{ l l l l }
     \hline & \\[-1em]\hline
     Base de Données & $\mathrm{m}_\mathrm{max}$   & correction & Nombre de molécules \\
@@ -146,7 +146,7 @@ Cette étape permet de transformer les données brutes en images facilement anal
 
 
 
-\begin{figure}[H]
+\begin{figure}[h]
    \begin{subfigure}[b]{0.40\textwidth}
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/error_distribution_calc_all.png}
          \par\bigskip
@@ -186,6 +186,13 @@ Il est pour l'instant possible de lancer uniquement MDFT. Il est cependant relat
 % Dans un premier temps, nous avons comparé les différentes corrections de pressions \textit{PC} et \textit{PC+}. Pour cela nous avons lancé MDFT dans l'approximation HNC pour $\mathrm{m}_\mathrm{max}$=1 et 3 et nous avons tracé la distribution de l'erreur par rapport aux valeurs expérimentales. Cette distribution est comparée à la distribution obtenue par Dynamique moléculaire. Comme on le voit sur la figure \ref{fig:distrib_error_PC_PCPlus}, \textit{PC+} fournit des meilleurs résultats pour $\mathrm{m}_\mathrm{max}$=1, alors que \textit{PC} devient meilleur pour un $\mathrm{m}_\mathrm{max}$ plus grand.
 Pour rappel, l'approximation HNC engendre une forte surestimation de la pression du système dans les conditions standards de pression et température. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} [REF 2DRISM, CORREENS XXX] ont proposés une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC} (voir chapitre XXX). Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont également proposé une correction empirique, \textit{PC+}, qui améliore considérablement les résultats sans interprétation physique claire. L'étude de base de données nous permet d'étudier l'efficacité de ces deux corrections. Pour cela, nous avons tracé la distribution de l'écart entre les valeurs calculées par MDFT et les valeurs de références calculées par dynamique moléculaire. Ces calculs ont été lancés sans bridge. Nous rappelons au lecteur que le bridge gros grain précédemment développe, corrige la pression du système et ne nécessite aucune correction de pression.
 
+On voit sur la figure \ref{fig:distrib_error_PC_PCPlus} que la MDFT, sans correction de pression, surestime fortement les énergies libre de solvatation, et ce quelque soit la valeur de $\mathrm{m}_\mathrm{max}$ choisie. Dans tous les cas, les deux corrections de pression \textit{PC} et \textit{PC+} améliore les valeurs et diminuent cet écart à seulement quelques $\mathrm{kJ.mol}^{-1}$. On voit également que pour $\mathrm{m}_\mathrm{max}$=1, la correction \textit{PC} à tendance à sous-estimer les valeurs d'énergies libre de solvatation. Dans ces conditions, mimant au mieux le niveau de théorie disponible au moment du développement de ces corrections, \textit{PC+} améliore bien les résultats. Pour un niveau de théorie supérieur, $\mathrm{m}_\mathrm{max}$=3, la correction \textit{PC} propose des résultats plus précis que la correction \textit{PC+}.
+
+\boitesimple{
+Au travers de cette étude, nous avons montré l'efficacité de la correction de pression \textit{PC} quelque soit le niveau de la théorie utilisée. Nous avons également montré que la correction de pression empirique \textit{PC+} permet de corriger simplement les approximations engendrées par l'utilisation d'un $\mathrm{m}_\mathrm{max}$=1.
+}
+
+
 \begin{figure}[H]
    \begin{subfigure}[b]{0.9\textwidth}
        \centering
@@ -207,11 +214,7 @@ Pour rappel, l'approximation HNC engendre une forte surestimation de la pression
   \label{fig:distrib_error_PC_PCPlus}
 \end{figure}
 
-On voit sur la figure \ref{fig:distrib_error_PC_PCPlus} que la MDFT, sans correction de pression, surestime fortement les énergies libre de solvatation, et ce quelque soit la valeur de $\mathrm{m}_\mathrm{max}$ choisie. Dans tous les cas, les deux corrections de pression \textit{PC} et \textit{PC+} améliore les valeurs et diminuent cet écart à seulement quelques $\mathrm{kJ.mol}^{-1}$. On voit également que pour $\mathrm{m}_\mathrm{max}$=1, la correction \textit{PC} à tendance à sous-estimer les valeurs d'énergies libre de solvatation. Dans ces conditions, mimant au mieux le niveau de théorie disponible au moment du développement de ces corrections, \textit{PC+} améliore bien les résultats. Pour un niveau de théorie supérieur, $\mathrm{m}_\mathrm{max}$=3, la correction \textit{PC} propose des résultats plus précis que la correction \textit{PC+}.
 
-\boitesimple{
-Au travers de cette étude, nous avons montré l'efficacité de la correction de pression \textit{PC} quelque soit le niveau de la théorie utilisée. Nous avons également montré que la correction de pression empirique \textit{PC+} permet de corriger simplement les approximations engendrées par l'utilisation d'un $\mathrm{m}_\mathrm{max}$=1.
-}
 
 \subsection{Le bridge gros grain}
 Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. Nous avons montré que ce bridge améliore considérablement les structures de solvatation. Afin d'étudier la précision de la prédiction des énergies libres de solvatation, nous avons calculé ces valeurs pour $\mathrm{m}_\mathrm{max}$=1 et $\mathrm{m}_\mathrm{max}$=3 avec et sans le bridge gros grain. Pour chaque jeu de paramètres, nous avons ensuite étudié la corrélation entre les valeurs calculées par MDFT et par dynamique moléculaire.
@@ -390,6 +393,14 @@ Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerb
 En plus de l'analyse de base de données officielles comme FreeSolv, ce logiciel nous permet d'étudier simplement et efficacement un ensemble de molécules d’intérêts. Nous nous en sommes donc servit afin d'étudier l'impacte de la charge sur les résultats de MDFT. Notre jeux de données est composé de 4 cations: Li$^+$, Na$^+$, K$^+$, Cs$^+$ et de 4 anions F$^-$, Cl$^-$, Br$^-$, I$^-$.
 Dans un premier temps nous avons comparé les énergies libres de solvatations calculées par MDFT et par dynamique moléculaire\cite{Horinek_rational_2009} aux valeurs expérimentales\cite{Marcus_simple_1994, Noyes_thermodynamics_1962}. Nous avons ensuite directement comparées les valeurs MDFT et dynamique moléculaire.
 
+En ce qui concerne les cations, MDFT et la dynamique moléculaire sous-estiment de plusieurs kcal.mol$^{-1}$ leurs énergies libres de solvatation. Cependant, les résultats sont en accord pour les deux méthodes, ce qui laisse penser que le champs de force n'est pas adapté à ce type d'ions.
+
+Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^{-1}$ seulement par la dynamique moléculaire et de quelques dizaines de kcal.mol$^{-1}$ par MDFT. La théorie de la MDFT n'est donc pas optimisée pour la solvatation d'ions négatifs. 
+
+\boitesimple{
+Cette étude nous à permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champs de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données Freesolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
+}
+
 
 
 \begin{figure}[H]
@@ -425,17 +436,9 @@ Dans un premier temps nous avons comparé les énergies libres de solvatations c
 
 
 
-En ce qui concerne les cations, MDFT et la dynamique moléculaire sous-estiment de plusieurs kcal.mol$^{-1}$ leurs énergies libres de solvatation. Cependant, les résultats sont en accord pour les deux méthodes, ce qui laisse penser que le champs de force n'est pas adapté à ce type d'ions.
-
-Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^{-1}$ seulement par la dynamique moléculaire et de quelques dizaines de kcal.mol$^{-1}$ par MDFT. La théorie de la MDFT n'est donc pas optimisée pour la solvatation d'ions négatifs. 
-
-\boitesimple{
-Cette étude nous à permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champs de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données Freesolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
-}
-
-
-
-\vspace{8\baselineskip}
+\clearpage
+\strut
+\vspace{10\baselineskip}
 
 \boitemagique{A retenir}{
 Dans ce chapitre nous proposons un outil simple et efficace qui permet une analyse complète et reproductible de MDFT sur de larges chimiothèques. Nous avons dans un premier temps montré que la correction \textit{PC+}, plus adaptée au niveau actuel de la théorie, devait être abandonnée au profit de la correction \textit{PC}. Nous avons ensuite mis en avant certaines zones de l'espace chimique (charge partielles fortes, groupements hydrophobes) pour lequel MDFT manque encore de précision. Cette étude nous permet ainsi d'orienter les futurs développements théoriques de MDFT.

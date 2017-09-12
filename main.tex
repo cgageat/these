@@ -40,12 +40,6 @@
 \begin{document}
 
 
-\pagenumbering{gobble}
-
-% pour remplacer le \maketitle qui ne fonctionne pas ici
-%\includepdf[pages={1}]{page_de_garde/page_de_garde.pdf}
-
-
 \tikzexternaldisable
 \maketitle
 \tikzexternalenable
@@ -76,9 +70,9 @@ abstract ici
 \renewcommand{\cftdotsep}{\cftnodots}
 \cftpagenumbersoff{figure}
 \cftpagenumbersoff{table}
-\clearpage \newpage
+\cleardoublepage
 \listoffigures
-\clearpage \newpage
+\cleardoublepage
 \listoftables
 
 
@@ -96,23 +90,23 @@ $\rho(r)$ & blablabla
 \clearemptydoublepage
 \mainmatter
 
+\part{Introduction et théorie}
 
 %I    Introduction
 \clearemptydoublepage
 \import{chapters/introduction/}{content.tex}
 
-\part{Théorie}
-
 %II   Théorie
 \clearemptydoublepage
 \import{chapters/theorie/}{content.tex}
 
+\part{Développements théoriques}
 
 %III  Bridge
 \clearemptydoublepage
 \import{chapters/bridge/}{content.tex}
 
-\part{Développements}
+\part{Développements numériques}
 
 %IV   Numérique
 \clearemptydoublepage

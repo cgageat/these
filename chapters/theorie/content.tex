@@ -6,12 +6,10 @@ Dans ce chapitre nous décrivons la théorie de la fonctionnelle de la densité 
 }
 
 
-La théorie de la fonctionnelle de la densité moléculaire (MDFT) permet l'étude de la solvatation de composés de n'importe qu'elle taille et n'importe qu'elle forme. Cette théorie et son code associé, permettent, en quelques secondes seulement, (i) de calculer l'énergie libre de solvatation et (ii) de générer une carte détaillée en 3 dimensions de la densité du solvant autour du soluté.
+La théorie de la fonctionnelle de la densité moléculaire (MDFT) permet l'étude de la solvatation de composés de n'importe qu'elle taille et n'importe qu'elle forme à l'échelle moléculaire. Cette théorie et son code associé, permettent, en quelques secondes seulement, (i) de calculer l'énergie libre de solvatation et (ii) de générer une carte détaillée en 3 dimensions de la densité ainsi que de l'orientation du solvant autour du soluté.
 
 
-L'origine de la théorie de la fonctionnelle de la densité (DFT) de l'état liquide réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle à pour variable la densité du solvant $\rho\left(\boldsymbol{r},\Omega \right)$, à chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$. La fonctionnelle est définie comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle correspond donc à l'énergie libre de solvatation du soluté étudié. 
-
-\section{L'approximation HNC}
+L'origine de la théorie de la fonctionnelle de la densité (DFT) réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle à pour variable la densité du solvant $\rho\left(\boldsymbol{r},\Omega \right)$, en chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$ de la molécule de solvant. La fonctionnelle est construite comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle au minimum correspond donc à l'énergie libre de solvatation du soluté étudié. 
 
 Sans approximation pour le moment, la fonctionnelle est découpée en trois parties: la partie idéale, la partie extérieure et la partie d'excès\cite{evans_density_2009,henderson_fundamentals_1992}. 
 
@@ -20,34 +18,36 @@ Sans approximation pour le moment, la fonctionnelle est découpée en trois part
 \mathcal{F} = \mathcal{F}_\mathrm{id} + \mathcal{F}_\mathrm{ext} + \mathcal{F}_\mathrm{exc}
 \end{eqnarray}
 
-La partie idéale, représente l’entropie du système, et s'écrit
+La partie idéale, représente l’entropie d'information du système, et s'écrit
 
 \begin{eqnarray}
 \mathcal{F}_\mathrm{id}&=&\mathrm{k_B}T\int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega \rho\left(\boldsymbol{r},\Omega \right)\ln\left(\frac{\rho\left(\boldsymbol{r},\Omega \right)}{\rho_0}\right)-\Delta\rho\left(\boldsymbol{r},\Omega \right)
 \end{eqnarray}
 
-avec $T$ la température, $\mathrm{k_B}$ la constante de Boltzmann et donc $\mathrm{k_B}T$ l'énergie thermique, $\Delta\rho\left(\boldsymbol{r},\Omega \right)=\rho\left(\boldsymbol{r},\Omega \right)-\rho_0$ la densité d'excès par rapport à la densité bulk de référence $\rho_0$. La seconde partie, la partie extérieure, représente le potentiel d'interaction $\phi\left(\boldsymbol{r},\Omega \right)$ entre le soluté et le solvant s'écrit:
+\noindent avec $T$ la température, $\mathrm{k_B}$ la constante de Boltzmann et donc $\mathrm{k_B}T$ l'énergie thermique, $\Delta\rho\left(\boldsymbol{r},\Omega \right)=\rho\left(\boldsymbol{r},\Omega \right)-\rho_0$ la densité d'excès par rapport à la densité bulk de référence $\rho_0$. La seconde partie, la partie extérieure, représente le potentiel d'interaction $\phi\left(\boldsymbol{r},\Omega \right)$ entre le soluté et le solvant. Elle s'écrit:
 
 
 \begin{eqnarray}
 \mathcal{F}_\mathrm{ext}&=&\int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\rho\left(\boldsymbol{r},\Omega \right)\phi\left(\boldsymbol{r},\Omega \right)
 \end{eqnarray}
 
-avec
+\noindent avec
 
 \begin{eqnarray}
 \phi\left(\boldsymbol{r},\Omega \right) = \sum\limits_{i=1}^{\mathrm{n}_\mathrm{sv}}\sum\limits_{j=1}^{\mathrm{n}_\mathrm{su}} v_{ij}(|\boldsymbol{r}+\boldsymbol{S}_i(\Omega)+\boldsymbol{r}_j|)
 \end{eqnarray}
 
-avec $\mathrm{n}_\mathrm{sv}$ le nombre de site du solvent, $\mathrm{n}_\mathrm{su}$ le nombre de site du solute et $\boldsymbol(S)_i$ le vecteur reliant l'origine du solvant au site i. Le potentiel d'interaction correspond à la somme des interactions électrostatiques et des interactions de Lennard-Jones. 
+\noindent avec $\mathrm{n}_\mathrm{sv}$ le nombre de site du solvent, $\mathrm{n}_\mathrm{su}$ le nombre de site du solute et $\boldsymbol(S)_i$ le vecteur reliant l'origine du solvant au site i. Le potentiel d'interaction correspond à la somme des interactions électrostatiques et des interactions de Lennard-Jones ou toute autre interaction potentielle. 
 
-Enfin, la partie d'excès correspond à la corrélation entre les molécules de solvants perturbées par la présence du soluté. La version exacte de cette partie, correspond au développement de Taylor infini autour de la densité bulk liquide de référence, soit pour l'eau $\rho_0$=1kg.L$^{-1}$. Comme souvent, pour les théories de l'état liquide, des approximations doivent être considérées afin d'en permettre son calcul. Nous considérons ici uniquement le premier ordre du développement de Taylor et nous obtenons ainsi:
+\section{L'approximation HNC}
+
+Enfin, la partie d'excès correspond à la corrélation entre les molécules de solvant. La version exacte de cette partie, correspond au développement de Taylor infini autour de la densité bulk liquide de référence, soit pour l'eau $\rho_0$=1kg.L$^{-1}$. Afin d'en permettre son calcul, des approximations doivent être considérées. Nous considérons ici uniquement le premier et le second ordres du développement:
 
 \begin{eqnarray}
-\mathcal{F}_\mathrm{exc} = -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r}\mathrm{d}\boldsymbol{r}^\prime\mathrm{d}\Omega\mathrm{d}\Omega^\prime ( \Delta\rho\left( \boldsymbol{r}, \Omega   \right) c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) \Delta\rho\left( \boldsymbol{r}^\prime, \Omega^\prime   \right) )
+\mathcal{F}_\mathrm{exc} = -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r}\mathrm{d}\boldsymbol{r}^\prime\mathrm{d}\Omega\mathrm{d}\Omega^\prime\ \Delta\rho\left( \boldsymbol{r}, \Omega   \right) c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) \Delta\rho\left( \boldsymbol{r}^\prime, \Omega^\prime   \right) + \mathcal{O}(\Delta\rho^{3})
 \end{eqnarray}
 
-avec $c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) \Delta\rho\left( \boldsymbol{r}^\prime, \Omega^\prime   \right) )$ la corrélation directe entre deux molécules de solvant qui dépend de la distance entre ces molécules et de leur orientations relatives l'une par rapport à l'autre. La fonction de corrélation directe pour un solvant homogène à température et pression données sont issues de longues simulations de dynamique moléculaire ou de Monte Carlo.
+\noindent avec $c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) $ la corrélation directe entre deux molécules de solvant qui dépend de la distance entre ces molécules et de leur orientations relatives l'une par rapport à l'autre. La fonction de corrélation directe pour un solvant homogène à température et pression données sont issues de longues simulations de dynamique moléculaire ou de Monte Carlo corrigées des effets de taille finie [XXX REF LUC].
 
 Cette approximation, bien connue, est nommée approximation HNC (hypper-Netted Chain) [XXX REF HNC]. 
 
@@ -59,11 +59,11 @@ Une fois la fonctionnelle décrite, il est nécessaire de la minimiser. En effet
 \min(\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]) = \mathcal{F}[\rho_{eq}\left(\boldsymbol{r},\Omega \right)])= \Delta G_{solv}
 \end{eqnarray}
 
-Cette minimisation à été implémentée dans un code en fortran moderne du même nom: MDFT.
+Cette minimisation à été implémentée dans un code en Fortran moderne du même nom: MDFT.
 
 
 \subsection{La discrétisation}
-Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatiale, découpe l'espace en voxels. Le second niveau, angulaire\cite{ding_cea-01564512}, permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre est disponible dans le tableau \ref{tab:mmax};
+Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatiale, découpe l'espace sur grille homogène. Le second niveau, angulaire\cite{ding_cea-01564512}, permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre traduit des quadratures bien connues de type Gaun-Legendre [XXX REF]. Cette équivalence est disponible dans le tableau \ref{tab:mmax};
 
 \begin{table}[H]
  \centering
@@ -78,7 +78,7 @@ Comme il n'est numériquement pas possible de travailler avec un système contin
     5  & 726 \\
     \hline \multicolumn{2}{c}{} \\[-1em]\hline
   \end{tabular}
-  \caption[\`Equivalence entre le paramètre $\mathrm{m}_\mathrm{max}$ et le nombre d'angles.]{\`Equivalence entre le paramètre $\mathrm{m}_\mathrm{max}$ et le nombre d'angles considérés lors de la minimisation.}
+  \caption[\'Equivalence entre le paramètre $\mathrm{m}_\mathrm{max}$ et le nombre d'angles.]{\'Equivalence entre le paramètre $\mathrm{m}_\mathrm{max}$ et le nombre d'angles considérés lors de la minimisation.}
   \label{tab:mmax}  
 \end{table}
 
@@ -95,11 +95,11 @@ Nous obtenons ainsi la fonctionnelle suivante:
 \end{eqnarray}
 
 
-Avec $N_v$ le nombre de voxels dans la système, $N_o$ le nombre d'orientations considérées, $\mathrm{V}_i$ le volume du voxel d'indice i et $\mathrm{w}_{\Omega_j}$ le poids de l'orientation $\Omega_j$.
+\noindent avec $N_v$ le nombre de voxels dans la système, $N_o$ le nombre d'orientations considérées, $\mathrm{V}_i$ le volume du voxel d'indice i et $\mathrm{w}_{\Omega_j}$ le poids de l'orientation $\Omega_j$.
 
 
 \subsection{Les convolutions}
-Un des avantages majeurs de MDFT par rapport aux autres méthodes est sa rapidité. La partie idéale et la partie d'excès sont locales ce qui rend leur temps de calcul négligeable. La partie qui nécessite le plus de temps et qui est donc limitante dans ce calcul est la partie d'excès qui est, elle, non locale. Afin de diminuer fortement le temps de calcul de cette partie et donc global, nous utilisons la propriété suivante des convolutions.
+Un des avantages majeurs de MDFT par rapport aux autres méthodes est sa rapidité. La partie idéale et la partie d'excès sont locales ce qui rend leur temps de calcul linéaire, proportionnel à $N_ON_V$. La partie qui nécessite le plus de temps et qui est donc limitante dans ce calcul est la partie d'excès qui est, elle, non locale. Afin de diminuer fortement le temps de calcul de cette partie et par conséquence le temps de calcul global, nous utilisons la propriété suivante des convolutions.
 
 \begin{eqnarray}
 f*g = \mathrm{FT}^{-1} [ \mathrm{FT}(f) . \mathrm{FT}(g) ]
@@ -113,7 +113,7 @@ La convolution de deux fonctions, peut être calculée comme la transformée de 
 				 &=&\frac{\mathrm{k_B}T}{2}\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \Delta\rho \gamma \left(\boldsymbol{r}_i,\Omega_j\right)
 \end{eqnarray}
 
-avec
+\noindent avec
 
 \begin{eqnarray}
 \gamma\left(\boldsymbol{r}_i,\Omega_j\right) &=& \sum\limits_{k=1}^{N_v}\mathrm{V}_k\sum\limits_{l=1}^{N_o} \mathrm{w}_{\Omega_l}c\left( \left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \\
@@ -159,7 +159,7 @@ Le minimiseur utilisé pour minimiser notre fonctionnelle est L-BFGS (Limited-me
 Le calcul du gradient de chaque partie est détaillé en annexe \ref{chap:annexes:grad}.
 
 \section{Les corrections}
-Pour aller plus loin que la théorie HNC, et ainsi corriger l'approximation faite dans la fonctionnelle d'excès, il est possible (i) d'appliquer des corrections à posteriori ou (ii) d'ajouter un quatrième terme à notre fonctionnelle, une fonctionnelle de bridge.
+Pour aller plus loin que la théorie HNC, et ainsi corriger l'approximation faite dans la fonctionnelle d'excès, il est possible (i) d'appliquer des corrections à posteriori ou (ii) d'approximer le terme $\mathcal{O}(\Delta\rho^{3})$ via l'ajout d'un quatrième terme à notre fonctionnelle, une fonctionnelle de bridge.
 
 
 \subsection{Les corrections à posteriori}
@@ -167,7 +167,7 @@ Les corrections à posteriori interviennent après la minimisation. Elles permet
 
 
 \subsubsection{Les corrections de pression}
-Parmi ces corrections, deux permettent de corriger la pression du système. Pour rappel, l'approximation HNC correspond au premier ordre du développement de Taylor autour de la densité liquide. La phase gazeuse du solvant n'est donc pas représentée, ce qui entraîne une forte surestimation de la pression du système soit 10 000 bar. Nous décrivons de façon détaillé ce problème dans le chapitre XXX. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} [REF 2DRISM, CORREENS XXX] ont proposés une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC}. Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont de ce fait également proposé une correction empirique, \textit{PC+}, qui améliorait considérablement les résultats sans interprétation physique claire. Nous montrerons dans le chapitre XXX que la correction \textit{PC+} n'est plus adaptée à la théorie dans l'approximation HNC. Nous proposerons également une alternative à ces corrections dans le chapitre XXX sous la forme d'un bridge gros gain.
+Parmi ces corrections, deux permettent de corriger la pression du système. Pour rappel, l'approximation HNC correspond au premier ordre du développement de Taylor autour de la densité liquide. La phase gazeuse du solvant n'est donc pas représentée, ce qui entraîne une forte surestimation de la pression du système soit 10 000 bar. Nous décrivons de façon détaillé ce problème dans le chapitre XXX. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} [REF 2DRISM, CORREENS XXX] ont proposés une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC}. Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont de ce fait également proposé une correction empirique, \textit{PC+}, qui améliorait les résultats. Nous montrerons dans le chapitre XXX que la correction \textit{PC+} n'est plus adaptée à la théorie dans l'approximation HNC. Nous proposerons également une alternative à ces corrections dans le chapitre XXX sous la forme d'un bridge gros gain.
 
 
 % \subsubsection{Les corrections électrostatiques}
@@ -176,14 +176,18 @@ Parmi ces corrections, deux permettent de corriger la pression du système. Pour
 
 
 \subsection{Les fonctionnelles de bridge}
-Si l'on veut corriger à la fois l'énergie libre de solvatation et la carte de densité du solvant, il est nécessaire de modifier la fonctionnelle. Pour cela, un quatrième terme nommé fonctionnelle de bridge est introduit dans la partie d'excès. Nous obtenons ainsi:
+Si l'on veut corriger à la fois l'énergie libre de solvatation et la densité du solvant, il est nécessaire de modifier la fonctionnelle. Pour cela, un quatrième terme nommé fonctionnelle de bridge est introduit dans la partie d'excès. Nous obtenons ainsi:
 \begin{eqnarray}
-\mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc} + \mathcal{F}_\mathrm{b}
+\mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc}^{HNC} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 
-Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années [ XXX REF BRIDGES ]. Malheureusement, comme il à été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
+Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années [ XXX REF BRIDGES ]. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
 
 
+
+\clearpage
+\strut
+\vspace{10\baselineskip}
 
 \boitemagique{A retenir}{
 Afin de ne pas rendre le calcul infini, ce dernier est basé sur une approximation bien connue, l'approximation HNC. Afin de corriger ces approximations, différentes corrections ont été proposées ces dernières années sous la forme de corrections à posteriori ou de fonctionnelles de bridge. Cependant aucune d'entre elles ne permet l'obtention d'une système thermodynamiquement correct.
