@@ -2,47 +2,98 @@
 
 \usepackage{thesis}
 
-\title{Solvatation de systèmes d’intérêt pharmaceutique : apports de la théorie de la fonctionnelle de la densité moléculaire}
+%\title{Solvatation de systèmes d’intérêt pharmaceutique : apports de la théorie de la fonctionnelle de la densité moléculaire}
 
 %\lesoustitre{Le sous titre est facultatif}
 
-\discipline{Chimie théorique}
+%\discipline{Chimie théorique}
 
-\dirdethese{Daniel Borgis}
-\titredudirdethese{dr}
+%\dirdethese{Daniel Borgis}
+%\titredudirdethese{dr}
 
-\jury{
-\begin{description}
-\item[Rapporteur~:] Francesca \textsc{Ingrosso}, Pr
-\item[Rapporteur~:] Thomas \textsc{Simonson}, Pr
-\item[Examinateur~:] Liliane \textsc{Maouwad}, Dr
-\item[Examinateur~:] Jean-Philip \textsc{Piquemal}, Pr
-\item[Examinateur~:] Ivan \textsc{Duchemin}, Dr
-\item[Examinateur~:] Daniel \textsc{Borgis}, Dr
-\item[Examinateur~:] Maximilien \textsc{Levesque}, Dr
-\end{description}
-}
+%\jury{
+%\begin{description}
+%\item[Rapporteur~:] Francesca \textsc{Ingrosso}, Pr
+%\item[Rapporteur~:] Thomas \textsc{Simonson}, Pr
+%\item[Examinateur~:] Liliane \textsc{Maouwad}, Dr
+%\item[Examinateur~:] Jean-Philip \textsc{Piquemal}, Pr
+%\item[Examinateur~:] Ivan \textsc{Duchemin}, Dr
+%\item[Examinateur~:] Daniel \textsc{Borgis}, Dr
+%\item[Examinateur~:] Maximilien \textsc{Levesque}, Dr
+%\end{description}
+%}
+
+%\author{Cédric Gageat}
+
+%\date{24 novembre 2017}
+
+%\nomdeuniversite{\'Ecole normale supérieure}
+%\logouniversite{logos/ENS_Logo_PSL.eps} %nom du fichier
+%\scalelogouniversite{0.6} % mise a l'echelle de l'image (0.5=50% par exemple)
+%\logolabo{logos/ENS_Dpt_Chimie_Logo_Reserve_fr.png}
+%\scalelogolabo{0.6}
+%\unite{Département de chimie théorique}
+%\ecoledoc{École doctorale chimie physique et chimie analytique de Paris centre}
+
+
+\title{Solvatation de systèmes d’intérêt pharmaceutique : apports de la théorie de la fonctionnelle de la densité moléculaire}
 
 \author{Cédric Gageat}
 
-\date{24 novembre 2011}
+\institute{\'Ecole Normale Supérieure}
 
-\nomdeuniversite{\'Ecole normale supérieure}
-\logouniversite{logos/ENS_Logo_PSL.eps} %nom du fichier
-\scalelogouniversite{0.6} % mise a l'echelle de l'image (0.5=50% par exemple)
-\logolabo{logos/ENS_Dpt_Chimie_Logo_Reserve_fr.png}
-\scalelogolabo{0.6}
-\unite{Département de chimie théorique}
-\ecoledoc{École doctorale chimie physique et chimie analytique de Paris centre}
+\supervisor[Maximilien Levesque]{Daniel Borgis}
+\doctoralschool{Chimie physique et chimie analytique de Paris Centre}{388}
+% \specialty{Mathématiques, Informatique Temps-Réel, Robotique}
+\date{24 Novembre 2017}
 
+\jury{
+  Mme Francesca Ingrosso\\
+  Université de Lorraine, Rapportrice
 
+  M Thomas Simonson\\
+  \'Ecole polytechnique, Rapporteur
+
+  Mme Liliane Mouawad\\
+  Institue Curie, Membre du jury
+
+  M Jean-Philip Piquemal\\
+  UPMC, Membre du jury
+
+  M Ivan Duchemin\\
+  CEA/INAC, Membre du jury
+
+  M Daniel Borgis\\
+  \'Ecole normale supérieure, Directeur
+
+  M Maximilien Levesque\\
+  \'Ecole normale supérieure, Encadrant
+}
+
+\frabstract{Les processus se déroulant à l'état liquide, comme les réaction chimique, par exemple, se déroulent dans un océan de solvant. Ils sont légions, certains disent qu'ils n'oublient pas, mais pouvons nous prédire leurs effets en solution?
+(i) Approximativement oui, en utilisant des méthodes approximatives reliées à une description macroscopique du solvant. Ces méthodes sont rapides (quelques secondes de calculs) mais ne sont pas capable des capturer la nature moléculaire ou les effets physique du solvant tels que les effets dus à l'orientation du solvant ou aux liaisons hydrogènes par exemple.
+(ii) Oui, précisément en utilisant des techniques de simulations explicites comme la dynamique moléculaire. Mais elles ont au moins 3 ou 4 ordre de grandeurs de plus en lenteur. Des centaines, voir des milliers d'heures de temps de calcul sont généralement nécessaires.
+(iii)  Nous allons présenter la théorie de la fonctionnelle de la densité et son code associé, MDFT. Nous allons montrer comment l'état de l'art de la théorie des liquides et les algorithmes haute performances, peuvent capturer les effets de solvatation à l'échelle moléculaire, avec un coût de calcul similaire aux méthodes approximatives.
+}
+
+\enabstract{Processes taking place in the liquid state, for instance chemical reactions, happen in a sea of solvent molecules. They are legion, and some say they don't forget, but can we predict their effect in solution?
+(i) Roughly yes, using rough methods that rely on a macroscopic description of the solvent. They are fast (say few cpu-seconds) but are not able to capture the physical, molecular nature of solvation. No packing, no orientation effects, no hydrogen-bonding, among others.
+(ii) Yes, accurately, using explicit simulations like molecular dynamics. But these are at least 3 to 4 orders of magnitude slower. Hundreds or thousands of cpu-hours are often necessary.
+(iii) We will present the molecular density functional theory and its associated code, MDFT. We will show how state-of-the-art liquid state theory and high performance algorithms can capture solvation effects at their inherent molecular scale, for the cost of rough methods.
+}
+
+\frkeywords{solvatation biomolécules théorie de la fonctionnelle de la densité watermap.}
+\enkeywords{solvation biomolecules Molecular density functional theorie watermap}
 
 \begin{document}
 
-
 \tikzexternaldisable
-\maketitle
+\maketitle{}
 \tikzexternalenable
+
+%\tikzexternaldisable
+%\maketitle
+%\tikzexternalenable
 
 \cleardoublepage
 	
@@ -143,5 +194,7 @@ $\rho(r)$ & blablabla
 \clearemptydoublepage
 \backmatter
 \printbibliography
+
+\tikzexternaldisable
 
 \end{document}
