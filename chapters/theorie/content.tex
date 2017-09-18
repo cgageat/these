@@ -167,11 +167,11 @@ Les corrections à posteriori interviennent après la minimisation. Elles permet
 
 
 \subsubsection{Les corrections de pression}
-Parmi ces corrections, deux permettent de corriger la pression du système. Pour rappel, l'approximation HNC correspond au premier ordre du développement de Taylor autour de la densité liquide. La phase gazeuse du solvant n'est donc pas représentée, ce qui entraîne une forte surestimation de la pression du système soit 10 000 bar. Nous décrivons de façon détaillé ce problème dans le chapitre XXX. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} [REF 2DRISM, CORREENS XXX] ont proposés une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC}. Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont de ce fait également proposé une correction empirique, \textit{PC+}, qui améliorait les résultats. Nous montrerons dans le chapitre XXX que la correction \textit{PC+} n'est plus adaptée à la théorie dans l'approximation HNC. Nous proposerons également une alternative à ces corrections dans le chapitre XXX sous la forme d'un bridge gros gain.
+Parmi ces corrections, deux permettent de corriger la pression du système. Pour rappel, l'approximation HNC correspond au premier ordre du développement de Taylor autour de la densité liquide. La phase gazeuse du solvant n'est donc pas représentée, ce qui entraîne une forte surestimation de la pression du système soit 10 000 bar. Nous décrivons de façon détaillé ce problème dans le chapitre \ref{chap:bridge}. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} ont proposés une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC}. Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont de ce fait également proposé une correction empirique, \textit{PC+}, qui améliorait les résultats\cite{misin_salting-out_2016, misin_hydration_2016, misin_communication:_2015}. Nous montrerons dans le chapitre \ref{chap:BDD} que la correction \textit{PC+} n'est plus adaptée à la théorie dans l'approximation HNC. Nous proposerons également une alternative à ces corrections dans le chapitre \ref{chap:bridge} sous la forme d'un bridge gros gain.
 
 
 % \subsubsection{Les corrections électrostatiques}
-% XXX VOIR AVEC MAX XXX
+% VOIR AVEC MAX
 
 
 \subsection{Les fonctionnelles de bridge}
@@ -180,7 +180,7 @@ Si l'on veut corriger à la fois l'énergie libre de solvatation et la densité 
 \mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc}^{HNC} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 
-Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années [ XXX REF BRIDGES ]. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
+Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2013-1}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
 
 
 
