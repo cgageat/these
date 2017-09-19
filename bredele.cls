@@ -163,13 +163,14 @@
 \RequirePackage[backend=biber,
                 bibencoding=utf8,
                 refsegment=chapter,
-                style=numeric, 
+                style=numeric-comp, 
                 firstinits=true,
                 isbn=false,
                 doi=true,
                 url=false,
                 clearlang=true,
                 defernumbers=true,
+                sorting=none,
                 ]{biblatex} %Pour le style 
 % biblatex avec gestion des mots clés des entrées bibliographiques
 % + les abbréviations idem, ibidem, op cit. Nécessite de prévoir un fichier

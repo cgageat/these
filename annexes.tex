@@ -21,7 +21,7 @@ Or
 \begin{eqnarray}
 \ln(\frac{\rho + \delta \rho}{\rho_0}) = \ln(\frac{\rho + \delta \rho}{\rho}\frac{\rho}{\rho_0}) = \ln(\frac{\rho + \delta \rho}{\rho})+\ln(\frac{\rho}{\rho_0}) = \ln(1+\frac{\delta \rho}{\rho})+\ln(\frac{\rho}{\rho_0})
 \end{eqnarray}
-Et, comme $\frac{\delta \rho}{\rho}$ tens vers 0, il est possible de faire le développement de Taylor de $\ln(1+\frac{\delta \rho}{\rho})$ qui nous donne:
+Et, comme $\frac{\delta \rho}{\rho}$ tend vers 0, il est possible de faire le développement de Taylor de $\ln(1+\frac{\delta \rho}{\rho})$ qui nous donne:
 \begin{eqnarray}
 \ln(1+\frac{\delta \rho}{\rho}) = \frac{\delta \rho}{\rho} + \mathcal{O}(\delta\rho^{2})
 \end{eqnarray}
@@ -101,17 +101,17 @@ On obtient finalement:
 \cleardoublepage
 \section{Implémentation naïve de la fonction de Lennard-Jones}
 \label{sec:annexes:implementations:MJ_naive}
-\lstinputlisting[language=Fortran, caption={Implémentation naïve de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b, breaklines=true]{annexes/lennard_jones_naive.f90}
+\lstinputlisting[basicstyle=\scriptsize, language=Fortran, caption={Implémentation naïve de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b, breaklines=true]{annexes/lennard_jones_naive.f90}
 
 \cleardoublepage
 \section{Implémentation optimisée de la fonction de Lennard-Jones}
 \label{sec:annexes:implementations:MJ_opti}
-\lstinputlisting[language=Fortran, caption={Implémentation optimisée de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b, breaklines=true]{annexes/lennard_jones_opti.f90}
+\lstinputlisting[basicstyle=\scriptsize, language=Fortran, caption={Implémentation optimisée de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b, breaklines=true]{annexes/lennard_jones_opti.f90}
 
 \cleardoublepage
 \section{Implémentation du minimiseur steepest descent}
 \label{sec:annexes:implementations:sd}
-\lstinputlisting[language=Fortran, caption={Implémentation optimisée de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b, breaklines=true]{annexes/steepest_descent.f90}
+\lstinputlisting[basicstyle=\scriptsize, language=Fortran, caption={Implémentation optimisée de la fonction de Lennard-Jones.}, label={code:lannard_jones_naive},captionpos=b, breaklines=true]{annexes/steepest_descent.f90}
 
 
 
