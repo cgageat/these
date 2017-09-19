@@ -12,7 +12,7 @@ Dans les chapitres précédents, nous avons testé et validé la théorie et son
 Dans ce chapitre nous nous concentrerons sur la base de données FreeSolv\cite{Mobley_small_2009}. Cette base de données est largement utilisée dans l'évaluation de méthodes de calcul d'énergie libres de solvatation. Elle est composée de 643 petites molécules neutres, accompagnées de nombreuses méta-données telles que leurs énergies libres de solvatation expérimentales issues de la littérature, leurs énergies libres de solvatation calculées par dynamique moléculaire et intégration thermodynamique ou encore les groupes chimiques qu'elles possèdent. Les paramètres quantitatifs sont parfois accompagnés de leur incertitude.
 
 \subsection{Les molécules}
-Lors de sa première publication, Freesolv, composée de 504 molécules, était le regroupement de la base de données de Rizzo et al\cite{Rizzo_estimation_2006} et de calculs précédemment effectués par David Mobley et ses collaborateurs. Depuis, David Mobley et al, ont concentré leurs efforts à la nettoyer\cite{Mobley_small_2009, Mobley_treating_2008, Mobley_comparison_2007, Mobley_predictions_2009, Beckstein_prediction_2011, Mobley_alchemical_2011, Mobley_blind_2014, Mobley_freesolv_2014, DuarteRamosMatos_approaches_2017} en supprimant les doublons, en vérifiant dans la littérature les valeurs des énergies libres de solvatation ou encore en essayant de peupler au mieux les zones sous-représentées de l'espace chimique. Le nombre de composés est aujourd'hui de 643. Ces molécules contiennent entre 3 et 44 atomes, pour des énergies libres de solvatation expérimentales entre -25,47 et 3,43 $\mathrm{kcal}.\mathrm{mol}^{-1}$. 
+Lors de sa première publication, FreeSolv, composée de 504 molécules, était le regroupement de la base de données de Rizzo et al\cite{Rizzo_estimation_2006} et de calculs précédemment effectués par David Mobley et ses collaborateurs. Depuis, David Mobley et al, ont concentré leurs efforts à la nettoyer\cite{Mobley_small_2009, Mobley_treating_2008, Mobley_comparison_2007, Mobley_predictions_2009, Beckstein_prediction_2011, Mobley_alchemical_2011, Mobley_blind_2014, Mobley_freesolv_2014, DuarteRamosMatos_approaches_2017} en supprimant les doublons, en vérifiant dans la littérature les valeurs des énergies libres de solvatation ou encore en essayant de peupler au mieux les zones sous-représentées de l'espace chimique. Le nombre de composés est aujourd'hui de 643. Ces molécules contiennent entre 3 et 44 atomes, pour des énergies libres de solvatation expérimentales entre -25,47 et 3,43 $\mathrm{kcal}.\mathrm{mol}^{-1}$. 
 
 \subsection{Les groupes chimiques}
 Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 73 groupes chimiques sont représentés. Par exemple, nous comptons 267 composés aromatiques, 88 hétérocycles contre seulement 1 sulfoxyde ou 1 acide sulfurique diester. Parmi les 643 molécules qui composent FreeSolv, seules 38 ne sont classées dans aucun groupe. Cette catégorisation nous permet une analyse en profondeur des points forts et faibles de MDFT en fonction de chaque groupe chimique.
@@ -194,9 +194,9 @@ On voit sur la figure \ref{fig:distrib_error_PC_PCPlus} que la MDFT, sans correc
 Au travers de cette étude, nous avons montré l'efficacité de la correction de pression \textit{PC} quelque soit le niveau de la théorie utilisée. Nous avons également montré que la correction de pression empirique \textit{PC+} permet de corriger simplement les approximations engendrées par l'utilisation d'un $\mathrm{m}_\mathrm{max}$=1.
 }
 
-
-\begin{figure}[H]
-   \begin{subfigure}[b]{0.9\textwidth}
+\begin{center}[H]
+\begin{figure}
+   \begin{subfigure}[b]{0.85\textwidth}
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/error_distribution_calc_all.png}
@@ -204,7 +204,7 @@ Au travers de cette étude, nous avons montré l'efficacité de la correction de
        \caption{$\mathrm{m}_\mathrm{max}$=1}
        \label{fig:distrib_error_PC_PCPlus:mmax1}
     \end{subfigure}
-   \begin{subfigure}[b]{0.9\textwidth}
+   \begin{subfigure}[b]{0.85\textwidth}
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/error_distribution_calc_all.png}
@@ -215,7 +215,7 @@ Au travers de cette étude, nous avons montré l'efficacité de la correction de
   \caption[Distribution de l'écart entre l'énergie libre de solvatation calculée par MDFT et par dynamique moléculaire sur la base de données FreeSolv.]{Distribution de l'écart entre l'énergie libre de solvatation calculée par MDFT et par dynamique moléculaire sur la base de données FreeSolv. En bleu, MDFT sans corrélation de pression, en vert MDFT avec la correction de pression \textit{PC} et en rouge, MDFT avec la correction de pression \textit{PC+}, pour $\mathrm{m}_\mathrm{max}$=1 et 3.}
   \label{fig:distrib_error_PC_PCPlus}
 \end{figure}
-
+\end{center}
 
 
 \subsection{Le bridge gros grain}
@@ -359,7 +359,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
   \label{fig:diaryl_ether}
 \end{figure}
 
-Dans un premier temps, on voit que la dynamique moléculaire et donc le champ de force est moins précis pour les diaryl ether, les alkylamines ou encore les carbonitriles. Ces résultats sont cependant à prendre avec précaution car ces groupes peuvent être peuplés par des molécules similaires comme c'est le cas pour les éthers de diaryle (voir figure \ref{fig:diaryl_ether}). En effet, la base de données Freesolv est issue de la littérature et il est fréquent que des molécules soient étudiées par séries. Dans le cas des diaryle ether, cette série de molécules, correspond à la fraction d'une série plus importante qui a été utilisée lors du challenge SAMPL3\cite{Geballe_sampl_2012}. Ces déséquilibres n'ont cependant aucun impact sur la comparaison de la dynamique moléculaire et de la MDFT car le biais est identique dans les deux cas.
+Dans un premier temps, on voit que la dynamique moléculaire et donc le champ de force est moins précis pour les diaryl ether, les alkylamines ou encore les carbonitriles. Ces résultats sont cependant à prendre avec précaution car ces groupes peuvent être peuplés par des molécules similaires comme c'est le cas pour les éthers de diaryle (voir figure \ref{fig:diaryl_ether}). En effet, la base de données FreeSolv est issue de la littérature et il est fréquent que des molécules soient étudiées par séries. Dans le cas des diaryle ether, cette série de molécules, correspond à la fraction d'une série plus importante qui a été utilisée lors du challenge SAMPL3\cite{Geballe_sampl_2012}. Ces déséquilibres n'ont cependant aucun impact sur la comparaison de la dynamique moléculaire et de la MDFT car le biais est identique dans les deux cas.
 
 Cette étude nous permet également de confirmer deux points faibles de MDFT: l'hydrophobicité (voir chapitre \ref{chap:bridge}) et les charges partielles\cite{ding_thesis}. En effet, les différences les plus importantes entre les deux méthodes sont obtenues pour les oxo(het)arenes (charges partielles), les amines primaires aliphatiques(charges partielles), les alkyl aryl éthers(charges partielles, hydrophobe), les amines primaires(charges partielles) et les amines primaires aromatiques (charges partielles, hydrophobe). 
 
@@ -400,7 +400,7 @@ En ce qui concerne les cations, MDFT et la dynamique moléculaire sous-estiment 
 Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^{-1}$ seulement par la dynamique moléculaire et de quelques dizaines de kcal.mol$^{-1}$ par MDFT. La théorie de la MDFT dans l'approximation HNC n'est donc pas optimisée pour la solvatation d'ions négatifs. 
 
 \boitesimple{
-Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champ de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données Freesolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
+Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champ de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données FreeSolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
 }
 
 
