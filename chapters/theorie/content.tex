@@ -9,7 +9,7 @@ Dans ce chapitre nous décrivons la théorie de la fonctionnelle de la densité 
 La théorie de la fonctionnelle de la densité moléculaire (MDFT) permet l'étude de la solvatation de composés de n'importe qu'elle taille et n'importe qu'elle forme à l'échelle moléculaire. Cette théorie et son code associé, permettent, en quelques secondes seulement, (i) de calculer l'énergie libre de solvatation et (ii) de générer une carte détaillée en 3 dimensions de la densité ainsi que de l'orientation du solvant autour du soluté.
 
 
-L'origine de la théorie de la fonctionnelle de la densité (DFT) réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle à pour variable la densité du solvant $\rho\left(\boldsymbol{r},\Omega \right)$, en chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$ de la molécule de solvant. La fonctionnelle est construite comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle au minimum correspond donc à l'énergie libre de solvatation du soluté étudié. 
+L'origine de la théorie de la fonctionnelle de la densité (DFT) réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle a pour variable la densité du solvant $\rho\left(\boldsymbol{r},\Omega \right)$, en chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$ de la molécule de solvant. La fonctionnelle est construite comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle au minimum correspond donc à l'énergie libre de solvatation du soluté étudié. 
 
 Sans approximation pour le moment, la fonctionnelle est découpée en trois parties: la partie idéale, la partie extérieure et la partie d'excès\cite{evans_density_2009,henderson_fundamentals_1992}. 
 
@@ -47,15 +47,15 @@ La partie idéale, représente l’entropie d'information du système, et s'écr
 Enfin, la partie d'excès correspond à la corrélation entre les molécules de solvant. La version exacte de cette partie, correspond au développement de Taylor infini autour de la densité bulk liquide de référence, soit pour l'eau $\rho_0$=1kg.L$^{-1}$. Afin d'en permettre son calcul, des approximations doivent être considérées. Nous considérons ici uniquement le premier et le second ordres du développement:
 
 \begin{eqnarray}
-\mathcal{F}_\mathrm{exc} = -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega \Delta\rho\left( \boldsymbol{r}, \Omega   \right) \gamma \left(\boldsymbol{r},\Omega\right)  + \mathcal{O}(\Delta\rho^{3})
+\mathcal{F}_\mathrm{exc} = -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega \Delta\rho\left(\boldsymbol{r}, \Omega   \right) \gamma \left(\boldsymbol{r},\Omega\right)  + \mathcal{O}(\Delta\rho^{3})
 \label{eq:fonctionnelle:exc}
 \end{eqnarray}
 \noindent avec
 \begin{eqnarray}
-\gamma \left(\boldsymbol{r},\Omega\right) = \int\mathrm{d}\boldsymbol{r}^\prime\mathrm{d}\Omega^\prime\  c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) \Delta\rho\left( \boldsymbol{r}^\prime, \Omega^\prime \right)
+\gamma \left(\boldsymbol{r},\Omega\right) = \int\mathrm{d}\boldsymbol{r}^\prime\mathrm{d}\Omega^\prime\  c\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) \Delta\rho\left(\boldsymbol{r}^\prime, \Omega^\prime \right)
 \end{eqnarray}
 
-\noindent avec $c\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) $ la fonction de corrélation directe entre deux molécules de solvant qui dépend de la distance entre ces molécules et de leur orientations relatives l'une par rapport à l'autre. La fonction de corrélation directe pour un solvant homogène à température et pression données sont issues de longues simulations de dynamique moléculaire ou de Monte Carlo corrigées des effets de taille finie\cite{Puibasset_bridge_2012, belloni_unpublished}.
+\noindent avec $c\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|,\Omega,\Omega^\prime \right) $ la fonction de corrélation directe entre deux molécules de solvant qui dépend de la distance entre ces molécules et de leurs orientations relatives l'une par rapport à l'autre. La fonction de corrélation directe pour un solvant homogène à température et pression données est issue de longues simulations de dynamique moléculaire ou de Monte Carlo corrigées des effets de taille finie\cite{Puibasset_bridge_2012, belloni_unpublished}.
 
 Cette approximation, bien connue, est nommée approximation HNC (hypper-Netted Chain)\cite{hansen_theory_2006}. 
 
@@ -71,7 +71,7 @@ Cette minimisation à été implémentée dans un code en Fortran moderne du mê
 
 
 \subsection{La discrétisation}
-Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatiale, découpe l'espace sur grille homogène. Le second niveau, angulaire\cite{ding_cea-01564512}, permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre traduit des quadratures bien connues de type Gauss-Legendre\cite{abbott_tricks_2005}. Cette équivalence est disponible dans le tableau \ref{tab:mmax};
+Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatial, découpe l'espace sur une grille homogène. Le second niveau, angulaire\cite{ding_cea-01564512}, permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre traduit des quadratures bien connues de type Gauss-Legendre\cite{abbott_tricks_2005}. Cette équivalence est disponible dans le tableau \ref{tab:mmax};
 
 \begin{table}[H]
  \centering
@@ -99,11 +99,11 @@ Nous obtenons ainsi la fonctionnelle suivante:
 \mathcal{F} =& &\mathrm{k_B}T \sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \rho\left(\boldsymbol{r}_i,\Omega_j\right)\ln\left(\frac{\rho\left(\boldsymbol{r}_i,\Omega_j\right)}{\rho_0}\right)-\Delta\rho\left(\boldsymbol{r}_i,\Omega_j\right)\\
 			+& &\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \rho\left(\boldsymbol{r}_i,\Omega_j\right)\phi\left(\boldsymbol{r}_i,\Omega_j\right)\\
             -& &\frac{\mathrm{k_B}T}{2}\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \Delta\rho\left(\boldsymbol{r}_i,\Omega_j\right) \sum\limits_{k=1}^{N_v}\mathrm{V}_k\sum\limits_{l=1}^{N_o} \mathrm{w}_{\Omega_l}\\
-            & &c\left( \left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \nonumber 
+            & &c\left(\left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \nonumber 
 \end{eqnarray}
 
 
-\noindent avec $N_v$ le nombre de voxels dans la système, $N_o$ le nombre d'orientations considérées, $\mathrm{V}_i$ le volume du voxel d'indice i et $\mathrm{w}_{\Omega_j}$ le poids de l'orientation $\Omega_j$.
+\noindent avec $N_v$ le nombre de voxels dans le système, $N_o$ le nombre d'orientations considérées, $\mathrm{V}_i$ le volume du voxel d'indice i et $\mathrm{w}_{\Omega_j}$ le poids de l'orientation $\Omega_j$.
 
 
 \subsection{Les convolutions}
@@ -113,15 +113,15 @@ Un des avantages majeurs de MDFT par rapport aux autres méthodes est sa rapidit
 f*g = \mathrm{FT}^{-1} [ \mathrm{FT}(f) . \mathrm{FT}(g) ]
 \end{eqnarray}
 
-La convolution de deux fonctions, peut être calculée comme la transformée de Fourier inverse du produit point à point de la transformée de Fourier de ces deux fonctions. La fonction $\gamma$ est la convolution entre les fonctions $\Delta\rho$ et $c$. Nous la réécrivons donc:
+La convolution de deux fonctions peut être calculée comme la transformée de Fourier inverse du produit point à point de la transformée de Fourier de ces deux fonctions. La fonction $\gamma$ est la convolution entre les fonctions $\Delta\rho$ et $c$. Nous la réécrivons donc:
 
 \begin{eqnarray}
-\gamma\left(\boldsymbol{r}_i,\Omega_j\right) &=& \sum\limits_{k=1}^{N_v}\mathrm{V}_k\sum\limits_{l=1}^{N_o} \mathrm{w}_{\Omega_l}c\left( \left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \\
-&=& [ c\left( \left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) * \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) ]
+\gamma\left(\boldsymbol{r}_i,\Omega_j\right) &=& \sum\limits_{k=1}^{N_v}\mathrm{V}_k\sum\limits_{l=1}^{N_o} \mathrm{w}_{\Omega_l}c\left(\left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \\
+&=& [ c\left(\left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right) * \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) ]
 \end{eqnarray}
 
 
-Cette méthode ne permet cependant pas à elle seule de diminuer le temps de calcul. Cette propriété à donc été couplées à l'utilisation des FFT (Fast Fourier Transform) et en particulier de la librairie FFTW3 pour la partie spatiale et de FGSHT (fast generalized spherical harmonic transform) récemment proposé par Ding et al\cite{ding_thesis} pour la partie angulaire. Le protocole suivi est le suivant:
+Cette méthode ne permet cependant pas à elle seule de diminuer le temps de calcul. Cette propriété a donc été couplée à l'utilisation des FFT (Fast Fourier Transform) et en particulier de la librairie FFTW3 pour la partie spatiale et de FGSHT (fast generalized spherical harmonic transform) récemment proposé par Ding et al\cite{ding_thesis} pour la partie angulaire. Le protocole suivi est le suivant:
 
 \begin{eqnarray}
 \Delta\hat{\rho}\left(\boldsymbol{k}_k,\Omega_l\right) &=& \mathrm{FT}[\Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right)] \\
@@ -129,13 +129,13 @@ Cette méthode ne permet cependant pas à elle seule de diminuer le temps de cal
 \end{eqnarray}
 De même,
 \begin{eqnarray}
-\hat{c}\left( \left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\Omega_j,\Omega_l \right) &=& \mathrm{FT}[c\left( \left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right)] \\
-\hat{c}\left( \left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\omega_j,\omega_l \right) &=& \mathrm{FGSHT}[\hat{c}\left( 
+\hat{c}\left(\left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\Omega_j,\Omega_l \right) &=& \mathrm{FT}[c\left(\left|\boldsymbol{r}_i-\boldsymbol{r}_k\right|,\Omega_j,\Omega_l \right)] \\
+\hat{c}\left(\left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\omega_j,\omega_l \right) &=& \mathrm{FGSHT}[\hat{c}\left(
 \left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\Omega_j,\Omega_l \right)]
 \end{eqnarray}
 On fait le produit point à point:
 \begin{eqnarray}
-\hat{\gamma}(\boldsymbol{k}_i,\omega_j) &=& \Delta\hat{\rho}\left(\boldsymbol{\hat{r}}_k,\omega_l\right) . \hat{c}\left( \left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\omega_j,\omega_l \right)
+\hat{\gamma}(\boldsymbol{k}_i,\omega_j) &=& \Delta\hat{\rho}\left(\boldsymbol{\hat{r}}_k,\omega_l\right) . \hat{c}\left(\left|\boldsymbol{k}_i-\boldsymbol{k}_k\right|,\omega_j,\omega_l \right)
 \end{eqnarray}
 Et enfin:
 \begin{eqnarray}
@@ -152,7 +152,7 @@ Le minimiseur utilisé pour minimiser notre fonctionnelle est L-BFGS (Limited-me
 
 \begin{eqnarray}
 \nabla F[\rho(\boldsymbol{r}_i,\Omega_j)] &=& \mathrm{k_B}T \ln(\frac{\rho(\boldsymbol{r}_i,\Omega_j)}{\rho_0}) \\
-&+& \phi(\boldsymbol{r}_i,\Omega_j ) \nonumber \\
+&+& \phi(\boldsymbol{r}_i,\Omega_j) \nonumber \\
 &-& \mathrm{k_B}T \gamma(\boldsymbol{r}_i,\Omega_j) \nonumber
 \end{eqnarray}
 
@@ -167,7 +167,7 @@ Les corrections à posteriori interviennent après la minimisation. Elles permet
 
 
 \subsubsection{Les corrections de pression}
-Parmi ces corrections, deux permettent de corriger la pression du système. Pour rappel, l'approximation HNC correspond au premier ordre du développement de Taylor autour de la densité liquide. La phase gazeuse du solvant n'est donc pas représentée, ce qui entraîne une forte surestimation de la pression du système soit 10 000 bar. Nous décrivons de façon détaillé ce problème dans le chapitre \ref{chap:bridge}. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} ont proposés une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC}. Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont de ce fait également proposé une correction empirique, \textit{PC+}, qui améliorait les résultats\cite{misin_salting-out_2016, misin_hydration_2016, misin_communication:_2015}. Nous montrerons dans le chapitre \ref{chap:BDD} que la correction \textit{PC+} n'est plus adaptée à la théorie dans l'approximation HNC. Nous proposerons également une alternative à ces corrections dans le chapitre \ref{chap:bridge} sous la forme d'un bridge gros gain.
+Parmi ces corrections, deux permettent de corriger la pression du système. Pour rappel, l'approximation HNC correspond au premier ordre du développement de Taylor autour de la densité liquide. La phase gazeuse du solvant n'est donc pas représentée, ce qui entraîne une forte surestimation de la pression du système soit 10 000 bar. Nous décrivons de façon détaillé ce problème dans le chapitre \ref{chap:bridge}. Sergiievskyi et al. \cite{sergiievskyi_solvation_2015,sergiievskyi_pressure_2015} ont proposé une correction ad-hoc rigoureuse basée sur la théorie des liquides: la correction \textit{PC}. Au moment de ce développement, la théorie MDFT n'était pas encore au niveau HNC. Elle correspondrait aujourd'hui à une approximation de HNC avec $\mathrm{m}_\mathrm{max}$=1. Les auteurs ont de ce fait également proposé une correction empirique, \textit{PC+}, qui améliorait les résultats\cite{misin_salting-out_2016, misin_hydration_2016, misin_communication:_2015}. Nous montrerons dans le chapitre \ref{chap:BDD} que la correction \textit{PC+} n'est plus adaptée à la théorie dans l'approximation HNC. Nous proposerons également une alternative à ces corrections dans le chapitre \ref{chap:bridge} sous la forme d'un bridge gros gain.
 
 
 % \subsubsection{Les corrections électrostatiques}
@@ -180,7 +180,7 @@ Si l'on veut corriger à la fois l'énergie libre de solvatation et la densité 
 \mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc}^{HNC} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 
-Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
+Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il à été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
 
 
 

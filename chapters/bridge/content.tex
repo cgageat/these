@@ -4,7 +4,7 @@
 \boitemagique{Objectif}{
 L'objectif de ce chapitre est de proposer une fonctionnelle de bridge \textbf{simple} et \textbf{rapide} qui permette de prédire correctement: 
 \begin{itemize}
-\item Les profils de densité du solvant ( g(r) )
+\item Les profils de densité du solvant (g(r))
 \item Les énergies libres de solvatation
 \end{itemize}
 Avec les propriétés thermodynamiques macroscopiques suivantes cohérentes:
@@ -16,18 +16,18 @@ Avec les propriétés thermodynamiques macroscopiques suivantes cohérentes:
 
 
 
-Comme il a été montré jusqu'ici, l'approximation HNC, y compris corrigée par les bridges décrits dans le chapitre précédent, ne permet pas d'avoir un système thermodynamiquement consistant. 
+Comme il à été montré jusqu'ici, l'approximation HNC, y compris corrigée par les bridges décrits dans le chapitre précédent, ne permet pas d'avoir un système thermodynamiquement consistant. 
 
 
 Nous proposons ici un bridge simple et efficace numériquement, basé sur une densité gros-grain, qui prend en compte le démouillage en permettant la quasi-coexistence des phases gazeuse et liquide de l'eau.
-Ce bridge permet donc de retrouver la consistante thermodynamique tout en améliorant les rdf et les énergies libres de solvatation en échange d'un coût de calcul négligeable.
+Ce bridge permet donc de retrouver la consistance thermodynamique tout en améliorant les rdfs et les énergies libres de solvatation en échange d'un coût de calcul négligeable.
 
 
 
 
 
 \section{Le démouillage}
-Lorsque de gros composés hydrophobes sont plongés en solution, on observe une transition lente d'une densité quasi-nulle (à la surface soluté) à la densité bulk (loin du soluté) ( voir figure \ref{fig:demouillage}). Ce phénomène est appelé démouillage. Malheureusement, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre d'une unité de volume soit le potentiel chimique d'une molécule du solvant augmente. Les phases de faibles densités normalement attendues sont donc trop défavorisées pour exister. En réalite, à température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence. En effet, comme on le voit sur la figure \ref{fig:diagramme_phase_eau}, a température ambiante et pression atmosphérique, l'eau est proche de la phase gaz. Le potentiel chimique est donc également proche de celui de la phase gaz. Dans l'approximation HNC, les phases de faibles densité sont remplacées par des zone de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge du 3$^{ème}$ ordre proposé par Jeanmairet et al\cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme d'ordre 4. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calcul étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
+Lorsque de gros composés hydrophobes sont plongés en solution, on observe une transition lente d'une densité quasi-nulle (à la surface du soluté) à la densité bulk (loin du soluté) (voir figure \ref{fig:demouillage}). Ce phénomène est appelé démouillage. Malheureusement, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre d'une unité de volume, soit le potentiel chimique d'une molécule du solvant, augmente. Les phases de faible densité normalement attendues sont donc trop défavorisées pour exister. En réalite, à température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence. En effet, comme on le voit sur la figure \ref{fig:diagramme_phase_eau}, à température ambiante et pression atmosphérique, l'eau est proche de la phase gaz. Le potentiel chimique est donc également proche de celui de la phase gaz. Dans l'approximation HNC, les phases de faible densité sont remplacées par des zones de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge du 3$^{ème}$ ordre proposé par Jeanmairet et al\cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme d'ordre 4. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calcul étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
 
 
 
@@ -108,7 +108,7 @@ Lorsque de gros composés hydrophobes sont plongés en solution, on observe une 
       \legend{HNC}
     \end{axis}
   \end{tikzpicture}
-    \caption[Potentiel chimique d'une molécule de solvant en fonction de sa densité.]{Potentiel chimique d'une molécule de solvant en fonction de la densité $\rho_{\mathrm{bulk}}$ dans l'approximation HNC. $\rho_b$ est la densité bulk de référence de l'eau SPC/E à pression et température standards ( 1 $\mathrm{kg.L}^{-1}$ ).}
+    \caption[Potentiel chimique d'une molécule de solvant en fonction de sa densité.]{Potentiel chimique d'une molécule de solvant en fonction de la densité $\rho_{\mathrm{bulk}}$ dans l'approximation HNC. $\rho_b$ est la densité bulk de référence de l'eau SPC/E à pression et température standards (1 $\mathrm{kg.L}^{-1}$).}
     \label{fig:fonctionelle_HNC}
 \end{figure}
 
@@ -124,16 +124,16 @@ Afin de diminuer fortement le temps nécessaire à l'étude paramétrique, nous 
 \end{itemize}
 
 La première approximation que nous avons fait est de considérer uniquement des composés neutres.
-En effet, les charges permettent la création de liaisons hydrogènes fortes entre l'eau et le soluté ce qui à pour effet de fortement stabiliser ce dernier et ainsi de le rendre hydrophile.
+En effet, les charges permettent la création de liaisons hydrogènes fortes entre l'eau et le soluté ce qui a pour effet de fortement stabiliser ce dernier et ainsi de le rendre hydrophile.
 Les composés hydrophobes, entraînant du démouillage sont donc généralement neutres.
 Contrairement aux solutés chargés, les solutés neutres forment uniquement des liaisons de Van Der Waals.
 Dans le cas du modèle d'eau SPC/E, qui posséde un seul site Lennard-Jones sur l'oxygène, soit en son centre, le soluté n'à aucune inflence directe sur l'orientation des molécules d'eau.
-De plus, Jeanmairet et Al.\cite{jeanmairet_molecular_2013, jeanmairet_molecular_2016} ont montré que le couplage entre la densité et la polarisation de l'eau est négligeable.
+De plus, Jeanmairet et al.\cite{jeanmairet_molecular_2013, jeanmairet_molecular_2016} ont montré que le couplage entre la densité et la polarisation de l'eau est négligeable.
 La seconde approximation majeure que nous faisons est donc que chaque orientation du solvant est equiprobable. Cela nous permet ainsi de nous affranchir des angles et de ne considérer qu'une moyenne angulaire de la densité en chaque point de grille.
 
-La symmétrie sphérique entraîne une autre différence importante. Au contraire de la version 3D, périodique, les systèmes à symmétrie sphériques contiennent par définition un unique soluté dans un solvant infini.
+La symétrie sphérique entraîne une autre différence importante. Au contraire de la version 3D, périodique, les systèmes à symétrie sphériques contiennent par définition un unique soluté dans un solvant infini.
 
-Afin de paramètriser ce nouveau bridge, nous nous concentrons dans une premier temps sur nos molécules modèles: des sphères de Lennard-Jones neutres, avec un solvant sous la forme d'un point et donc sans orientation. L’interaction dépend donc uniquement de la distance entre le soluté et la molécule de solvant. En d'autre termes, tous les points se trouvant sur une sphère centrée sur notre système seront parfaitement identiques. Ces systèmes sont dits à symétrie sphériques. Afin de ne pas minimiser inutilement de nombreuses variable identiques, car équidistantes du centre, nous avons développé une version adaptée de MDFT. Cette version, contrairement à la version 3D, nous autorise à représenter le système sous la forme d'un vecteur 1D de densités partant du centre de notre soluté et allant jusqu'à l'infini et non plus par une grille en 3D. Basé sur ce constat, nous avons adaptée la théorie et nous l'avons implémentée dans une version spécifique de MDFT.
+Afin de paramètriser ce nouveau bridge, nous nous concentrons dans une premier temps sur nos molécules modèles: des sphères de Lennard-Jones neutres, avec un solvant sous la forme d'un point et donc sans orientation. L’interaction dépend donc uniquement de la distance entre le soluté et la molécule de solvant. En d'autre termes, tous les points se trouvant sur une sphère centrée sur notre système seront parfaitement identiques. Ces systèmes sont dits à symétrie sphériques. Afin de ne pas minimiser inutilement de nombreuses variables identiques, car équidistantes du centre, nous avons développé une version adaptée de MDFT. Cette version, contrairement à la version 3D, nous autorise à représenter le système sous la forme d'un vecteur 1D de densités partant du centre de notre soluté et allant jusqu'à l'infini et non plus par une grille en 3D. Basé sur ce constat, nous avons adaptée la théorie et nous l'avons implémentée dans une version spécifique de MDFT.
 
 
 
@@ -145,20 +145,20 @@ Comme nous l'avons décrit précedemment, nous nous affranchissons des orientati
 \mathcal{F}_\mathrm{ext}(r)&=&\int\mathrm{ dV}_{\mathrm{coquille}}(r)\rho\left(r \right)\phi\left(r \right)\\
 \end{eqnarray}
 
-Au contraire des deux premiers termes, la fonctionnelle d'excès n'est pas centrée sur l'origine. Nous ne pouvons donc pas nous placer directement dans des coordonnées sphériques. Nous réécrivons donc dans un premier temps, cette partie de la fonctionnelle, sous la forme d'une convolution ce qui nous donne :
+Au contraire des deux premiers termes, la fonctionnelle d'excès n'est pas centrée sur l'origine. Nous ne pouvons donc pas nous placer directement dans des coordonnées sphériques. Nous réécrivons donc dans un premier temps cette partie de la fonctionnelle sous la forme d'une convolution, ce qui nous donne :
 
 \begin{eqnarray}
 \mathcal{F}_\mathrm{exc}(r) &=& \mathcal{F}_\mathrm{hnc} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 Avec
 \begin{eqnarray}
-\mathcal{F}_\mathrm{hnc}&=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} \Delta\rho\left( \boldsymbol{r} \right)  \int\mathrm{d}\boldsymbol{r}^\prime c_s\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left( \boldsymbol{r}^\prime \right) + \mathcal{F}_\mathrm{b}\\
-						 &=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} [ \Delta\rho\left( \boldsymbol{r} \right)  *\gamma( \boldsymbol{r} ) ] + \mathcal{F}_\mathrm{b}
+\mathcal{F}_\mathrm{hnc}&=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} \Delta\rho\left(\boldsymbol{r} \right)  \int\mathrm{d}\boldsymbol{r}^\prime c_s\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left(\boldsymbol{r}^\prime \right) + \mathcal{F}_\mathrm{b}\\
+						 &=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} [ \Delta\rho\left(\boldsymbol{r} \right)  *\gamma(\boldsymbol{r}) ] + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 
- avec $\gamma(\boldsymbol{r}) = \int\mathrm{d}\boldsymbol{r}\mathrm{d}\boldsymbol{r}^\prime c_s\left( \left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left( \boldsymbol{r}^\prime  \right)$ et $c_s$ la contribution à symmétrie sphérique de la fonction de corrélation directe totale. A condition d'utiliser une convolution adaptée, nous sommes ici autorisés à réécrire cette partie de la fonctionnelle dans les coordonnées sphériques. Nous obtenons ainsi:
+ avec $\gamma(\boldsymbol{r}) = \int\mathrm{d}\boldsymbol{r}\mathrm{d}\boldsymbol{r}^\prime c_s\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left(\boldsymbol{r}^\prime  \right)$ et $c_s$ la contribution à symétrie sphérique de la fonction de corrélation directe totale. À condition d'utiliser une convolution adaptée, nous sommes ici autorisés à réécrire cette partie de la fonctionnelle dans les coordonnées sphériques. Nous obtenons ainsi:
 \begin{eqnarray}
-\mathcal{F}_\mathrm{hnc} &=& -\frac{\mathrm{k_B}T}{2} \int \mathrm{d} r \mathrm{d} ( \Delta\rho\left( r \right)  \ast ( \gamma(r)  ) + \mathcal{F}_\mathrm{b}
+\mathcal{F}_\mathrm{hnc} &=& -\frac{\mathrm{k_B}T}{2} \int \mathrm{d} r (\Delta\rho\left(r \right)  \ast (\gamma(r)) + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 
 Une résolution rapide et simple de ce terme est décrite plus loin.
@@ -167,19 +167,19 @@ Une résolution rapide et simple de ce terme est décrite plus loin.
 
 
 \subsection{Implémentation}
-Une version de cette théorie à été implémentée dans un code de 2800 lignes de C++ objet haute performance. Comme nous l'avons décrit ci-dessus, l'espace est représenté par un ensemble régulier de densité allant du centre du système jusqu'à l'infini. Numériquement, nous avons limité le vecteur à un ensemble de densité réparties entre l'origine et une distance suffisamment loin pour ne plus être influencé par le soluté. Cette limite, ainsi que l'espacement entre deux points, sont fixés par l'utilisateur.
-Afin d'effectuer la minimisation, nous avons utilisé la librairie L-BFGS\cite{zhu_algorithm_1997}.
+Une version de cette théorie à été implémentée dans un code de 2800 lignes de C++ objet haute performance. Comme nous l'avons décrit ci-dessus, l'espace est représenté par un ensemble régulier de densité allant du centre du système jusqu'à l'infini. Numériquement, nous avons limité le vecteur à un ensemble de densités réparties entre l'origine et une distance suffisamment loin pour ne plus être influencée par le soluté. Cette limite, ainsi que l'espacement entre deux points, sont fixés par l'utilisateur.
+La minimisation est effectuée à l'aide de la librairie L-BFGS\cite{zhu_algorithm_1997}.
 
 \subsubsection{Transformées de Hankel}
-Comme nous l'avons décrit dans la section précédente, la fonctionnelle d'excès peut être calculée en utilisant la propriété des convolutions suivante: La convolution de deux fonctions, correspond à la transformée de fourier inverse ($\mathrm{FT}^{-1}$) du produit point à point de la transformée de Fourier ($\mathrm{FT}$) des deux fonctions.
+Comme nous l'avons décrit dans la section précédente, la fonctionnelle d'excès peut être calculée en utilisant la propriété des convolutions suivante: La convolution de deux fonctions correspond à la transformée de fourier inverse ($\mathrm{FT}^{-1}$) du produit point à point de la transformée de Fourier ($\mathrm{FT}$) des deux fonctions.
 \begin{eqnarray}
-f \ast g  = \mathrm{FT}^{-1}( \mathrm{FT}(f)\cdot\mathrm{FT}(g) )
+f \ast g  = \mathrm{FT}^{-1}(\mathrm{FT}(f)\cdot\mathrm{FT}(g))
 \end{eqnarray}
 Dans notre système à symétrie sphérique, les transformées de Fourier 3D se réécrivent comme des transformées de Hankel. Nous pouvons ainsi directement résoudre cette partie de la fonctionnelle en coordonnées sphériques.
 
 
 
-Afin d'adapter au mieux la transformée de Hankel à nos besoins, nous l'avons réimplémenté. Les formules utilisées pour la transformée de Hankel directe (HT) et la transformée de Hankel inverse ($\mathrm{HT}^{-1}$) sont les suivantes:
+Afin d'adapter au mieux la transformée de Hankel à nos besoins, nous l'avons réimplémentée. Les formules utilisées pour la transformée de Hankel directe (HT) et la transformée de Hankel inverse ($\mathrm{HT}^{-1}$) sont les suivantes:
 
 
 %    y(k) = 4 pi int _0 ^\infty  y(r) sin(kr)/(kr) r^2 dr
@@ -188,7 +188,7 @@ Afin d'adapter au mieux la transformée de Hankel à nos besoins, nous l'avons r
 \mathrm{HT}^{-1}[f](k) &=& \frac{1}{3\pi^2}\int \mathrm{dk}\ f(k)\frac{\sin(kr)}{kr}k^2
 \end{eqnarray}
 
-A cette étape, nous minimisons donc la fonctionnelle dans l'approximation HNC.  
+À cette étape, nous minimisons donc la fonctionnelle dans l'approximation HNC.  
 
 
 \subsubsection{Mise en cache partielle de la transformée de Hankel}
@@ -203,12 +203,12 @@ Avec cache(kr)=$4\pi\frac{\sin(kr)}{kr}r^2$
 
 \subsubsection{Temps de calculs}
 Afin d'évaluer les performances des différentes implémentations de MDFT, nous avons simulé la solvatation d'un méthane unifié (une boule Lennard-Jones) dans l'eau SPC/E, avec la version 3D puis avec la version à symétrie sphérique, avec et sans mise en cache.
-La figure \ref{fig:temps_calcul_methane_versions} représente le temps de calcul nécessaire pour ces 3 versions en fonctions du nombre de points de grille dans chaque direction.
-Le temps de calcul dépend uniquement du nombre de point de grille et non de la taille du système, nous avons donc fixé, dans tous les cas, la largeur du système à 20 \AA.
-Pour 200 points de grille, on voit que la version 3D à besoin de 1 min 51 sec pour compléter la minimisation, alors que la version à symétrie sphérique nécessite uniquement 36 sec.
+La figure \ref{fig:temps_calcul_methane_versions} représente le temps de calcul nécessaire pour ces 3 versions en fonction du nombre de points de grille dans chaque direction.
+Le temps de calcul dépend uniquement du nombre de points de grille et non de la taille du système, nous avons donc fixé, dans tous les cas, la largeur du système à 20 \AA.
+Pour 200 points de grille, on voit que la version 3D a besoin de 1 min 51 sec pour compléter la minimisation, alors que la version à symétrie sphérique nécessite uniquement 36 sec.
 La mise en cache des transformées de Hankel fait descendre ce temps à seulement 1.47 sec.
 Nous divisons, dans ce cas, le temps de calcul par plus de 75.
-De plus, nous voyons que les approximations adaptées à la spécificité de notre étude (soluté neutre, solvant sans angle) nous permet d'atteindre des tailles de boite inaccessibles avec la version 3D.
+De plus, nous voyons que les approximations adaptées à la spécificité de notre étude (soluté neutre, solvant sans angle) nous permettent d'atteindre des tailles de boîte inaccessibles avec la version 3D.
 Nous minimisons par exemple facilement des systèmes de quelques centaines d'\AA\ avec une précision de 10 points/\AA.
 
 
@@ -253,12 +253,12 @@ Nous minimisons par exemple facilement des systèmes de quelques centaines d'\AA
   \label{fig:temps_calcul_methane_versions}
 \end{figure}
 
-Il existe bien sur d'autres optimisations possibles comme l'utilisation de Fast Transformée de Hankel mais vu le temps de calcul largement convenable, nous avons fait le choix de nous arrêter ici afin de ne pas rendre le code source illisible. Une fois cette version opérationnelle nous avons pu l'utiliser afin de développer notre nouveau bridge.
+Il existe bien sur d'autres optimisations possibles comme l'utilisation de transformées de Hankel rapides mais vu le temps de calcul largement convenable, nous avons fait le choix de nous arrêter ici afin de ne pas rendre le code source illisible. Une fois cette version opérationnelle nous avons pu l'utiliser afin de développer notre nouveau bridge.
 
 
 
 \section{Le bridge Gros Grain}
-A l'aide de la version à symétrie sphérique de la MDFT, nous avons développé un nouveau bridge: le bridge gros grain. Ce bridge doit permettre une amélioration de la prédiction de l'énergie libre de solvatation et des profiles de solvant de façon simple et rapide en ajoutant de la consistance thermodynamique au système. Pour cela, nous devons d'une part, reproduire une tension de surface correcte, et d'autre part, corriger la pression du système qui est largement surestimée dans l'approximation HNC en rendant possible la coexistence liquide-vapeur. 
+A l'aide de la version à symétrie sphérique de la MDFT, nous avons développé un nouveau bridge: le bridge gros grain. Ce bridge doit permettre une amélioration de la prédiction de l'énergie libre de solvatation et des profils de solvant de façon simple et rapide en ajoutant de la consistance thermodynamique au système. Pour cela nous devons, d'une part, reproduire une tension de surface correcte et, d'autre part, corriger la pression du système, qui est largement surestimée dans l'approximation HNC, en rendant possible la coexistence liquide-vapeur. 
 
 \subsection{La tension de surface}
 La tension de surface, notée $\gamma$, correspond à l'énergie nécessaire pour créer une unité de surface d'une interface liquide-gaz.
@@ -269,8 +269,8 @@ L'énergie libre de solvatation d'une bulle peut être exprimée en fonction de 
 \Delta G_{solv}= \mathrm{A} V_{\mathrm{sphere}} + \gamma S_{\mathrm{sphere}} 
 \end{equation}
 
-Pour des sphères de petit rayon, le terme proportionnelle au volume est prépondérant.
-Au contraire, pour les sphères de rayon important, lorsque leur profils peuvent être assimilés à des murs plats, c'est le terme en surface qui devient prépondérant soit:
+\noindent Pour des sphères de petits rayons, le terme proportionnelle au volume est prépondérant.
+Au contraire, pour les sphères de rayons importants, lorsque leur profils peuvent être assimilés à des murs plats, c'est le terme en surface qui devient prépondérant soit:
 \begin{equation}
 \lim\limits_{r_{sphere} \to \infty} \Delta G_{solv} = \gamma S_{\mathrm{sphere}} 
 \end{equation}
@@ -281,21 +281,21 @@ Que l'on réécrit:
 Le rapport entre l'énergie libre de solvatation et la surface d'une sphère dure de grand diamètre correspond à la tension de surface du solvant, ici de l'eau.
 Par la suite nous tracerons donc le rapport entre l'énergie libre de solvatation et la surface des sphères, soit $\frac{\Delta G_{solv}}{S_{\mathrm{sphere}}}$, afin de nous assurer que la tension de surface tend bien vers celle de l'eau.
 Nous avons choisi comme référence la tension de surface de l'eau SPC/E et non celle de l'eau réelle afin de rester cohérent avec le modèle utilisé par MDFT.
-Comme on l'a montré précédemment, La densité de la phase gazeuse tend vers 0. Pour faciliter le calcul numérique, la bulle de gaz est remplacée par une bulle de vide. Cela revient à faire l'approximation suivante: $\gamma_{liq-gaz} = \gamma_{liq-vide}$.
+Comme on l'a montré précédemment, la densité de la phase gazeuse tend vers 0. Pour faciliter le calcul numérique, la bulle de gaz est remplacée par une bulle de vide. Cela revient à faire l'approximation suivante: $\gamma_{liq-gaz} = \gamma_{liq-vide}$
 
 
 
 \subsection{Définition du bridge gros grain}
-Pour construire notre bridge, nous partons de l'approximation HNC. Cette approximation peut être interprétée comme un développement de Taylor à l'ordre deux de la fonctionnelle d'excès autour de la densité de référence $\rho_{\mathrm{bulk}}$, la densité de l'eau liquide.
+Pour construire notre bridge, nous partons de l'approximation HNC. Cette approximation peut être interprétée comme un développement de Taylor à l'ordre deux de la fonctionnelle d'excès autour de la densité de référence $\rho_{0}$, la densité de l'eau liquide.
 Dans cette approximation, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité liquide et plus le potentiel chimique du solvant augmente. La phase gaz n'existe donc pas, ce qui à pour conséquence de surestimer fortement la pression du fluide.
 Afin de corriger ce phénomène, nous ajoutons un terme d'ordre 3 qui permet de rendre cohérentes les énergies libres de solvatation des deux phases.
 
-D'après la théorie de Landau-Ginzburg\cite{Ginzburg2009}, la hauteur de la courbe entre les deux phases est directement liée à le tension de surface. Nous ajoutons donc un terme d'ordre 4 qui s'annule en $\rho=0$ et $\rho=\rho_{bulk}$ afin d'autoriser la modification cette hauteur sans modifier les deux phases précédemment ajustées.
+D'après la théorie de Landau-Ginzburg\cite{Ginzburg2009}, la hauteur de la courbe entre les deux phases est directement liée à la tension de surface. Nous ajoutons donc un terme d'ordre 4 qui s'annule en $\rho=0$ et $\rho=\rho_0$ afin d'autoriser la modification de cette hauteur sans modifier les deux phases précédemment ajustées.
 
-L'avantage majeur de la MDFT est sa vitesse. Des termes à 3 et 4 corps demanderaient un temps de calculs trop important pour rester concurrentiel par rapport aux méthodes explicites. Afin de rendre le temps de calcul négligeable, nous reprenons une idée de Tarazona et Al.\cite{tarazona_free-energy_1985}, qui consiste à remplacer des termes à 3 ou 4 corps par de simples puissances d'ordre 3 et 4 d'une densité gros grain notée $\bar{\rho}(\boldsymbol{r})$ définie comme
+L'avantage majeur de la MDFT est sa vitesse. Des termes à 3 et 4 corps demanderaient un temps de calcul trop important pour rester concurrentiel par rapport aux méthodes explicites. Afin de rendre le temps de calcul négligeable, nous reprenons une idée de Tarazona et al.\cite{tarazona_free-energy_1985}, qui consiste à remplacer des termes à 3 ou 4 corps par de simples puissances d'ordre 3 et 4 d'une densité gros grain notée $\bar{\rho}(\boldsymbol{r})$ définie comme
 
 \begin{equation} \label{eq:convolution_gros_grain}
-\bar{\rho}(\boldsymbol{r}) = \int \mathrm{d}\boldsymbol{r}^\prime \rho(\boldsymbol{r}^\prime) K\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|\right) = \rho\ast K \left( \boldsymbol{r} \right)
+\bar{\rho}(\boldsymbol{r}) = \int \mathrm{d}\boldsymbol{r}^\prime \rho(\boldsymbol{r}^\prime) K\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right|\right) = \rho\ast K \left(\boldsymbol{r} \right)
 \end{equation}
 
 Le choix du noyau de convolution K sera décrit plus bas. Nous obtenons donc un bridge de la forme suivante:
@@ -306,10 +306,10 @@ F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=A\int\Delta\bar{\rho}(\boldsymbol{r})
 
 
 \subsection{\'Etude paramétrique}
-A ce niveau, nous disposons d'un bridge que nous pouvons ajuster au travers de 3 paramètres: A, B et le choix du noyau de convolution. Le premier paramètre A est résolu analytiquement, de façon à annuler le potentiel chimique de la phase gaz, soit $F[\rho_{liq}]=F[\rho_{gas}]=0$ . Nous obtenons ainsi $A=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})$ (en $kJ.mol^{-1}.\text{\AA}^{6}$ ). Les deux autres paramètres, ont été déterminés à l'aide d'une étude paramétrique.
+A ce niveau, nous disposons d'un bridge que nous pouvons ajuster au travers de 3 paramètres: A, B et le choix du noyau de convolution. Le premier paramètre A est résolu analytiquement de façon à annuler le potentiel chimique de la phase gaz, soit $F[\rho_{liq}]=F[\rho_{gas}]=0$ . Nous obtenons ainsi $A=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})$ (en $kJ.mol^{-1}.\text{\AA}^{6}$). Les deux autres paramètres, ont été déterminés à l'aide d'une étude paramétrique.
 
 \subsubsection{Choix du noyau de convolution gros grain}
-Il existe différents noyaux de convolutions permettant l'obtention d'une densité gros grain. Notre choix s'est dans un premier temps naturellement portée vers le plus simple, un heavyside (en noir sur la figure \ref{fig:noyaux}). Notre étude à permis de rapidement éliminer ce noyau. Il n'existait aucun combinaison de paramètres permettant de reproduire correctement la tension de surface (résultats non présentés ici). 
+Il existe différents noyaux de convolutions permettant l'obtention d'une densité gros grain. Notre choix s'est dans un premier temps naturellement porté vers le plus simple, un heavyside (en noir sur la figure \ref{fig:noyaux}). Notre étude a permis d'éliminer rapidement ce noyau de convolution. Il n'existait aucune combinaison de paramètres permettant de reproduire correctement la tension de surface (résultats non présentés ici). 
 
 
 
@@ -354,20 +354,20 @@ Il existe différents noyaux de convolutions permettant l'obtention d'une densit
 
 
 
-Nous nous sommes ensuite intéressé à la gaussienne (en rouge sur la figure \ref{fig:noyaux}).
+Nous nous sommes ensuite intéressés à la gaussienne (en rouge sur la figure \ref{fig:noyaux}).
 Ce noyau est défini par deux paramètres, sa largeur à mi hauteur $\sigma_{gauss}$ (\AA) et un pré-facteur définissant sa hauteur.
 Afin de conserver une cohérence entre la densité et la densité gros grain, le pré-facteur est choisi de façon à obtenir une aire sous la courbe de la gaussienne toujours égale à 1.
 \`A ce niveau, nous disposons donc de deux paramètres, B et $\sigma_{gauss}$.
-Dans un premier temps, nous avons cherché les limites de B, qui ont un impact direct sur la forme de la courbe de potentiel chimique du fluide homogène.
-Comme on le voit sur la figure \ref{fig:etude_B}, une valeur de B inférieure à $-15.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ ou supérieure à $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ déforme la courbe.
-Nous avons donc choisi de concentrer notre étude sur des valeurs de B allant de $-15.10^{-8}$ à $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$.
+Dans un premier temps, nous avons cherché les limites de B qui ont un impact direct sur la forme de la courbe de potentiel chimique du fluide homogène.
+Comme on le voit sur la figure \ref{fig:etude_B}, une valeur de B inférieure à $-15e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ ou supérieure à $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ déforme la courbe.
+Nous avons donc choisi de concentrer notre étude sur des valeurs de B allant de $-15e^{-8}$ à $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$.
 La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autour de l'origine. On voit la création d'un second minimum proche de zero qui confirme la présence d'une phase gazeuse. On voit également que le minimum est très légèrement négatif. Ce résultat est attendu car on impose $\rho[0]=0$ et on sait que $\frac{\delta F}{\delta \rho}<0$ (voir annexe \ref{chap:annexes:grad}).
 
 \begin{figure}[H]
     \center
   \begin{tikzpicture}
     \begin{axis}[
-           xlabel= $\rho_{bulk}/\rho_b$,
+           xlabel= $\rho_{bulk}/\rho_0$,
             ylabel= $\Delta g_{solv} (kJ.mol^{-1}.\text{\AA}^{-3}) $,
             xmin = 0, xmax = 1.5,
             ymin = 0, ymax = 0.15,
@@ -384,7 +384,7 @@ La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autou
       \legend{$B=-15$, $B=-10$, $B=-5$, $B=0$, $B=5$, $B=10$, $B=15$}
     \end{axis}
   \end{tikzpicture}
-    \caption[\'Energie libre d'une unité de volume du solvant homogène en fonction du paramètre B.]{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$). $\rho_b$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
+    \caption[\'Energie libre d'une unité de volume du solvant homogène en fonction du paramètre B.]{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre B ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$). $\rho_0$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
     \label{fig:etude_B}
 \end{figure}
 
@@ -393,7 +393,7 @@ La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autou
     \center
   \begin{tikzpicture}
     \begin{axis}[
-           xlabel= $\rho_{bulk}/\rho_b$,
+           xlabel= $\rho_{bulk}/\rho_0$,
             ylabel= $\Delta g_{solv} (kJ.mol^{-1}.\text{\AA}^{-3}) $,
             scaled x ticks={base 10:0},
             scaled y ticks={base 10:0},
@@ -411,7 +411,7 @@ La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autou
 
 
 \subsubsection{\'Exploration des paramètres B et $\sigma_{gauss}$}
-Pour chaque valeur de ce paramètre B, nous avons tracé l'énergie libre de solvatation d'une sphère dure en fonction de son rayon et divisée par son volume.
+Pour chaque valeur de ce paramètre B, nous avons tracé l'énergie libre de solvatation d'une sphère dure divisée par son volume en fonction de son rayon.
 Nous avons ensuite ajusté la valeur de $\sigma_{gauss}$ pour obtenir une tension de surface correcte (voir figure \ref{fig:etude_sigma}).
 
 \begin{figure}[H]
@@ -433,7 +433,7 @@ Nous avons ensuite ajusté la valeur de $\sigma_{gauss}$ pour obtenir une tensio
         \legend{$\sigma_{gauss}=0.866$, $\sigma_{gauss}=0.900$, $\sigma_{gauss}=0.935$, $\sigma_{gauss}=0.966$, $\sigma_{gauss}=1.000$}
       \end{axis}
     \end{tikzpicture}
-	\caption[\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface en fonction de $\sigma_{gauss}$.]{\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface en fonction de $\sigma_{gauss}$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ.m$^{-2}$\cite{vega_surface_2007}.}
+	\caption[\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon  pour différentes valeurs de $\sigma_{gauss}$.]{\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon  pour différentes valeurs de $\sigma_{gauss}$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15e^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ.m$^{-2}$\cite{vega_surface_2007}.}
     \label{fig:etude_sigma}
 \end{figure}
 
@@ -444,7 +444,7 @@ Nous avons ainsi obtenu, pour chaque valeur de B sélectionnée, la valeur de $\
  \centering
   \begin{tabular}{l || c c c c c c c}
     \hline
-    B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$)  & -15 & -10 & -5 & 0 & 5 & 10 & 15  \\
+    B ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$)  & -15 & -10 & -5 & 0 & 5 & 10 & 15  \\
     \hline
      $\sigma_{gauss}$ (\AA)  & 1.177 & 1.110 & 1.061 & 1.021 & 0.989 & 0.960 & 0.935  \\
     \hline
@@ -481,7 +481,7 @@ Afin de sélectionner le meilleur couple de paramètres, nous disposons de diff�
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 \subsubsection{\'Energie libre de solvatation de sphères dures}
-Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energie libre de solvatation d'une sphère dure divisée par sa surface aux valeurs de références calculées par Monte Carlo\cite{hummer_information_1996} ( voir figure \ref{fig:comparaison_hummer} ). A cause du temps de calcul nécessaire, Hummer et Al\cite{hummer_information_1996}, se sont limités à une dizaine de point pour des sphères de rayon inférieur à 4 \AA.
+Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energie libre de solvatation d'une sphère dure divisée par sa surface aux valeurs de références calculées par Monte Carlo\cite{hummer_information_1996} (voir figure \ref{fig:comparaison_hummer}). A cause du temps de calcul nécessaire, Hummer et al\cite{hummer_information_1996}, se sont limités à une dizaine de point pour des sphères de rayon inférieur à 4 \AA.
 
 
 
@@ -672,21 +672,21 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
     \end{tikzpicture}
   }
   \end{subfigure}
-    \caption[\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface pour différentes valeurs de B.]{ \'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Les calculs ont été effectués pour chaque couple de paramètres B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA). Ces courbes en rouge, sont comparés à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996} }
+    \caption[\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon pour différentes valeurs de B.]{ \'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Les calculs ont été effectués pour chaque couple de paramètres B ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA). Ces courbes en rouge, sont comparés à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996} }
     \label{fig:comparaison_hummer}
 \end{figure}
 \end{sidewaysfigure}
 
 
- On voit que l'approximation HNC, surestime les énergies libres de solvatation. Notre bridge, corrige fortement cet écart, quelques soit le couple de paramètre choisi. Les meilleurs paramètres ici semblent être pour un B autour de $5.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. 
+ On voit que l'approximation HNC, surestime les énergies libres de solvatation. Notre bridge, corrige fortement cet écart, quelque soit le couple de paramètre choisi. Les meilleurs paramètres ici semblent être pour un B autour de $5e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. 
 
-\boitesimple{Les \'energies libres de solvatation de sphères dures les plus précises sont obtenus pour un B autour de $5.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. Chacun des paramètres proposés sont acceptables à ce niveau. }
+\boitesimple{Les \'energies libres de solvatation de sphères dures les plus précises sont obtenus pour un B autour de $5e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. Chacun des paramètres proposés sont acceptables à ce niveau. }
  
 
 
 
 \subsubsection{\'Energie libre de solvatation de molécules modèles}
-Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèles, avec MDFT pour les différents paramètres du bridge, et par dynamique moléculaire. Nos molécules modèles sont le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. L'ensemble de ces résultats est disponible dans le tableau \ref{tab:energie_libre_molecules_models}. Les paramètres Lennard-Jones de ces composés sont disponibles dans le tableau \ref{tab:param_lj}.
+Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèles avec MDFT, pour les différents paramètres du bridge, et par dynamique moléculaire. Nos molécules modèles sont le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. L'ensemble de ces résultats est disponible dans le tableau \ref{tab:energie_libre_molecules_models}. Les paramètres Lennard-Jones de ces composés sont disponibles dans le tableau \ref{tab:param_lj}.
 
 
 \begin{table}[h]
@@ -706,7 +706,7 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
     Xénon       &  6.06 &  6.47 & 31.23 & 15.02 & 13.50 & 12.48 & 11.71 & 11.20 & 10.74 & \textbf{10.33}  \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption[\`Energie libre de solvatation du méthane unifié et des gaz rares.]{Valeurs de l'énergie libre de solvatation (en kJ.mol$^{-1}$) du méthane unifié et des gaz rares: Argon, Xénon, Krypton, Néon pour les différents paramètres possibles de la fonctionnelle de bridge gros grain. Les valeurs les plus proches de notre référence, la dynamique moléculaire, sont en gras.}
+  \caption[\'Energie libre de solvatation du méthane unifié et des gaz rares.]{Valeurs de l'énergie libre de solvatation (en kJ.mol$^{-1}$) du méthane unifié et des gaz rares: Argon, Xénon, Krypton, Néon pour les différents paramètres possibles de la fonctionnelle de bridge gros grain. Les valeurs les plus proches de notre référence, la dynamique moléculaire, sont en gras.}
   \label{tab:energie_libre_molecules_models}  
 \end{table}
 
@@ -732,12 +732,12 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
 On remarque que l'approximation HNC surestime fortement le calcul de l'énergie libre de solvatation de plusieurs dizaines de $\mathrm{kJ.mol}^{-1}$. Le bridge gros grain permet de considérablement réduire cet écart, à quelques $\mathrm{kJ.mol}^{-1}$ seulement.
 On remarque également que plus B est grand et donc plus la barrière de transition entre la phase liquide et gaz est importante, et meilleures sont les prédictions d'énergies libres de solvatation. 
 
-\boitesimple{ Les meilleures énergies libres de solvatation de nos molécules modèles sont obtenues avec B=$15.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 0.935 \AA }
+\boitesimple{ Les meilleures énergies libres de solvatation de nos molécules modèles sont obtenues avec B=$15e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 0.935 \AA }
 
 
 
 \subsubsection{ Structure du solvant autour de sphères dures }
-Nous nous sommes également intéressés aux structures de solvant, dans un premier temps autour de sphère dures (voir figure \ref{fig:g_r_HS}). Les profils calculés pour chacun des paramètres ont été comparés à des profils de références calculés par Monte Carlo et publiés par Chandler et al.\cite{huang_hydrophobic_2002}. \'Etant donné les temps de calcul nécessaire à la production de ces références, ils se sont limités à des sphères dures de 2, 4, 6, 8 et 10 \AA.
+Nous nous sommes également intéressés aux structures de solvant, dans un premier temps, autour de sphère dures (voir figure \ref{fig:g_r_HS}). Les profils calculés pour chacun des paramètres ont été comparés à des profils de références calculés par Monte Carlo et publiés par Chandler et al.\cite{huang_hydrophobic_2002}. \'Etant donné les temps de calcul nécessaires à la production de ces références, ils se sont limités à des sphères dures de 2, 4, 6, 8 et 10 \AA.
 
 
 
@@ -977,41 +977,41 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
       \end{tikzpicture}
     }
   \end{subfigure}
-    \caption[Fonction de distribution radiale du solvant autour de petites sphères dures.]{ Fonction de distribution radiale du solvant autour de sphères dures de rayon 2.0, 4.0, 6.0, 8.0 et 10.0 $\text{\AA}$. Les RDF ont été calculés avec MDFT dans l'approximation HNC puis pour chaqueLes calculs ont été effectués pour chaque couple de paramètres B ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA) de notre bridge. Les références ont été calculées par Monte-Carlo\cite{huang_hydrophobic_2002} (pointillés bleu). }
+    \caption[Fonction de distribution radiale du solvant autour de petites sphères dures.]{ Fonctions de distribution radiale du solvant autour de sphères dures de rayon 2.0, 4.0, 6.0, 8.0 et 10.0 $\text{\AA}$. Les rdfs ont été calculés avec MDFT dans l'approximation HNC puis pour chaque couple de paramètres B ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA) de notre bridge. Les références ont été calculées par Monte-Carlo\cite{huang_hydrophobic_2002} (pointillés bleu). }
     \label{fig:g_r_HS}
 \end{figure}
 \end{sidewaysfigure}
 
 Les références, calculées par Monte Carlo, pour des sphères de diamètre croissant, montrent un premier pic qui augmente avant de diminuer. Cette diminution traduit la présence de démouillage. Dans l'approximation HNC, les premiers pics sont tous fortement surestimés. Ils augmentent jusqu'à tendre vers une valeur seuil. Le bridge corrige ce défaut en autorisant le démouillage dans le système et ce, quel que soit le couple de paramètres choisit. 
 
-\boitesimple{ Les meilleurs profils sont obtenus pour les valeurs B = $-5.10^{-8}\ \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 1.061 \AA. Les autres paramètres fournissent des résultats légèrement plus éloignés de la référence mais restent cependant acceptables. }
+\boitesimple{ Les meilleurs profils sont obtenus pour les valeurs B = $-5e^{-8}\ \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 1.061 \AA. Les autres paramètres fournissent des résultats légèrement plus éloignés de la référence mais restent cependant acceptables. }
 
 
 
 \subsubsection{ Structure du solvant autour de molécules modèles}
-La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.10*^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma_{gauss}$ correspondants.
+La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma_{gauss}$ correspondantes.
 
 
-Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelques soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ sont les plus efficaces, quelques soit la molécule étudiée.
+Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelque soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ sont les plus efficaces, quelque soit la molécule étudiée.
 
-\boitesimple{ Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA. }
+\boitesimple{ Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs B = $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA. }
 
 
 
 \subsection{Conclusion}
 Afin de choisir les meilleurs paramètres de ce modèle, nous avons comparés les résultats pour chaque couple B, $\sigma_{gauss}$, à des références d'énergie libre de solvatation et de profils de solvant d'une part sur des sphères dures, indispensables au développement de ce bridge, et d'autre part sur des molécules modèles plus réalistes: le méthane, et les gaz rares.
-On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ apparaissent comme le meilleur compromis. Le bridge retenu est donc:
+On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres B = $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ apparaissent comme le meilleur compromis. Le bridge retenu est donc:
 
 \boitesimplelarge{
 \begin{equation} \label{eq:fbridge_complete}
-F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15.10^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
+F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15e^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
 \end{equation} 
 }
 
 Le gradient de cette fonctionnelle de bridge est disponible en annexe \ref{sec:annexes:grad:bridge}.
 
 \section{Implémentation 3D}
-Une fois le bridge développé, nous l'avons implémenté dans la version 3D de MDFT. Nous avons, dans un premier temps comparé les résultats obtenus sur nos molécules modèles, avant de nous intéresser à des molécules d’intérêt biologiques: des protéines.
+Une fois le bridge développé, nous l'avons implémenté dans la version 3D de MDFT. Nous avons, dans un premier temps, comparé les résultats obtenus sur nos molécules modèles avant de nous intéresser à des molécules d’intérêt biologiques: des protéines.
 
 
 \begin{table}[h]
@@ -1032,16 +1032,14 @@ Une fois le bridge développé, nous l'avons implémenté dans la version 3D de 
   \label{tab:deltag_1D_3D}  
 \end{table}
 
-Comme nous le voyons dans le tableau \ref{tab:deltag_1D_3D}, les énergies libre de solvatation produites par la version à symétrie sphérique et la version 3D de MDFT sont proches. Il n'est cependant pas étonnant d'observer de légères différences entre les résultats fournit par la version 2D et la version à symétrie sphérique car ces version diffèrent sur plusieurs points. 
-
-Nous rappelons qu'il existe des différences non négligeables entre les deux versions.
+Comme nous le voyons dans le tableau \ref{tab:deltag_1D_3D}, les énergies libres de solvatation produites par la version à symétrie sphérique et la version 3D de MDFT sont proches. Il n'est cependant pas étonnant d'observer de légères différences entre les résultats fournis par la version 2D et la version à symétrie sphérique car ces versions diffèrent sur plusieurs points. 
 
 \begin{itemize}
-\item La version en 3D est périodique, contrairement à la verison à symétrie sphérique
-\item Contrairement à la verion 3D, la version à symmétrie sphérique ignore l'orientation du solvant
+\item La version en 3D est périodique, contrairement à la version à symétrie sphérique
+\item Contrairement à la verion 3D, la version à symétrie sphérique ignore l'orientation du solvant
 \end{itemize}
 
-De plus, la version à symmétrie sphérique permet une finesse de grille bien plus importante que la version 3D. Les calculs ont été effectués avec un écart de 0.5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0.1 \AA\ dans la version à symétrie sphérique. Ces différences peuvent entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
+De plus, par définition, la version à symétrie sphérique permet une finesse de grille bien plus importante que la version 3D. Les calculs ont été effectués avec un écart de 0.5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0.1 \AA\ dans la version à symétrie sphérique. Ces différences peuvent entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
 
 En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r_methane_3D} que la version 3D est bien plus précise que la version à symétrie sphérique. Les profils fournis sont quasi-identiques à ceux de référence issus de dynamique moléculaire.
 
@@ -1201,7 +1199,7 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
     \end{tikzpicture}
     }
   \end{subfigure}
-  \caption[Fonction de distribution radiale du méthane et des gaz rares.]{Fonction de distribution radiale du méthane et des gaz rares. Les RDFs ont été calculées avec MDFT dans l'approximation HNC (en noir) et les deux paramètres extrêmes disponibles pour notre bridge (en marron et noir). Les références (en pointillées bleu) ont été calculées par dynamique moléculaire.}
+  \caption[Fonction de distribution radiale du méthane et des gaz rares.]{Fonction de distribution radiale du méthane et des gaz rares. Les rdfs ont été calculées avec MDFT dans l'approximation HNC (en noir) et les deux paramètres extrêmes disponibles pour notre bridge (en marron et noir). Les références (en pointillées bleu) ont été calculées par dynamique moléculaire.}
   \label{fig:g_of_r_molecules_modeles}
 \end{figure}
 
@@ -1302,7 +1300,7 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
     \end{tikzpicture}
     }
   \end{subfigure}
-  \caption[Fonctions de distribution radiale autour du méthane et des gaz rares en 3D.]{ Fonctions de distribution radiale autour du méthane et des gaz rares. Les RDF ont été calculés avec les versions de MDFT à symétrie sphérique et 3D, dans l'approximation HNC et avec le bridge gros grain. Les références ont été calculées par Dynamique moléculaire.}
+  \caption[Fonctions de distribution radiale autour du méthane et des gaz rares en 3D.]{ Fonctions de distribution radiale autour du méthane et des gaz rares. Les rdfs ont été calculés avec les versions de MDFT à symétrie sphérique et 3D, dans l'approximation HNC et avec le bridge gros grain. Les références ont été calculées par Dynamique moléculaire.}
     \label{fig:g_of_r_methane_3D}
 \end{figure}
 
@@ -1316,7 +1314,7 @@ Enfin, nous avons étudié la prédiction de profils de solvatation autour de pl
 \vspace{8\baselineskip}
 
 \boitemagique{A retenir}{
-Dans ce chapitre nous décrivons le développement d'un nouveau bridge \textbf{simple} et \textbf{rapide}. Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles, en reproduisant une pression et une tension de surface correcte. Il améliore également fortement le calcul de l'énergie libre de solvatation et la prédiction de structure de solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques. 
+Dans ce chapitre nous décrivons le développement d'un nouveau bridge \textbf{simple} et \textbf{rapide}. Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles en reproduisant une pression et une tension de surface correcte. Il améliore également fortement le calcul de l'énergie libre de solvatation et la prédiction de structures de solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques. 
 }
 
 
