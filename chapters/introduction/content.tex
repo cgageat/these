@@ -134,11 +134,9 @@ Malgré l'évolution des techniques expérimentales, l'acquisition de données s
 Les méthodes explicites représentent chaque molécules de solvant du système. Au prix de temps de calculs importants, ces méthodes sont actuellement les plus précises. Les logiciels de simulation moléculaire de type dynamique moléculaire (MD) ou Monte Carlo (MC), couplés à une représentation explicite du solvant, permettent d'obtenir avec précision la structure du solvant ainsi que l'énergie libre de solvatation du composé. La structure à l'équilibre du solvant s'obtient à l'issue d'une unique simulation. Elle correspond à la moyenne statistique des positions des atomes de solvant au cours de la simulation. Plus la simulation est longue, plus l’échantillonnage des conformations est important et meilleure sera la statistique. Une bonne précision nécessite donc une simulation longue et donc un temps de calcul important.
 
 Le calcul de l'énergie libre de solvatation nécessite de coupler les simulations explicites à des méthodes comme l'intégration thermodynamique (TI) ou encore de perturbation d'énergie libre (FEP)\cite{Skyner_review_2015, Hansen_Practical_2014, Christ_basic_2009}. Dans le cas de l'intégration thermodynamique, par exemple, afin de simuler une transition lente de l'état initial à l'état final, une vingtaine de simulations de dynamique moléculaire (MD) ou monte carlo (MC) sont lancées. Chacune d'entre elle représente un état intermédiaire de la transformation étudiée. Une fois l'ensemble des simulations terminées, l'énergie libre de la transformation étudiée correspond à la somme des moyennes de la différence d'énergie potentielle entre deux états voisins. Elle s'écrit sous la forme
-
 \begin{eqnarray}
 \Delta F(A \rightarrow B) =  \int_0^1 \left\langle U_B(\lambda) - U_A(\lambda) \right\rangle_{\lambda} d\lambda
 \end{eqnarray}
-
 \noindent avec $\lambda$ la coordonnée de réaction permettant la transition entre l'état initial ($\lambda$=0) et l'état final ($\lambda$=1).
 Ces méthodes nécessitent de nombreuses simulations et multiplient d'autant le temps de calcul.
 
@@ -187,7 +185,10 @@ Dans ce paragraphe nous ne présentons qu'une petite partie des possibilités qu
 
 
 
-\vspace{8\baselineskip}
+\clearpage
+\strut
+\vspace{10\baselineskip}
+
 
 \boitemagique{A retenir}{
 Dans ce chapitre nous introduisons le contexte de cette thèse et présentons l'état de l'art des méthodes de solvatation. Nous montrons également en quoi l'énergie libre de solvatation et la structure du solvant sont omniprésentes tout au long du développement et de l'optimisation d'un médicament. 

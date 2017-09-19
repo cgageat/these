@@ -25,7 +25,6 @@ Et, comme $\frac{\delta \rho}{\rho}$ tend vers 0, il est possible de faire le d�
 \begin{eqnarray}
 \ln(1+\frac{\delta \rho}{\rho}) = \frac{\delta \rho}{\rho} + \mathcal{O}(\delta\rho^{2})
 \end{eqnarray}
-
 On injecte ce développement l'équation précédente:
 \begin{eqnarray}
 \beta \delta \mathcal{F}_\mathrm{id}[\rho] &=& \int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ \rho \ln(\frac{\rho + \delta \rho}{\rho_0})  + \delta \rho\ln(\frac{\rho + \delta \rho}{\rho_0}) - \delta\rho - \rho\ln(\frac{\rho}{\rho_0})\\
@@ -53,7 +52,6 @@ Le gradient de la partie idéale s'annule en $\rho=\rho_0$. Cette partie tend do
 &=& \int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ (\rho+\delta\rho)\phi - \int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ \rho\phi  \\
 &=& \int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ \delta\rho\phi
 \end{eqnarray}
-
 On obtient finalement:
 \boitesimple{
 \begin{eqnarray}
@@ -65,9 +63,6 @@ On voit ici que la partie idéale favorisera une faible densité pour une valeur
 
 \section{Fonctionnelle d'excès}
 \label{sec:annexes:grad:exc}
-
-
-
 \begin{eqnarray}
 \beta \delta \mathcal{F}_\mathrm{exc}[\rho] &=& \beta \mathcal{F}_\mathrm{exc}[\rho + \delta \rho, \rho^\prime] -\beta \mathcal{F}_\mathrm{exc}[\rho, \rho^\prime] \\
 & & + \beta \mathcal{F}_\mathrm{exc}[\rho, \rho^\prime + \delta \rho^\prime] -\beta \mathcal{F}_\mathrm{exc}[\rho, \rho^\prime] \nonumber\\
@@ -75,7 +70,6 @@ On voit ici que la partie idéale favorisera une faible densité pour une valeur
 &=& -\int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ (\Delta\rho+\delta\rho) \gamma  + \int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ (\Delta\rho \gamma) \\
 &=& -\int\mathrm{d}\boldsymbol{r}\mathrm{d}\Omega\ \delta\rho \gamma
 \end{eqnarray}
-
 On obtient finalement:
 \boitesimple{
 \begin{eqnarray}
@@ -96,9 +90,6 @@ On obtient finalement:
 \frac{\delta\hat{F}_{b}[\rho(\vec{r})]}{\delta\rho(\vec{r})}&=&\frac{\delta\bar{\hat{F}}_{b}[\rho(\vec{r})]}{\delta\bar{\rho}(\vec{r})}K(\vec{k})  \\
 \frac{\delta F_{b}[\rho(\vec{r})]}{\delta\rho(\vec{r})}&=&HT^{-1}\frac{\delta\hat{F}_{b}[\rho(\vec{r})]}{\delta\rho(\vec{r})} 
 \end{eqnarray}
-
-
-
 %\chapter{Implémentations}
 %\label{chap:annexes:implementations}
 

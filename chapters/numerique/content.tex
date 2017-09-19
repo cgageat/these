@@ -10,7 +10,7 @@ Afin de porter MDFT vers des applications biologiques, certains développements 
 \section{Reproductibilité}
 La reproductibilité est une problématique récurrente lors de développement, de la modification ou de l'optimisation de logiciels de calculs. En effet, la comparaison de deux mesures liées à l’exécution d'un logiciel n'est pas pertinente si nous n'avons pas la certitude que les deux exécutions ont eu lieu strictement dans les mêmes conditions: options de compilation, environnement, options d’exécution, etc (voir image \ref{fig:JUBE_process}).
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \center
   \begin{tikzpicture}
   
@@ -53,7 +53,7 @@ Ce script a plusieurs objectifs:
 \subsubsection{ Les cas tests }
 Il doit permettre de lancer simplement un ou plusieurs des 3 cas tests suivants:
 
-\begin{table}[H]
+\begin{table}[ht]
   \begin{center}
     \begin{tabular}{c c c c c }
       \hline & \\[-1em]\hline
@@ -151,7 +151,7 @@ Comme on le voit sur la figure \ref{fig:lj}, le potentiel de Lennard-Jones tend 
     \pgfmathparse{4*#1*((#2/x)^12-(#2/x)^6)}%
 }
 
-\begin{figure}[H]
+\begin{figure}[ht]
     \center    
   \begin{tikzpicture}
     \begin{axis}[
@@ -198,7 +198,7 @@ Dans notre cas, le nombre de variables est égal au nombre de points de grille m
 
 
 
-\begin{table}[H]
+\begin{table}[ht]
  \centering
   \begin{tabular}{l | c | c }
     \hline \multicolumn{3}{c}{} \\[-1em]\hline
@@ -221,7 +221,7 @@ Afin de dépasser ces limites, nous avons donc implémenté un nouveau minimiseu
 
 
 
-\begin{table}[H]
+\begin{table}[ht]
  \centering
   \begin{tabular}{ c || c | c | c || c | c | c }
     \hline \multicolumn{3}{c}{} \\[-1em]\hline
@@ -260,7 +260,7 @@ Dans le second cas, c'est le temps de restitution qui est important. La parallé
 
 
 
-\begin{table}[H]
+\begin{table}[ht]
  \centering
   \begin{tabular}{ c | c | c }
       Nombre de cœurs & Temps de calcul & gain(\%)\\
@@ -288,6 +288,8 @@ On voit que sur un coeur, l'éxecution de MDFT est plus lente avec OpenMP (31min
 
 % \subsubsection{Modification du format de données}
 
-\vspace{4\baselineskip}
+\clearpage
+\strut
+\vspace{10\baselineskip}
 
 \boitemagique{A retenir}{Dans ce chapitre, nous avons dans un premier décrit la mise en place d'un outil permettant un suivi simple et efficace de l'évolution de MDFT. Nous avons ensuite présenté les développements numériques et optimisations qui permettent aujourd'hui d'atteindre des tailles de systèmes intéressantes en biologie dans des temps de calculs raisonnables.}

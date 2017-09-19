@@ -194,7 +194,7 @@ On voit sur la figure \ref{fig:distrib_error_PC_PCPlus} que la MDFT, sans correc
 Au travers de cette étude, nous avons montré l'efficacité de la correction de pression \textit{PC} quelque soit le niveau de la théorie utilisée. Nous avons également montré que la correction de pression empirique \textit{PC+} permet de corriger simplement les approximations engendrées par l'utilisation d'un $\mathrm{m}_\mathrm{max}$=1.
 }
 
-\begin{center}[H]
+\begin{center}
 \begin{figure}
    \begin{subfigure}[b]{0.85\textwidth}
        \centering
@@ -312,6 +312,8 @@ Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement l
 
 Quelque-soit la valeur du paramètre $\mathrm{m}_\mathrm{max}$, notre bridge gros grain améliore les résultats par rapport à l'approximation HNC, tout en fournissant des structures de solvatation proches des références (voir chapitre \ref{chap:bridge}). Ces valeurs d'énergies restent cependant moins précises que celles obtenues avec la correction de pression \textit{PC}.
 
+\clearpage
+
 \boitesimple{
 Cette étude nous a permis d'évaluer les différentes corrections dont nous disposons: la correction ad-hoc \textit{PC} et le bridge gros grain. Nous avons ainsi montré que ces deux corrections améliorent fortement la prédiction d'énergies libres de solvatation par rapport à l'approximation HNC seule avec un léger avantage pour la correction de pression \textit{PC}.\\
 En fonction des études, nous avons donc le choix entre la correction de pression  \textit{PC}, plus précise au niveau des énergies libres de solvatation, et le bridge gros grain, plus précis en ce qui concerne les profils de solvatation.
@@ -362,7 +364,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
 Dans un premier temps, on voit que la dynamique moléculaire et donc le champ de force est moins précis pour les diaryl ether, les alkylamines ou encore les carbonitriles. Ces résultats sont cependant à prendre avec précaution car ces groupes peuvent être peuplés par des molécules similaires comme c'est le cas pour les éthers de diaryle (voir figure \ref{fig:diaryl_ether}). En effet, la base de données FreeSolv est issue de la littérature et il est fréquent que des molécules soient étudiées par séries. Dans le cas des diaryle ether, cette série de molécules, correspond à la fraction d'une série plus importante qui a été utilisée lors du challenge SAMPL3\cite{Geballe_sampl_2012}. Ces déséquilibres n'ont cependant aucun impact sur la comparaison de la dynamique moléculaire et de la MDFT car le biais est identique dans les deux cas.
 
 Cette étude nous permet également de confirmer deux points faibles de MDFT: l'hydrophobicité (voir chapitre \ref{chap:bridge}) et les charges partielles\cite{ding_thesis}. En effet, les différences les plus importantes entre les deux méthodes sont obtenues pour les oxo(het)arenes (charges partielles), les amines primaires aliphatiques(charges partielles), les alkyl aryl éthers(charges partielles, hydrophobe), les amines primaires(charges partielles) et les amines primaires aromatiques (charges partielles, hydrophobe). 
-
+\clearpage
 
 
 \begin{figure}[H]
@@ -375,8 +377,8 @@ Cette étude nous permet également de confirmer deux points faibles de MDFT: l'
 \end{figure}
 
 
-
 Enfin, on voit que MDFT avec le bridge gros grain, nous donne globalement des erreurs plus importantes avec une erreur maximale autour de 0.85 kcal.mol$^{-1}$ contre 0.43 kcal.mol$^{-1}$ pour MDFT avec la correction de pression \textit{PC}. Ces résultats confirment ceux précédemment obtenus dans le paragraphe \ref{sec:corrections_pression}. 
+\clearpage
 
 
 
@@ -403,6 +405,7 @@ Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^
 Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champ de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données FreeSolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
 }
 
+\clearpage
 
 
 \begin{figure}[H]

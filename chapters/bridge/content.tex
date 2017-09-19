@@ -48,7 +48,7 @@ Lorsque de gros composés hydrophobes sont plongés en solution, on observe une 
     %0.5*(tanh(x-5)+1)
 }
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \center    
   \begin{tikzpicture}
     \begin{axis}[
@@ -93,7 +93,7 @@ Lorsque de gros composés hydrophobes sont plongés en solution, on observe une 
 
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \center
   \begin{tikzpicture}
     \begin{axis}[
@@ -139,14 +139,11 @@ Afin de paramètriser ce nouveau bridge, nous nous concentrons dans une premier 
 
 \subsection{La théorie}
 Comme nous l'avons décrit précedemment, nous nous affranchissons des orientations du solvant. Cela revient, dans la définition de la fonctionnelle (voir équation \ref{eq:fonctionnelle}) à remplacer $\int\mathrm{d}\Omega\rho(\boldsymbol{r}, \Omega)$ par $\rho(r)$. Dans le cas de coordonnées cartésiennes, le découpage de l'espace se fait sous forme de voxels, alors que dans le cas de coordonnées sphériques, le découpage se fait sous forme de coquilles. L'intégration $\int\mathrm{d}\boldsymbol{r}$ est donc remplacée par $\int\mathrm{dV}_{\mathrm{coquille}}(r)$ avec $\mathrm{dV}_{\mathrm{coquille}}(r)=4 \pi r^2 \mathrm{dr}$, $\mathrm{dr}$ étant l'épaisseur de la coquille soit numériquement, l'espacement entre deux points. Les fonctionnelles idéale et externe, centrées sur l'origine, sont les suivantes:
-
 \begin{eqnarray}
 \mathcal{F}_\mathrm{id}(r)&=&\mathrm{k_B}T\int\mathrm{dV}_{\mathrm{coquille}}(r) [ \rho\left(r \right)\ln\left(\frac{\rho\left(r \right)}{\rho_0}\right)-\rho\left(r \right)+\rho_0 ],\\
 \mathcal{F}_\mathrm{ext}(r)&=&\int\mathrm{ dV}_{\mathrm{coquille}}(r)\rho\left(r \right)\phi\left(r \right)\\
 \end{eqnarray}
-
 Au contraire des deux premiers termes, la fonctionnelle d'excès n'est pas centrée sur l'origine. Nous ne pouvons donc pas nous placer directement dans des coordonnées sphériques. Nous réécrivons donc dans un premier temps cette partie de la fonctionnelle sous la forme d'une convolution, ce qui nous donne :
-
 \begin{eqnarray}
 \mathcal{F}_\mathrm{exc}(r) &=& \mathcal{F}_\mathrm{hnc} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
@@ -155,12 +152,10 @@ Avec
 \mathcal{F}_\mathrm{hnc}&=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} \Delta\rho\left(\boldsymbol{r} \right)  \int\mathrm{d}\boldsymbol{r}^\prime c_s\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left(\boldsymbol{r}^\prime \right) + \mathcal{F}_\mathrm{b}\\
 						 &=& -\frac{\mathrm{k_B}T}{2}\int\mathrm{d}\boldsymbol{r} [ \Delta\rho\left(\boldsymbol{r} \right)  *\gamma(\boldsymbol{r}) ] + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
-
  avec $\gamma(\boldsymbol{r}) = \int\mathrm{d}\boldsymbol{r}\mathrm{d}\boldsymbol{r}^\prime c_s\left(\left|\boldsymbol{r}-\boldsymbol{r}^\prime\right| \right) \Delta\rho\left(\boldsymbol{r}^\prime  \right)$ et $c_s$ la contribution à symétrie sphérique de la fonction de corrélation directe totale. À condition d'utiliser une convolution adaptée, nous sommes ici autorisés à réécrire cette partie de la fonctionnelle dans les coordonnées sphériques. Nous obtenons ainsi:
 \begin{eqnarray}
 \mathcal{F}_\mathrm{hnc} &=& -\frac{\mathrm{k_B}T}{2} \int \mathrm{d} r (\Delta\rho\left(r \right)  \ast (\gamma(r)) + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
-
 Une résolution rapide et simple de ce terme est décrite plus loin.
 
 
@@ -187,14 +182,12 @@ Afin d'adapter au mieux la transformée de Hankel à nos besoins, nous l'avons r
 \mathrm{HT}[f](k) &=& 4\pi\int \mathrm{dr}\ f(r)\frac{\sin(kr)}{kr}r^2\\
 \mathrm{HT}^{-1}[f](k) &=& \frac{1}{3\pi^2}\int \mathrm{dk}\ f(k)\frac{\sin(kr)}{kr}k^2
 \end{eqnarray}
-
 À cette étape, nous minimisons donc la fonctionnelle dans l'approximation HNC.  
 
 
 \subsubsection{Mise en cache partielle de la transformée de Hankel}
 Malgré la puissance des machines de calcul actuelles, certaines opérations restent longues à effectuer. C'est le cas par exemple des exponentielles, ou encore des cosinus et sinus que nous utilisons massivement dans le calcul des transformées de Hankel.
 Lors de la minimisation, seules les valeurs des densités changent. Leur position, r dans l'espace réel et k dans l'espace réciproque, ne sont pas modifiées. Les valeurs de $4\pi\frac{\sin(kr)}{kr}r^2$ ne sont donc pas non plus modifiées. Afin de diminuer fortement le temps de calcul nécessaire à cette partie, nous avons mis ces valeurs en cache. En d'autres termes, nous les générons une fois au début de la minimisation, nous les stockons en mémoire, puis nous les réutilisons à chaque pas de minimisation. De plus, ces valeurs étant toujours appelées dans le même ordre, nous les stockons en mémoire de manière contiguë, ce qui autorise la vectorisation de cette boucle de calcul et minimise le temps nécessaire au rapatriement des données. Nous bénéficions ainsi du maximum de la puissance de calcul disponible. Nous réécrivons donc la transformée de Hankel sous la forme:
-
 \begin{eqnarray}
 \mathrm{HT}[f](k) &=& \sum \mathrm{dr}\ f(r) . \mathrm{cache}(kr)
 \end{eqnarray}
@@ -213,7 +206,7 @@ Nous minimisons par exemple facilement des systèmes de quelques centaines d'\AA
 
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \begin{tikzpicture}
     \begin{axis}[
@@ -324,7 +317,7 @@ Il existe différents noyaux de convolutions permettant l'obtention d'une densit
     \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
 }
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \center    
   \begin{tikzpicture}
     \begin{axis}[
@@ -363,7 +356,7 @@ Comme on le voit sur la figure \ref{fig:etude_B}, une valeur de B inférieure à
 Nous avons donc choisi de concentrer notre étude sur des valeurs de B allant de $-15e^{-8}$ à $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$.
 La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autour de l'origine. On voit la création d'un second minimum proche de zero qui confirme la présence d'une phase gazeuse. On voit également que le minimum est très légèrement négatif. Ce résultat est attendu car on impose $\rho[0]=0$ et on sait que $\frac{\delta F}{\delta \rho}<0$ (voir annexe \ref{chap:annexes:grad}).
 
-\begin{figure}[H]
+\begin{figure}[ht]
     \center
   \begin{tikzpicture}
     \begin{axis}[
@@ -389,7 +382,7 @@ La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autou
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
     \center
   \begin{tikzpicture}
     \begin{axis}[
@@ -414,7 +407,7 @@ La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autou
 Pour chaque valeur de ce paramètre B, nous avons tracé l'énergie libre de solvatation d'une sphère dure divisée par son volume en fonction de son rayon.
 Nous avons ensuite ajusté la valeur de $\sigma_{gauss}$ pour obtenir une tension de surface correcte (voir figure \ref{fig:etude_sigma}).
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \center
     \begin{tikzpicture}
       \begin{axis}[
@@ -440,7 +433,7 @@ Nous avons ensuite ajusté la valeur de $\sigma_{gauss}$ pour obtenir une tensio
 
 Nous avons ainsi obtenu, pour chaque valeur de B sélectionnée, la valeur de $\sigma_{gauss}$ reproduisant correctement la tension de surface $\gamma$ de l'eau. Ces valeurs sont disponibles dans le tableau \ref{tab:parametres_bridge}.
 
-\begin{table}[H]
+\begin{table}[ht]
  \centering
   \begin{tabular}{l || c c c c c c c}
     \hline
@@ -689,7 +682,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
 Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèles avec MDFT, pour les différents paramètres du bridge, et par dynamique moléculaire. Nos molécules modèles sont le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. L'ensemble de ces résultats est disponible dans le tableau \ref{tab:energie_libre_molecules_models}. Les paramètres Lennard-Jones de ces composés sont disponibles dans le tableau \ref{tab:param_lj}.
 
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \begin{tabular}{ l c c c c c c c c c c c }
    \hline & \\[-1em]\hline
@@ -711,7 +704,7 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \begin{tabular}{ l c c }
    \hline & \\[-1em]\hline
@@ -1014,7 +1007,7 @@ Le gradient de cette fonctionnelle de bridge est disponible en annexe \ref{sec:a
 Une fois le bridge développé, nous l'avons implémenté dans la version 3D de MDFT. Nous avons, dans un premier temps, comparé les résultats obtenus sur nos molécules modèles avant de nous intéresser à des molécules d’intérêt biologiques: des protéines.
 
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \begin{tabular}{ l c c c c c c c }
     \hline & \\[-1em]\hline
@@ -1047,7 +1040,7 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 
 %g_of_r_molecules_modeles
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \begin{subfigure}{.5\textwidth}
     \caption{Méthane}
@@ -1203,7 +1196,7 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
   \label{fig:g_of_r_molecules_modeles}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
  \begin{subfigure}{.5\textwidth}
     \caption{Méthane}
@@ -1311,7 +1304,9 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 
 Enfin, nous avons étudié la prédiction de profils de solvatation autour de plus grosses molécules et en particulier autour d'une protéine. Cet exemple sera traité et analysé plus en détails dans le chapitre \ref{chap:applications}.
 
-\vspace{8\baselineskip}
+\clearpage
+\strut
+\vspace{10\baselineskip}
 
 \boitemagique{A retenir}{
 Dans ce chapitre nous décrivons le développement d'un nouveau bridge \textbf{simple} et \textbf{rapide}. Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles en reproduisant une pression et une tension de surface correcte. Il améliore également fortement le calcul de l'énergie libre de solvatation et la prédiction de structures de solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques. 
