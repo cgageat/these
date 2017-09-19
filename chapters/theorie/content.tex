@@ -121,7 +121,7 @@ La convolution de deux fonctions, peut être calculée comme la transformée de 
 \end{eqnarray}
 
 
-Cette méthode ne permet cependant pas à elle seule de diminuer le temps de calcul. Cette propriété à donc été couplées à l'utilisation des FFT (Fast Fourier Tranform) et en particulier de la librairie FFTW3 pour la partie spatiale et de FGSHT (fast generalized spherical harmonic transform) récemment proposé par Ding et al\cite{ding_thesis} pour la partie angulaire. Le protocole suivi est le suivant:
+Cette méthode ne permet cependant pas à elle seule de diminuer le temps de calcul. Cette propriété à donc été couplées à l'utilisation des FFT (Fast Fourier Transform) et en particulier de la librairie FFTW3 pour la partie spatiale et de FGSHT (fast generalized spherical harmonic transform) récemment proposé par Ding et al\cite{ding_thesis} pour la partie angulaire. Le protocole suivi est le suivant:
 
 \begin{eqnarray}
 \Delta\hat{\rho}\left(\boldsymbol{k}_k,\Omega_l\right) &=& \mathrm{FT}[\Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right)] \\
@@ -180,7 +180,7 @@ Si l'on veut corriger à la fois l'énergie libre de solvatation et la densité 
 \mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc}^{HNC} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
 
-Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2013-1}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
+Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
 
 
 

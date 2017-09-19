@@ -27,12 +27,18 @@ Ce bridge permet donc de retrouver la consistante thermodynamique tout en améli
 
 
 \section{Le démouillage}
-
-Lorsque de gros composés hydrophobes sont plongés en solution, on observe une transition lente d'une densité quasi-nulle (à la surface soluté) à la densité bulk (loin du soluté) ( voir figure \ref{fig:demouillage}). Ce phénomène est appelé démouillage. Malheureusement, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre d'une unité de volume soit le potentiel chimique d'une molécule du solvant augmente. Les phases de faibles densités normalement attendues sont donc trop défavorisées pour exister. A température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence.
-Cela signifie que le potentiel chimique de molécules de solvant dans chacune de ces deux phases devraient être quasi identiques. Dans l'approximation HNC, les phases de faibles densité sont remplacées par des zone de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge du 3$^{ème}$ ordre proposé par Jeanmairet et al\cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme d'ordre 4. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calcul étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
+Lorsque de gros composés hydrophobes sont plongés en solution, on observe une transition lente d'une densité quasi-nulle (à la surface soluté) à la densité bulk (loin du soluté) ( voir figure \ref{fig:demouillage}). Ce phénomène est appelé démouillage. Malheureusement, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre d'une unité de volume soit le potentiel chimique d'une molécule du solvant augmente. Les phases de faibles densités normalement attendues sont donc trop défavorisées pour exister. En réalite, à température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence. En effet, comme on le voit sur la figure \ref{fig:diagramme_phase_eau}, a température ambiante et pression atmosphérique, l'eau est proche de la phase gaz. Le potentiel chimique est donc également proche de celui de la phase gaz. Dans l'approximation HNC, les phases de faibles densité sont remplacées par des zone de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge du 3$^{ème}$ ordre proposé par Jeanmairet et al\cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme d'ordre 4. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calcul étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
 
 
 
+
+
+\begin{center}
+    \captionsetup{type=figure}
+	\includegraphics[width=0.8\textwidth]{chapters/bridge/images/diagramme_phase_eau.png}
+	\captionof{figure}[Diagramme de phase de l'eau.]{Diagramme de phase de l'eau. Il existe une transition liquid-gaz proche des conditions standards. Cette proximité entraîne la quasi-coexistance des deux phases dans ces conditions. crédit: Olivier Descout}
+    \label{fig:diagramme_phase_eau}
+\end{center}
 
 
 
@@ -60,21 +66,6 @@ Cela signifie que le potentiel chimique de molécules de solvant dans chacune de
     \caption[Représentation du démouillage autour d'une sphère hydrophobe.]{Exemple de densité radiale réaliste autour d'une sphère hydrophobe de rayon R=10 \AA\ en fonction de la distance à la sphère. On attend une densité proche de celle du gaz au contact et la densité bulk de référence de l'eau loin de la sphère.}
     \label{fig:demouillage}
 \end{figure}
-
-
-
-% \begin{figure}[H]
-%   \centering
-%   \resizebox{\linewidth}{!}{
-%     \fbox{\includegraphics[width=\textwidth]{chapters/bridge/images/diagramme_phase_eau.png}}
-%   }
-%   \caption{Diagramme de phase de l'eau. [REF \url{http://nte.mines-albi.fr/ThermoIntro/fr/res/ti_01_1.png}]}
-%   \label{fig:diagramme_phase_eau}
-% \end{figure}
-
-
-
-
 
 
 
@@ -137,7 +128,7 @@ En effet, les charges permettent la création de liaisons hydrogènes fortes ent
 Les composés hydrophobes, entraînant du démouillage sont donc généralement neutres.
 Contrairement aux solutés chargés, les solutés neutres forment uniquement des liaisons de Van Der Waals.
 Dans le cas du modèle d'eau SPC/E, qui posséde un seul site Lennard-Jones sur l'oxygène, soit en son centre, le soluté n'à aucune inflence directe sur l'orientation des molécules d'eau.
-De plus, Jeanmairet et Al.\cite{jeanmairet_molecular_2013-1} ont montré que le couplage entre la densité et la polarisation de l'eau est négligeable.
+De plus, Jeanmairet et Al.\cite{jeanmairet_molecular_2013, jeanmairet_molecular_2016} ont montré que le couplage entre la densité et la polarisation de l'eau est négligeable.
 La seconde approximation majeure que nous faisons est donc que chaque orientation du solvant est equiprobable. Cela nous permet ainsi de nous affranchir des angles et de ne considérer qu'une moyenne angulaire de la densité en chaque point de grille.
 
 La symmétrie sphérique entraîne une autre différence importante. Au contraire de la version 3D, périodique, les systèmes à symmétrie sphériques contiennent par définition un unique soluté dans un solvant infini.
@@ -442,7 +433,7 @@ Nous avons ensuite ajusté la valeur de $\sigma_{gauss}$ pour obtenir une tensio
         \legend{$\sigma_{gauss}=0.866$, $\sigma_{gauss}=0.900$, $\sigma_{gauss}=0.935$, $\sigma_{gauss}=0.966$, $\sigma_{gauss}=1.000$}
       \end{axis}
     \end{tikzpicture}
-	\caption[\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface en fonction de $\sigma_{gauss}$.]{\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface en fonction de $\sigma_{gauss}$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ/m$^2$\cite{vega_surface_2007}.}
+	\caption[\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface en fonction de $\sigma_{gauss}$.]{\'Energie libre de solvatation d'une sphère dure en fonction de son rayon divisée par sa surface en fonction de $\sigma_{gauss}$ (en \AA), largeur de la gaussienne servant à la convolution. B est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ.m$^{-2}$\cite{vega_surface_2007}.}
     \label{fig:etude_sigma}
 \end{figure}
 
@@ -702,7 +693,7 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
   \centering
   \begin{tabular}{ l c c c c c c c c c c c }
    \hline & \\[-1em]\hline
-    Méthode    & Exp   & MD    & HNC    &      &       &       & MDFT  &       &       & \\
+    Méthode    & Exp   & DM    & HNC    &      &       &       & MDFT  &       &       & \\
     \hline
     B          &       &       &        & -15   & -10   & -5    & 0     & 5     & 10    & 15     \\
     $\sigma_{gauss}$   &       &       &        & 1.177 & 1.110 & 1.061 & 1.021 & 0.989 & 0.960 & 0.935  \\
@@ -1001,7 +992,7 @@ Les références, calculées par Monte Carlo, pour des sphères de diamètre cro
 La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.10*^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma_{gauss}$ correspondants.
 
 
-Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelques soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA sont les plus efficaces, quelques soit la molécule étudiée.
+Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelques soit le couple de paramètres choisit, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ sont les plus efficaces, quelques soit la molécule étudiée.
 
 \boitesimple{ Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs B = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA. }
 
@@ -1027,7 +1018,7 @@ Une fois le bridge développé, nous l'avons implémenté dans la version 3D de 
   \centering
   \begin{tabular}{ l c c c c c c c }
     \hline & \\[-1em]\hline
-    compound   & exp  & MD & MDFT & MDFT & MDFT  & MDFT \\
+    compound   & exp  & DM & MDFT & MDFT & MDFT  & MDFT \\
                &      &    & (HNC)  & (HNC+PC)  & (HNC+B) & (HNC+B3D) \\
     \hline
     Méthane    &       &  9.23 & 28.14 & 7.73 & 11.99 & 12.25 \\

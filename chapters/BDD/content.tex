@@ -2,20 +2,20 @@
 \label{chap:BDD}
 
 
-\boitemagique{Objectif}{Dans ce chapitre, nous voulons benchmarker MDFT.Pour cela, nous appliquons MDFT sur une base de données de plus de 600 petites molécules neutres de type médicament. Une étude détaillée de ces résultats ainsi obtenus nous permettrons d'orienter les futures développements de MDFT.}
+\boitemagique{Objectif}{Dans ce chapitre, nous voulons benchmarker MDFT. Pour cela, nous appliquons MDFT sur une base de données de plus de 600 petites molécules neutres de type médicament. Une étude détaillée de ces résultats ainsi obtenus nous permettra d'orienter les futures développements de MDFT.}
 
 Dans les chapitres précédents, nous avons testé et validé la théorie et son implémentation sur seulement quelques molécules modèles comme des sphères de Lennard-Jones. Dans ce chapitre, nous allons étudier un espace chimique plus large afin de mettre en évidence les points forts et faibles de MDFT et ainsi de pouvoir proposer des correctifs adaptés.
 
 
 
 \section{La base de données FreeSolv}
-Dans ce chapitre nous nous concentrerons sur la base de données FreeSolv\cite{Mobley_small_2009}. Cette base de données est largement utilisée dans l'évaluation de méthodes de calcul d'énergie libres de solvatation. Elle est composée de 643 petites molécules neutres, accompagnées de nombreuses méta-données telles que leurs énergies libres de solvatation expérimentales issues de la littérature, leurs énergies libres de solvatation calculées par dynamique moléculaire et intégration thermodynamique ou encore les groupes chimiques qu'elles possèdent. Les paramètres quantitatifs sont accompagnés dès que possible de leur incertitude.
+Dans ce chapitre nous nous concentrerons sur la base de données FreeSolv\cite{Mobley_small_2009}. Cette base de données est largement utilisée dans l'évaluation de méthodes de calcul d'énergie libres de solvatation. Elle est composée de 643 petites molécules neutres, accompagnées de nombreuses méta-données telles que leurs énergies libres de solvatation expérimentales issues de la littérature, leurs énergies libres de solvatation calculées par dynamique moléculaire et intégration thermodynamique ou encore les groupes chimiques qu'elles possèdent. Les paramètres quantitatifs sont parfois accompagnés de leur incertitude.
 
 \subsection{Les molécules}
 Lors de sa première publication, Freesolv, composée de 504 molécules, était le regroupement de la base de données de Rizzo et al\cite{Rizzo_estimation_2006} et de calculs précédemment effectués par David Mobley et ses collaborateurs. Depuis, David Mobley et al, ont concentré leurs efforts à la nettoyer\cite{Mobley_small_2009, Mobley_treating_2008, Mobley_comparison_2007, Mobley_predictions_2009, Beckstein_prediction_2011, Mobley_alchemical_2011, Mobley_blind_2014, Mobley_freesolv_2014, DuarteRamosMatos_approaches_2017} en supprimant les doublons, en vérifiant dans la littérature les valeurs des énergies libres de solvatation ou encore en essayant de peupler au mieux les zones sous représentées de l'espace chimique. Le nombre de composés est aujourd'hui de 643. Ces molécules contiennent entre 3 et 44 atomes, pour des énergies libres de solvatation expérimentales entre -25,47 et 3,43 $\mathrm{kcal}.\mathrm{mol}^{-1}$. 
 
 \subsection{Les groupes chimiques}
-Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 73 groupes chimiques sont plus ou moins représentés. Par exemple, nous comptons 267 composés aromatiques, 88 hétérocycles contre seulement 1 sulfoxyde ou 1 acide sulfurique diester. Parmi les 643 molécules qui composent FreeSolv, seules 38 ne sont classées dans aucun groupe. Cette catégorisation nous permet une analyse en profondeur des points forts et faibles de MDFT en fonction de chaque groupe chimique.
+Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 73 groupes chimiques sont représentés. Par exemple, nous comptons 267 composés aromatiques, 88 hétérocycles contre seulement 1 sulfoxyde ou 1 acide sulfurique diester. Parmi les 643 molécules qui composent FreeSolv, seules 38 ne sont classées dans aucun groupe. Cette catégorisation nous permet une analyse en profondeur des points forts et faibles de MDFT en fonction de chaque groupe chimique.
 
 
 
@@ -47,7 +47,7 @@ Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 
 
 
 \section{MDFT Database Tool}
-Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer de nombreux calculs sur plusieurs centaines de molécules et pour différents jeux de données. Devant ce cas de figure, deux stratégies ont été envisagée. La première consiste à écrire un script très spécialisé qui ne pourra pas être utilisé uniquement par son développeur et uniquement pour la version actuelle de MDFT et du jeu de données. C'est le choix qui avait été fait lors de l'étude d'une version précédente de la théorie MDFT\cite{sergiievskyi_fast_2014, sergiievskyi_solvation_2015}. Nous sommes arrivé aujourd'hui à un nouveau de théorie et de performance qui permet et nécessite la répétition d'études plus poussées sur des espaces chimiques variés. Rien que pour ce chapitre, nous avons effectué 3874 calculs (voir tableau \ref{tab:calculs_lances}). De plus, en parallèle de ce projet, un bridge utilisant des outils de \textit{machine learning} à été développé par Sohvi Luukkonen. Cet outil, durant sa phase d'apprentissage nécessite également un nombre très important de calculs MDFT. Nous avons donc suivie une autre stratégie. Nous avons consacré un temps plus important au développement d'un outils d'analyse semi automatique qui soit efficace, générique, qui s'adapte facilement aux modifications de MDFT et du jeu de données et qui puisse s'interfacer facilement à un maximum d'outils. Cet outil nommé \textit{MDFT Database Tool} à été développé pas José François durant son stage de seconde année de master sous ma supervision. Il à été écrit en python orienté objet et gère toute la chaîne d'analyse, de la préparation des fichiers à l'analyse des résultats, en un minimum de commandes. Un effort particulier à été consacré à développer un outils adaptable et qui soit facile à prendre en main, à maintenir et à étendre. Pour cela, nous avons externalisé un maximum de paramètres dans des fichiers de configuration. Un format générique, le JSON, est utilisé pour chacun de ces fichiers.
+Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer de nombreux calculs sur plusieurs centaines de molécules et pour différents paramètres d'entrée. Devant ce cas de figure, deux stratégies ont été envisagée. La première consiste à écrire un script très spécialisé qui ne pourra pas être utilisé uniquement par son développeur et uniquement pour la version actuelle de MDFT et du jeu de données. C'est le choix qui avait été fait lors de l'étude d'une version précédente de la théorie MDFT\cite{sergiievskyi_fast_2014, sergiievskyi_solvation_2015}. Nous sommes arrivé aujourd'hui à un niveau de théorie et de performance qui permet et nécessite la répétition d'études plus poussées sur des espaces chimiques variés. Rien que pour ce chapitre, nous avons effectué 3874 calculs (voir tableau \ref{tab:calculs_lances}). De plus, en parallèle de ce projet, un bridge utilisant des outils de \textit{machine learning} à été développé par Sohvi Luukkonen lors de son stage de M2. Cet outil, durant sa phase d'apprentissage nécessite également un nombre très important de calculs MDFT. Nous avons donc suivi une autre stratégie. Nous avons consacré un temps plus important au développement d'un outils d'analyse semi automatique qui soit efficace, générique, qui s'adapte facilement aux modifications de MDFT et du jeu de données et qui puisse s'interfacer facilement à un maximum d'outils. Cet outil nommé \textit{MDFT Database Tool} à été développé en collaboration avec José François durant son stage de seconde année de master sous ma supervision. Il à été écrit en python orienté objet et gère toute la chaîne d'analyse, de la préparation des fichiers à l'analyse des résultats, en un minimum de commandes. Un effort particulier à été consacré à développer un outils adaptable et qui soit facile à prendre en main, à maintenir et à étendre. Pour cela, nous avons externalisé un maximum de paramètres dans des fichiers de configuration. Un format générique, le JSON, est utilisé pour chacun de ces fichiers.
 
 
 
@@ -105,23 +105,23 @@ La première commande permet de transformer la base de données initiale en des 
     Option   & Description  & Valeurs possibles \\
     \hline
     -h  & Affiche la liste des options disponibles & \\
-    -db & Distance en \AA entre le composé étudié et les bords de la boite dans chaque direction & $\mathbf{R}^{+*}$ \\
-    -dx & Distance en \AA entre deux points de grilles & $\mathbf{R}^{+*}$ \\
+    -db & Distance en \AA\ entre le composé étudié et les bords de la boite dans chaque direction & $\mathbf{R}^{+*}$ \\
+    -dx & Distance en \AA\ entre deux points de grilles & $\mathbf{R}^{+*}$ \\
     -solvent & Solvent & spce/tip3p/acetonitrile\\
     -$\mathrm{m}_\mathrm{max}$ & Paramètres $\mathrm{m}_\mathrm{max}$ permettant de fixer le nombre d'orientation du solvant & $\mathbf{E}[1-5]$ \\
     -T & Température en K & $\mathbf{R}^{+}$ \\
     -sv & Serveur sur lequel les calculs vont être effectués & localhost/abalone \\
-    - -mdftcommit & Commit à utiliser pour effectuer les calculs MDFT & Commit valide \\
-    - -mdftpath & Chemin de la version locale de MDFT à utiliser & \\
+    -\,-mdftcommit & Commit à utiliser pour effectuer les calculs MDFT & Commit valide \\
+    -\,-mdftpath & Chemin de la version locale de MDFT à utiliser & \\
     -bg & Bridge à utiliser & cgb/wca/3b \\
-    --scsf & \textit{Solute charge scale factor}: Préfacteur permettant d'atténuer les charges partielles & $\mathbf{R}[0-1]$ \\
+    -\,-scsf & \textit{Solute charge scale factor}: Préfacteur permettant d'atténuer les charges partielles & $\mathbf{R}[0-1]$ \\
     \hline & \\[-1em]\hline
   \end{tabular}
   \caption[Description des paramètres disponibles lors de la préparation des fichiers par \textit{MDFT Database Tool}.]{Description des paramètres disponibles lors de la préparation des fichiers par \textit{MDFT Database Tool}. Chaque option est accompagnée de sa déscription et des valeurs qu'elle peut prendre.}
   \label{tab:processParameters}  
 \end{table}
 
-Si le serveur choisit est autre que localhost, l'ensemble des fichiers créé est automatiquement compressé afin d'en faciliter le transfert.
+Si le serveur choisi est autre que localhost, l'ensemble des fichiers créé est automatiquement compressé afin d'en faciliter le transfert.
 
 
 \subsubsection{\'Exécution de MDFT}
@@ -133,12 +133,12 @@ Après l’exécution de MDFT sur l'ensemble des composés de la chimiothèque c
 
 
 \subsubsection{Analyse}
-Cette étape permet de transformer les données brutes en images facilement analysables. Aujourd'hui, il existe 3 types d'images créées (voir figure \ref{fig:examples}): (i) Des analyses de corrélation qui permettent une comparaison directe entre une méthode et une référence. Afin d'évaluer la corrélation entre les deux méthodes comparées, différentes grandeurs sont calculées et affichées sur l'image: Le RMSE, le P Bias, Le coefficient R de Pearson, le coefficient $\rho$ de Spearmann, le coefficient $\to$ de Kendall et enfin le coefficient de corrélation R$^2$. L'ensemble de ces paramètres son détaillés en annexe \ref{chap:annexes:stats}. Dans ce chapitre nous utiliserons le RMSE, qui correspond à l'erreur quadratique moyenne et qui doit donc être la plus basse possible et le coefficient de corrélation R$^2$ qui doit être le plus proche possible de 1.
+Cette étape permet de transformer les données brutes en figures facilement analysables. Aujourd'hui, il existe 3 types de figures créées (voir figure \ref{fig:examples}): (i) Des analyses de corrélation qui permettent une comparaison directe entre une méthode et une référence. Afin d'évaluer la corrélation entre les deux méthodes comparées, différentes grandeurs sont calculées et affichées sur l'image: Le RMSE, le P Bias, Le coefficient R de Pearson, le coefficient $\rho$ de Spearmann, le coefficient $\tau$ de Kendall et enfin le coefficient de corrélation R$^2$. L'ensemble de ces paramètres sont détaillés en annexe \ref{chap:annexes:stats}. Dans ce chapitre nous utiliserons le RMSE, qui correspond à l'erreur quadratique moyenne et qui doit donc être la plus basse possible et le coefficient de corrélation R$^2$ qui doit être le plus proche possible de 1.
 
-(ii) des \textit{violons}. Ils permettent de comparer visuellement l'erreur relative de plusieurs méthodes par rapport à une méthode commune de références. Un \textit{violon} correspond à une méthode. Il représente la distribution de l'erreur soit de $\Delta G_{\mathrm{solv}}^{calculée} - \Delta G_{\mathrm{solv}}^{référence}$. La largeur du violon correspond à la fréquence relative de la valeur correspondante. La partie de l'axe plus épaisse au milieu correspond aux limites du premier et troisième quartile.
+(ii) des \textit{violons}. Ils permettent de comparer visuellement l'erreur relative de plusieurs méthodes par rapport à une méthode commune de références. Ils représentent la distribution de l'erreur soit la différence entre la valeur de l'énergie libre analysée et la valeur de référence. La largeur du violon correspond à la fréquence relative de la valeur correspondante. La partie de l'axe plus épaisse au milieu correspond aux limites du premier et troisième quartile.
 
 
-(iii) des histogrammes qui permettent de visualiser rapidement l'erreur relative de différentes méthodes par rapport ç une méthode de références commune en fonction d'une donnée qualitative comme des groupes chimiques.
+(iii) des histogrammes qui permettent de visualiser rapidement l'erreur relative de différentes méthodes par rapport à une méthode de références commune en fonction d'une donnée qualitative comme des groupes chimiques.
 
 
 
@@ -173,9 +173,9 @@ Chaque base de données est ensuite décrites dans un fichier de configuration: 
 Actuellement, il est possible de lancer MDFT sur sa propre machine, ou sur le cluster du pôle théorie. nommé "abalone". Nous avons développé ce logiciel de façon à ce qu'il soit très simple d'ajouter un nouvel ordinateur cible. Pour cela, deux fichiers suffisent: un fichier de paramètres en json, ainsi qu'un fichier d'exemple d’exécution.
 
 \subsubsection{Les images d'analyse}
-De même, la gestion des images est entièrement externalisée. Un fichier de paramètres regroupe l'ensemble des descripteurs de chaque graphs, comme le type, les valeurs, les labels ou encore l'unité dans lequel il doit apparaître. Les valeurs extraites sont automatiquement converties dans l'unité choisie et affichées en suivant tous ces paramètres. Pour ajouter des nouvelles images, il suffit d'ajouter une nouvelle entrée dans ce fichier de paramètres.
+De même, la gestion des images est entièrement externalisée. Un fichier de paramètres regroupe l'ensemble des descripteurs de chaque graphiques, comme le type, les valeurs, les labels ou encore l'unité dans lequel il doit apparaître. Les valeurs extraites sont automatiquement converties dans l'unité choisie et affichées en suivant tous ces paramètres. Pour ajouter des nouvelles images, il suffit d'ajouter une nouvelle entrée dans ce fichier de paramètres.
 
-\subsubsection{Les logiciels à étudiés}
+\subsubsection{Les logiciels à étudier}
 Il est pour l'instant possible de lancer uniquement MDFT. Il est cependant relativement simple d'adapter ce code à d'autres logiciels. Un utilisateur peut vouloir se comparer à d'autres méthodes, comme des simulations de dynamique moléculaire ou de Monte Carlo. Il suffit pour cela, d'implémenter la classe nécessaire à l'écriture des fichier d'entrée de cette méthode et d'adapter légèrement le script d’exécution.
 
 
@@ -282,7 +282,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
 \end{sidewaysfigure}
 
 
-A ce niveau nous disposons de plusieurs possibilités d'améliorations de l'approximation HNC. Soit la pression ad-hoc de pression \textit{PC}, soit le bridge gros grain. Ces deux corrections améliorent fortement les résultats. Comme on peut le voir sur les images \ref{fig:correlation_avec_sans_cgb:mmax1} et \ref{fig:correlation_avec_sans_cgb:mmax3}, il n'existe aucune corrélation entre les valeurs calculées dans l'approximation HNC et les valeurs de références obtenues par dynamique moléculaire. 
+A ce niveau nous disposons de plusieurs possibilités d'améliorations de l'approximation HNC. Soit la pression ad-hoc de pression \textit{PC}, soit le bridge gros grain. Ces deux corrections améliorent fortement les résultats. Comme on peut le voir sur les images \ref{fig:correlation_avec_sans_cgb:mmax1} et \ref{fig:correlation_avec_sans_cgb:mmax3}, la corrélation est faible entre les valeurs calculées dans l'approximation HNC et les valeurs de références obtenues par dynamique moléculaire. 
 Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement la corrélation de ces données. Avec le bridge, nous obtenons ainsi, pour $\mathrm{m}_\mathrm{max}$=1 $\mathrm{R}^2$=0.66 et pour $\mathrm{m}_\mathrm{max}$=3 $\mathrm{R}^2$=0.80. Avec la correction \textit{PC}, nous obtenons, pour $\mathrm{m}_\mathrm{max}$=1 $\mathrm{R}^2$=0.85 et pour $\mathrm{m}_\mathrm{max}$=3 $\mathrm{R}^2$=0.94. L'ensemble des coefficients de corrélation $\mathrm{R}^2$ est disponible dans le tableau \ref{tab:correlation}.
 
 
@@ -308,7 +308,7 @@ Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement l
 
 
 
-Quelque-soit la valeur du paramètre $\mathrm{m}_\mathrm{max}$, notre bridge gros grain améliore considérablement les résultats par rapport à l'approximation HNC, tout en fournissant des structures de solvatation quasi-parfaites ( voir chapitre \ref{chap:bridge} ). Ces valeurs d'énergies restent cependant moins précises que celles obtenues avec la correction de pression \textit{PC}.
+Quelque-soit la valeur du paramètre $\mathrm{m}_\mathrm{max}$, notre bridge gros grain améliore les résultats par rapport à l'approximation HNC, tout en fournissant des structures de solvatation proches des références ( voir chapitre \ref{chap:bridge} ). Ces valeurs d'énergies restent cependant moins précises que celles obtenues avec la correction de pression \textit{PC}.
 
 \boitesimple{
 Cette étude nous à permis d'évaluer les différentes corrections dont nous disposons: la correction ad-hoc \textit{PC} et le bridge gros grain. Nous avons ainsi montré que ces deux corrections améliorent fortement la prédiction d'énergies libres de solvatation par rapport à l'approximation HNC seule avec un léger avantage pour la correction de pression \textit{PC}.\\
@@ -391,11 +391,11 @@ Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerb
 
 \section{Les ions}
 En plus de l'analyse de base de données officielles comme FreeSolv, ce logiciel nous permet d'étudier simplement et efficacement un ensemble de molécules d’intérêts. Nous nous en sommes donc servit afin d'étudier l'impacte de la charge sur les résultats de MDFT. Notre jeux de données est composé de 4 cations: Li$^+$, Na$^+$, K$^+$, Cs$^+$ et de 4 anions F$^-$, Cl$^-$, Br$^-$, I$^-$.
-Dans un premier temps nous avons comparé les énergies libres de solvatations calculées par MDFT et par dynamique moléculaire\cite{Horinek_rational_2009} aux valeurs expérimentales\cite{Marcus_simple_1994, Noyes_thermodynamics_1962}. Nous avons ensuite directement comparées les valeurs MDFT et dynamique moléculaire.
+Dans un premier temps nous avons comparé les énergies libres de solvatations calculées par MDFT et par dynamique moléculaire\cite{Horinek_rational_2009} aux valeurs expérimentales\cite{Marcus_simple_1994, Noyes_thermodynamics_1962}. Nous avons ensuite directement comparées les valeurs MDFT et dynamique moléculaire (voir figure \ref{fig:correlation_ions}).
 
 En ce qui concerne les cations, MDFT et la dynamique moléculaire sous-estiment de plusieurs kcal.mol$^{-1}$ leurs énergies libres de solvatation. Cependant, les résultats sont en accord pour les deux méthodes, ce qui laisse penser que le champs de force n'est pas adapté à ce type d'ions.
 
-Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^{-1}$ seulement par la dynamique moléculaire et de quelques dizaines de kcal.mol$^{-1}$ par MDFT. La théorie de la MDFT n'est donc pas optimisée pour la solvatation d'ions négatifs. 
+Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^{-1}$ seulement par la dynamique moléculaire et de quelques dizaines de kcal.mol$^{-1}$ par MDFT. La théorie de la MDFT dans l'approximation HNC n'est donc pas optimisée pour la solvatation d'ions négatifs. 
 
 \boitesimple{
 Cette étude nous à permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champs de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données Freesolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
@@ -441,5 +441,5 @@ Cette étude nous à permis de détecter deux problèmes majeurs dans l'étude d
 \vspace{10\baselineskip}
 
 \boitemagique{A retenir}{
-Dans ce chapitre nous proposons un outil simple et efficace qui permet une analyse complète et reproductible de MDFT sur de larges chimiothèques. Nous avons dans un premier temps montré que la correction \textit{PC+}, plus adaptée au niveau actuel de la théorie, devait être abandonnée au profit de la correction \textit{PC}. Nous avons ensuite mis en avant certaines zones de l'espace chimique (charge partielles fortes, groupements hydrophobes) pour lequel MDFT manque encore de précision. Cette étude nous permet ainsi d'orienter les futurs développements théoriques de MDFT.
+Dans ce chapitre nous proposons un outil simple et efficace qui permet une analyse complète et reproductible de MDFT sur de larges chimiothèques. Nous avons dans un premier temps montré que la correction \textit{PC+}, plus adaptée au niveau actuel de la théorie, devait être abandonnée au profit de la correction \textit{PC}. Nous avons ensuite mis en avant certaines zones de l'espace chimique (charge partielles fortes, groupements hydrophobes) pour lequel MDFT dans l'approximation HNC manque encore de précision. Cette étude nous permet ainsi d'orienter les futurs développements théoriques de MDFT.
 }

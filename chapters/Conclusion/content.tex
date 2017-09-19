@@ -1,18 +1,18 @@
 \chapter{Conclusion}
 \label{chap:conclusion}
-Le développement d'un nouveau médicament est un processus long et couteux. Entre la détermination d'une cible thérapeutique et la mise sur le marché d'un nouveau médicament, plus d'un milliard d'euros et de dix ans de recherches sont nécessaire.
-L'accélération de ce processus et donc la réduction de son coût reste donc un enjeux majeur actuel. Pour y parvenir, les simulations numériques, peu couteuses et rapides, sont massivement utilisées. Malgré cela, elles restent limitées à cause de la quantité très importante de molécule de solvant.
+Le développement d'un nouveau médicament est un processus long et couteux. Entre la détermination d'une cible thérapeutique et la mise sur le marché d'un nouveau médicament, plus de dix ans de recherches sont nécessaire pour un coût supérieur à un milliard d'euros.
+L'accélération de ce processus et donc la réduction de son coût reste un enjeux majeur. Pour y parvenir, les simulations numériques, peu couteuses et rapides, sont massivement utilisées. Malgré cela, elles restent limitées à cause de la quantité très importante de molécule de solvant.
 
 
 La théorie de la fonctionnelle de la densité moléculaire permet d'étudier la solvatation de composés de n'importe qu'elle taille et de n'importe qu'elle forme. Elle permet en quelques secondes seulement d'obtenir à la fois l'énergie libre de solvatation et une carte détaillé de la densité d'équilibre autour de ce soluté.
 Ces grandeurs étant à la base de nombreux autres calculs utilisées par l'industrie pharmaceutique, la MDFT ouvre donc une autre voie d'optimisation de ces process.
 
 
-Durant ma thèse, mon travail à consister à effectuer les premiers pas vers des applications biologiques. Cette thèse c'est déroulée en trois étapes majeures. La première consistait à adapter la théorie à des macro-molécules biologiques. Pour cela, nous avons développé une version à symmétrie de la Théorie de la Fonctionnelle de la Densité Moléculaire. Cette version, simplifiée et plus rapide, nous à permi de paramétriser un nouveau bridge: le bridge gros grain.
-Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles, en reproduisant une pression et une tension de surface correcte. Il améliore également fortement le calcul de l’énergie libre de solvatation et la prédiction de la structure du solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques.
+Durant ma thèse, mon travail à consister à effectuer les premiers pas vers des applications biologiques. Cette thèse c'est déroulée en trois étapes majeures. La première consistait à adapter la théorie à des macro-molécules biologiques. Pour cela, nous avons développé une version à symétrie sphérique de la Théorie de la Fonctionnelle de la Densité Moléculaire. Cette version, simplifiée et plus rapide, nous à permi de paramétriser un nouveau bridge: le bridge gros grain.
+Ce bridge, basé sur une densité gros grain ajoute de la consistance thermodynamique à nos modèles, en reproduisant une pression et une tension de surface correcte. Il améliore également le calcul de l’énergie libre de solvatation et la prédiction de la structure du solvant, sur les petites molécules mais également sur des molécules plus grosses comme des systèmes biologiques.
 
 
-La seconde étape consistait à l'adapation du code. En effet, l'étude de composés de plusieurs milliers d'atomes à fait naître différentes limites techniques. Afin de dépasser ces limites, nous avons du adapter, optimiser et parralléliser le code MDFT.
+La seconde étape consistait à l'adapation du code. En effet, l'étude de composés de plusieurs milliers d'atomes à mis en évidence différentes limites techniques. Afin de dépasser ces limites, nous avons du adapter, optimiser et parralléliser le code MDFT.
 
 
 Enfin, la dernière étape consistait à évaluer nos développements théoriques et numériques sur des systèmes d'interêts biologiques. Pour cela, trois études ont été menées. La première: le benchmarke de MDFT sur un ensemble de 604 copmposés de type médicament. Nous avons ainsi mis en évidence que la correction de pression \textit{PC+} n'est plus aujourd'hui adaptée à la théorie au niveau HNC. La meilleure précision dans la prédiction de l'energie libre de solvation de composés de type médicaments est obtenue à l'aide de la théorie dans l'approximation HNC couplée à la correction de pression \textit{PC} et pour une valeur de $\mathrm{m}_\mathrm{max}$=3.
@@ -38,14 +38,22 @@ Le benchmark de MDFT sur des composés de type médicament, et plus particulièr
 \section{Machine learning}
 Le développement de l'outil \textit{MDFT Database Tool} permet une obtention rapide, simple et automatique de résultats sur des bases de données de plusieurs milliers de composés. Ce développement à ainsi permi la création de banque de données de références indispensables à la mise en place d'outils de \textit{machine learning}. Face à l'augmentation exponentielle du nombre de données disponibles, les outils de \textit{machine learning} semblent inévitables. Les premiers résultats obtenus par Sohvi Luukkonen sont d'ailleurs trés encourageants.
 
-\section{Couplage de MDFT}
+\section{MDFT pour le \textit{drug design}}
 Enfin, cette thèse à ouvert une nouvelle voie pour MDFT: la recherche pharmaceutique. Suite à ces développements, plusieurs applications directes sont actuellement envisageables. Les étapes suivantes consistent donc: (i) à coupler MDFT avec les techniques existantes (docking, virtual screening, ...). La substitution dans ces logiciels d'un solvant implicite par MDFT permettrait l'apport d'informations moléculaires supplémentaires pour des temps de calculs similaires. Et (ii) proposer des alternatives plus précises à certains calculs basés sur l'énergie libre de solvatation comme le calcul du logP ou encore celui du logBB.
 
+\section{Couplages de MDFT}
+En dehors du cadre de cette thèse, la perspective principale de MDFT consiste au remplacement de solvants implicites à différentes échelles. Pour cela deux projets sont actuellement en cours.
+\subsection{\`A l'échelle microscopique}
+Le premier projet consiste à coupler MDFT à des méthodes quantiques et donc à l'échelle miscroscopique. En pratique, la méthode quantique, comme la DFT électronique génére une structure électronique pour une petite molécule. A partir de cette structure (qui correspond au potentiel extérieur dans MDFT) il est ensuite possible de prédire la structure en solvant autour de ce composé et ainsi d'affiner la strucutre électronique du composé étudié.
+
+
+\subsection{\`A l'échelle mésoscopique}
+Le second projet consiste à coupler MDFT au logiciel de résolution des équations hydrodynamiques, Laboetie\cite{Levesque_accounting_2013,Vanson_unexpected_2015,Asta_transient_2017}. Laboetie, basé sur la méthode de Lattice-Boltzmann, propage une fonctionnelle (bien plus simple que celle minimisée par MDFT) d'une densité en liquide. Laboetie est unique car il tient compte de la spécificité chimique pour étudier du transport dit "réactif". En d'autre termes, il permet l'étude de la dynamique de particules qui peuvent s'adsorber et se désorber des surfaces.
+MDFT permettrait ici une meilleure modélisation de la surface en calculant, à l'échelle moléculaire, les constantes cinétiques d'adsorption et désorption qui sont aujourd'hui fournies en paramètre d'entrée.
 
 
 
-
-
-
-
+% Le second projet consiste à coupler MDFT au logiciel de résolution des équations hydrodynamique, Laboetie\cite{Levesque_accounting_2013,Vanson_unexpected_2015,Asta_transient_2017}. Ce code, basé sur la méthode Lattice-Boltzmann utilise, comme MDFT, une représentation "en densité" du solvant. Une fonctionnelle, bien plus simple que celle minimisée dans MDFT, est propagée selon des règles prédéfinies.
+% Il s'agit donc encore une fois d'une méthode dite "fonctionnelle". Laboetie est unique en ce qu'il peut tenir compte de la spécificité chimique pour étudier du transport dit "réactif", c'est à dire de pouvoir étudier la dynamique de particules qui peuvent s'adsorber et se désorber des surfaces. Aujourd'hui, la réactivité est introduite de defaçon très rudimentaire, au travers de constantes cinétiques d'adsorption et de désorption qui sont des inputs au code.
+% On peut imaginer que ces constantes d'adsorption et désorption soient calculée depuis l'échelle moléculaire par un calcul (de binding?) MDFT.
 
