@@ -59,7 +59,7 @@ On obtient finalement:
 \end{eqnarray}
 }
 
-On voit ici que la partie idéale favorisera une faible densité pour une valeur élevée de potentiel $\phi$ et des densité fortes pour des valeurs de potentiel faibles.
+On voit ici que la partie idéale favorisera une faible densité pour une valeur élevée de potentiel $\phi$ et des densités fortes pour des valeurs de potentiels faibles.
 
 \section{Fonctionnelle d'excès}
 \label{sec:annexes:grad:exc}
@@ -114,9 +114,9 @@ On obtient finalement:
 \chapter{Mesures statistiques}
 \label{chap:annexes:stats}
 
-Cinq mesures statistiques sont disponibles avec \textit{MDFT Database Tool} pour quantifier les performances de la dynamique moléculaire ou de MDFT: l'erreur quadratique moyenne RMSE, le $\mathrm{P}_{\mathrm{bias}}$ ainsi que 3 coéfficients de corrélation: Pearson R, Spearman $\rho$ et Kendall $\tau$.
+Cinq mesures statistiques sont disponibles avec \textit{MDFT Database Tool} pour quantifier les performances de la dynamique moléculaire ou de MDFT: l'erreur quadratique moyenne RMSE, le $\mathrm{P}_{\mathrm{bias}}$ ainsi que 3 coefficients de corrélation: Pearson R, Spearman $\rho$ et Kendall $\tau$.
 
-\paragraph{Root-mean-squared error (RMSE)} correspond à la racine de l'erreur quadratique moyenne. Cette métrique permet de mesurer la différence entre deux des valeurs calculées et des valeurs de références. Elle est définie comme:
+\paragraph{Root-mean-squared error (RMSE)} correspond à la racine de l'erreur quadratique moyenne. Cette métrique permet de mesurer la différence entre les valeurs calculées et les valeurs de référence. Elle est définie comme:
 
 \begin{equation}
     RMSE = \sqrt{MSE} = \sqrt{\frac{\sum_i{(\hat{y}_i-y_i)^2}}{n}}
@@ -124,23 +124,23 @@ Cinq mesures statistiques sont disponibles avec \textit{MDFT Database Tool} pour
 
 \noindent avec $\hat{y}_i$ la valeur calculée, $y_i$ la valeur de référence et n la taille de l'échantillon.
 
-\paragraph{Le coéfficient de corrélation de Pearson ($R$)} la corrélation linéaire entre deux variables $X$ et $Y$. Il est définit comme
+\paragraph{Le coefficient de corrélation de Pearson ($R$)} la corrélation linéaire entre deux variables $X$ et $Y$. Il est définit comme
 
 \begin{equation}
     R = \frac{cov(X,Y)}{\sigma_X \sigma_Y}
 \end{equation}
 
-\noindent avec $cov(X,Y)=E[(X-E[X])(Y-E(Y))]$ la covariance enter $X$ et $Y$, $\sigma_X$ et $\sigma_Y$ la déviation standard de $X$ et $Y$. $R$ varie entre -1 and 1. La magnitude de $|R|$ mesure la qualité de la corrélation linéraire et le signe de $R$ correspond au signe de la pente. Le coéfficient de determination $R^2$ généralement utilisé correspond au carré du coéfficient $R$ de Perason.
+\noindent avec $cov(X,Y)=E[(X-E[X])(Y-E(Y))]$ la covariance entre $X$ et $Y$, $\sigma_X$ et $\sigma_Y$ la déviation standard de $X$ et $Y$. $R$ varie entre -1 and 1. La magnitude de $|R|$ mesure la qualité de la corrélation linéraire et le signe de $R$ correspond au signe de la pente. Le coefficient de détermination $R^2$ généralement utilisé correspond au carré du coefficient $R$ de Perason.
 
-\paragraph{ Le coéfficient de corrélation de rang de Spearman ($\rho$)}  mesure le dépendance statistique non paramétrique entre deux variables $X$ and $Y$. Il est utilisé lorsque deux variables statistiques semblent corrélées sans que la relation entre les deux variables soit de type affine. Pour y parvenir, il calcul le coéfficient de corrélation entre les rangs des différentes valeurs et non entre les valeurs elles mêmes. Il est définit comme :
+\paragraph{Le coefficient de corrélation de rang de Spearman ($\rho$)}  mesure le dépendance statistique non paramétrique entre deux variables $X$ and $Y$. Il est utilisé lorsque deux variables statistiques semblent corrélées sans que la relation entre les deux variables soit de type affine. Pour y parvenir, il calcule le coefficient de corrélation entre les rangs des différentes valeurs et non entre les valeurs elles mêmes. Il est définit comme :
 
 \begin{equation}
     \rho = \frac{cov(rg_X,rg_Y)}{\sigma_{rg_X} \sigma_{rg_Y}}
 \end{equation}
 
-\noindent avec $cov(rg_X,rg_Y)$ la covariance covariance entre les rangs des variables $rg_X$ et $rg_Y$ et $\sigma_{rg_X}$ et $\sigma_{rg_Y}$ la déviation standard des rangs de ces variables. 
+\noindent avec $cov(rg_X,rg_Y)$ la covariance entre les rangs des variables $rg_X$ et $rg_Y$ et $\sigma_{rg_X}$ et $\sigma_{rg_Y}$ la déviation standard des rangs de ces variables. 
 
-\paragraph{Le coéfficient de corrélation de Kendall ($\tau$)}  est une autre mesure basée sur le rang des valeurs. Il est définit comme:
+\paragraph{Le coefficient de corrélation de Kendall ($\tau$)}  est une autre mesure basée sur le rang des valeurs. Il est définit comme:
 
 \begin{equation}
     \tau = \frac{n_{con}-n_{dis}}{n(n-1)/2}
@@ -149,7 +149,7 @@ Cinq mesures statistiques sont disponibles avec \textit{MDFT Database Tool} pour
 \noindent avec $n_{con}$ le nombre de paires concordantes, $n_{dis}$ le nombre de paires discordantes et $n$ le nombre de pairs total. Lorsque de l'étude de chaque paire possible $[(X_i,Y_i)(X_j,Y_j)]$, on compte concordant toute paire respectant $Y_i>Y_j$ si $X_i>X_j$ ou $Y_i<Y_j$ si $X_i<X_j$. Les autres paires sont comptées discordantes.
 
 
-\paragraph{Le pourcentage de biais ($P_{bias}$)}, exprimé en pourcentage, mesure la tendance moyenne relative des valeurs calculées à être supérieures ou inférieures aux valeurs de références. Il est définit comme:
+\paragraph{Le pourcentage de biais ($P_{bias}$)}, exprimé en pourcentage, mesure la tendance moyenne relative des valeurs calculées à être supérieures ou inférieures aux valeurs de référence. Il est définit comme:
 
 \begin{equation}
     P_{bias} = \frac{\sum_i(Y_{i}^{obs}-Y_{i}^{sim})*100}{\sum_i(Y_{i}^{obs})}

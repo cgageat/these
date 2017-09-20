@@ -26,14 +26,14 @@ Cette étude à pour but d'évaluer la capacité de MDFT à retrouver les moléc
 
 \subsection{Les systèmes étudiés}
 Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin}, composée de 227 acides aminés, et issue de la PDB sous le code 4M7G, a été sélectionnée pour la qualité de sa résolution expérimentale (0.81 \AA).
-%La seconde est une \textit{FACTOR XA} composée de 241 acides aminés. Cette protéine issue de la PDB [lien pdb] sous le code 1HCG à été sélectionnée car elle représente un premier cas d'étude simple, sans ligand ni contre ions.
+%La seconde est une \textit{FACTOR XA} composée de 241 acides aminés. Cette protéine issue de la PDB [lien pdb] sous le code 1HCG a été sélectionnée car elle représente un premier cas d'étude simple, sans ligand ni contre ions.
 
 %\begin{figure}[H]
 %    \begin{subfigure}[b]{0.50\textwidth}
 %        \centering
 %        \resizebox{\linewidth}{!}{
 %          \fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/4m7g.png}}
-%           }
+%}
 %        \caption{4M7G}
 %        \label{fig:struct_secondaire_4M7G}
 %     \end{subfigure}
@@ -41,11 +41,11 @@ Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin
 %        \centering
 %        \resizebox{\linewidth}{!}{
 %	      \fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/1hcg.png}}
-%          }
+%}
 %        \caption{1HCG}
 %        \label{fig:struct_secondaire_1HCG}
 %     \end{subfigure}
-%   \caption{Représentation en structure secondaire des protéines 4M7G \ref{fig:struct_secondaire_4M7G} et 1HCG \ref{fig:struct_secondaire_4M7G}. }
+%   \caption{Représentation en structure secondaire des protéines 4M7G \ref{fig:struct_secondaire_4M7G} et 1HCG \ref{fig:struct_secondaire_4M7G}.}
 %   \label{fig:struct_secondaires}
 %\end{figure}
 
@@ -109,7 +109,7 @@ Afin de ne pas être influencé par les résultats expérimentaux, nous avons su
 
 
 \subsubsection{Dynamique moléculaire}
-Un calcul de référence a été lancé en dynamique moléculaire en utilisant le logiciel Gromacs\cite{berendsen_gromacs:_1995}. Après avoir solvaté nos protéines dans de l'eau SPC/E, l'énergie interne du système est minimisée, d'abord par \textit{steepest descent} puis par gradient conjugué. Nous supprimons ainsi tous les \textit{clash} stériques créés lors des étapes de préparation du système et de solvatation. Afin de permettre la comparaison des résultats avec ceux proposés par MDFT, la protéine est rendue rigide en utilisant l'option \textit{freezegrps} proposée par gromacs. Lorsque cette option est activée, les forces appliquées aux atomes de la protéines sont ignorées. Le système est ensuite équilibré à 298.15K et 1 bar en utilisant le barostat Berendsen et le thermostat \textit{V-rescale}. Une fois le système proche de l'équilibre, nous changeons le barostat pour Parinello-Rahman qui est plus précis mais diverge si le système est trop éloigné de l'équilibre. Une fois le système minimisé, nous lançons une simulation NPT de 100 ns. La configuration du système est sauvegardée toutes les 10 ps, nous obtenons ainsi un ensemble 10 000 conformations. Sur 32 coeurs OpenMP/MPI, couplés à deux GPU, une simulation nécessite deux jours de calculs.
+Un calcul de référence a été lancé en dynamique moléculaire en utilisant le logiciel Gromacs\cite{berendsen_gromacs:_1995}. Après avoir solvaté nos protéines dans de l'eau SPC/E, l'énergie interne du système est minimisée, d'abord par \textit{steepest descent} puis par gradient conjugué. Nous supprimons ainsi tous les \textit{clash} stériques créés lors des étapes de préparation du système et de solvatation. Afin de permettre la comparaison des résultats avec ceux proposés par MDFT, la protéine est rendue rigide en utilisant l'option \textit{freezegrps} proposée par gromacs. Lorsque cette option est activée, les forces appliquées aux atomes de la protéines sont ignorées. Le système est ensuite équilibré à 298.15K et 1 bar en utilisant le barostat Berendsen et le thermostat \textit{V-rescale}. Une fois le système proche de l'équilibre, nous changeons le barostat pour Parinello-Rahman qui est plus précis mais diverge si le système est trop éloigné de l'équilibre. Une fois le système minimisé, nous lançons une simulation NPT de 100 ns. La configuration du système est sauvegardée toutes les 10 ps, nous obtenons ainsi un ensemble 10 000 conformations. Sur 32 coeurs OpenMP/MPI, couplés à deux GPU, une simulation nécessite deux jours de calcul.
 
 \subsubsection{MDFT}
 Comme nous l'avons montré dans les chapitres précédents, avec notre bridge gros grain, $\mathrm{m}_\mathrm{max}$=3 est suffisant pour améliorer fortement la prédiction de structures de solvatation autour de petites molécules. Nous avons cependant choisi de lancer la simulation avec $\mathrm{m}_\mathrm{max}$=5 afin que cet exemple serve en même temps de test de robustesse de la nouvelle implémentation de MDFT. En effet, avec un espacement entre chaque point de grille de 0.5 \AA, MDFT minimise plus de $2\mathrm{e}^9$ de variables. Sur 16 cœurs OpenMP, les résultats sont obtenus en seulement 17 min.
@@ -136,7 +136,7 @@ Dans un premier temps, nous évaluons l'efficacité de notre bridge en comparant
 \begin{center}
     \captionsetup{type=figure}
 	\fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/water_molecules_grey/prot_ext_hnc_bridge_md.png}}
-	\captionof{figure}[Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G.]{Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G. En jaune, les zones prédites par MDFT dans l'approximation HNC et en vert MDFT avec notre nouveau bridge. La référence, en bleu, est calculée par dynamique moléculaire. }
+	\captionof{figure}[Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G.]{Zones de forte probabilité de présence de l'eau autour de la surface de la protéine 4M7G. En jaune, les zones prédites par MDFT dans l'approximation HNC et en vert MDFT avec notre nouveau bridge. La référence, en bleu, est calculée par dynamique moléculaire.}
       \label{fig:surface_protein_hnc}
 \end{center}
 
@@ -235,7 +235,7 @@ MDFT calcule les énergies libres de solvatation, ce qui nous permet de remplace
 
 
 \subsection{Les systèmes étudiés}
-Dans une étude récente, Chéron et al.\cite{cheron_effect_2017} ont optimisé le calculs MM-PBSA sur un ensemble de 46 complexes protéine-ligand. Afin de créer cette chimiothèque, l'ensemble des 264 complexes impliquant la protéine BACE1 (voir figure \ref{fig:structure_proteine_MMPBSA}) ont été extrait de la base de données PDBBind-CN. Parmi ces 264, seuls 46 étaient de qualité suffisante (résolution < 2.5 \AA) et accompagnés de leur valeur d'énergie libre de solvatation. Dans leur article, Chéron et al. montrent que les calculs MM-PBSA sur ces complexes sont optimums en utilisant le champ de force Amber03 pour la protéine, le modèle d'eau TIP3P et en laissant un espace supérieur à 10 \AA\ entre les molécules le composant et le bord des boîtes de simulation. Les valeurs d'énergies libres de solvatation expérimentales et calculées par MM-PBSA présentées dans la suite de ce chapitre ont toutes été fournies par Nicolas Chéron.
+Dans une étude récente, Chéron et al.\cite{cheron_effect_2017} ont optimisé le calcul MM-PBSA sur un ensemble de 46 complexes protéine-ligand. Afin de créer cette chimiothèque, l'ensemble des 264 complexes impliquant la protéine BACE1 (voir figure \ref{fig:structure_proteine_MMPBSA}) ont été extrait de la base de données PDBBind-CN. Parmi ces 264, seuls 46 étaient de qualité suffisante (résolution < 2.5 \AA) et accompagnés de leur valeur d'énergie libre de solvatation. Dans leur article, Chéron et al. montrent que les calculs MM-PBSA sur ces complexes sont optimums en utilisant le champ de force Amber03 pour la protéine, le modèle d'eau TIP3P et en laissant un espace supérieur à 10 \AA\ entre les molécules le composant et le bord des boîtes de simulation. Les valeurs d'énergies libres de solvatation expérimentales et calculées par MM-PBSA présentées dans la suite de ce chapitre ont toutes été fournies par Nicolas Chéron.
 
 Le code PDB ainsi que les charges des différents complexes sont listés dans le tableau \ref{tab:MMPBSA_systemes}. Une représentation 2D des ligands de chaque complexe est également disponible en figure \ref{fig:structures_MMPBSA}.
 
@@ -247,7 +247,7 @@ Le code PDB ainsi que les charges des différents complexes sont listés dans le
 
 
 \begin{center}
-\begin{longtable}{ c c c c c }
+\begin{longtable}{c c c c c}
 
 %{{\bfseries \tablename\ \thetable{} -- première page}} \\
 \hline
@@ -261,7 +261,7 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
                & complex & protein & ligand  & \\ \hline 
 \endhead
 
-\hline \multicolumn{5}{ r }{{Suite page suivante}} \\ \hline
+\hline \multicolumn{5}{r}{{Suite page suivante}} \\ \hline
 \endfoot
 
 \hline \hline
@@ -380,7 +380,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=1]{chapters/Applications/datas/MMPBSA/results.csv};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}%
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -398,7 +398,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=2]{chapters/Applications/datas/MMPBSA/results.csv};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -416,7 +416,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=3]{chapters/Applications/datas/MMPBSA/results.csv};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}%
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -434,7 +434,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=4]{chapters/Applications/datas/MMPBSA/results.csv};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
     \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT. Les valeurs calculées sont comparées à l'énergie libre de liaison expérimentale pour chacun des complexes étudiés pour différents paramètres de la fonctionnelle.}
     \label{fig:MMPBSA_MMMDFT_complete}
@@ -446,7 +446,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 \begin{table}[H]
   \begin{center}
-    \begin{tabular}{ c c }
+    \begin{tabular}{c c}
       \hline & \\[-1em]\hline
        fonctionnelle  & R²  \\
       \hline
@@ -494,12 +494,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
             Fluor={red},
             Chlore={blue},
             None={black}
-        }
+}
     ] table[x index=0, y index=1, meta index=10]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Cl, F, Aucun,};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -518,12 +518,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
             Fluor={red},
             Chlore={blue},
             None={black}
-        }
+}
     ] table[x index=0, y index=2, meta index=10]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Cl, F, Aucun,};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -542,12 +542,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
             Fluor={red},
             Chlore={blue},
             None={black}
-        }
+}
     ] table[x index=0, y index=3, meta index=10]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Cl, F, Aucun,};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -566,14 +566,14 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
             Fluor={red},
             Chlore={blue},
             None={black}
-        }
+}
     ] table[x index=0, y index=4, meta index=10]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Cl, F, Aucun,};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
-    \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction du type d'halogène.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction du type d'halogène. Les valeurs calculées sont comparées aux valeurs expérimentales pour différents paramètres de la fonctionnelle et pour chacun des complexes étudiés. Les complexes dont le ligand comporte au moins un Chlore sont représentés en rouge. Ceux qui comportent au moins un Fluor sont en bleu et ceux ne comportant pas d'halogène sont en noir. }
+    \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction du type d'halogène.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction du type d'halogène. Les valeurs calculées sont comparées aux valeurs expérimentales pour différents paramètres de la fonctionnelle et pour chacun des complexes étudiés. Les complexes dont le ligand comporte au moins un Chlore sont représentés en rouge. Ceux qui comportent au moins un Fluor sont en bleu et ceux ne comportant pas d'halogène sont en noir.}
     \label{fig:MMPBSA_MMMDFT_complete_by_halogene}
 \end{figure}
 
@@ -601,12 +601,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
         scatter/classes={
             Sulfure={red},
             None={black}
-        }
+}
     ] table[x index=0, y index=1, meta index=11]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Avec S, Sans S};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -624,12 +624,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
         scatter/classes={
             Sulfure={red},
             None={black}
-        }
+}
     ] table[x index=0, y index=2, meta index=11]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Avec S, Sans S};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -647,12 +647,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
         scatter/classes={
             Sulfure={red},
             None={black}
-        }
+}
     ] table[x index=0, y index=3, meta index=11]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Avec S, Sans S};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
      \begin{subfigure}[b]{0.50\textwidth}
         \centering
@@ -670,12 +670,12 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
         scatter/classes={
             Sulfure={red},
             None={black}
-        }
+}
     ] table[x index=0, y index=4, meta index=11]{chapters/Applications/datas/MMPBSA/results.csv};
             \legend{Avec S, Sans S};
             \end{axis}
           \end{tikzpicture}
-          }
+}
      \end{subfigure}
     \caption[Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction de la présence de Souffre.]{Énergie libre de liaison calculée par MM-PBSA et par MM-MDFT en fonction de la présence de Souffre. Les valeurs calculées sont comparées aux valeurs expérimentales pour différents paramètres de la fonctionnelle pour chacun des complexes étudiés. En rouge les complexes dont le ligand comporte un Souffre, en noir ceux n'en comportant pas.}
     \label{fig:MMPBSA_MMMDFT_complete_by_souffre}

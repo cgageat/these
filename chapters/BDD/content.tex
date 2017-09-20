@@ -39,7 +39,7 @@ Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 
 %     \endfirsthead
 %     \hline
 %     \endfoot
-%   },
+%},
 %   respect all
 % ]{chapters/BDD/datas/freesolv_groups.csv}
 
@@ -47,13 +47,13 @@ Comme on le voit dans le tableau \ref{tab:freeSolvGroupNumbers}, un ensemble de 
 
 
 \section{MDFT Database Tool}
-Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer de nombreux calculs sur plusieurs centaines de molécules et pour différents paramètres d'entrée. Devant ce cas de figure, deux stratégies ont été envisagées. La première consiste à écrire un script spécifique qui pourra pas être utilisé uniquement par son développeur et uniquement pour la version actuelle de MDFT et du jeu de données. C'est le choix qui avait été fait lors de l'étude d'une version précédente de la théorie MDFT\cite{sergiievskyi_fast_2014, sergiievskyi_solvation_2015}. Nous sommes arrivés aujourd'hui à un niveau de théorie et de performance qui permet et nécessite la répétition d'études plus poussées sur des espaces chimiques variés. Rien que pour ce chapitre, nous avons effectué 3874 calculs (voir tableau \ref{tab:calculs_lances}). De plus, en parallèle de ce projet, un bridge utilisant des outils de \textit{machine learning} à été développé par Sohvi Luukkonen lors de son stage de M2. Cet outil, durant sa phase d'apprentissage nécessite également un nombre très important de calculs MDFT. Nous avons donc suivi une autre stratégie. Nous avons consacré un temps plus important au développement d'un outil d'analyse semi automatique qui soit efficace, générique, qui s'adapte facilement aux modifications de MDFT et du jeu de données et qui puisse s'interfacer facilement à un maximum d'outils. Cet outil nommé \textit{MDFT Database Tool} à été développé en collaboration avec José François durant son stage de seconde année de master sous ma supervision. Il a été écrit en python orienté objet et gère toute la chaîne d'analyse, de la préparation des fichiers à l'analyse des résultats, en un minimum de commandes. Un effort particulier à été consacré à développer un outil adaptable et qui soit facile à prendre en main, à maintenir et à étendre. Pour cela, nous avons externalisé un maximum de paramètres dans des fichiers de configuration. Un format générique, le JSON, est utilisé pour chacun de ces fichiers.
+Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer de nombreux calculs sur plusieurs centaines de molécules et pour différents paramètres d'entrée. Devant ce cas de figure, deux stratégies ont été envisagées. La première consiste à écrire un script spécifique qui pourra pas être utilisé uniquement par son développeur et uniquement pour la version actuelle de MDFT et du jeu de données. C'est le choix qui avait été fait lors de l'étude d'une version précédente de la théorie MDFT\cite{sergiievskyi_fast_2014, sergiievskyi_solvation_2015}. Nous sommes arrivés aujourd'hui à un niveau de théorie et de performance qui permet et nécessite la répétition d'études plus poussées sur des espaces chimiques variés. Rien que pour ce chapitre, nous avons effectué 3874 calculs (voir tableau \ref{tab:calculs_lances}). De plus, en parallèle de ce projet, un bridge utilisant des outils de \textit{machine learning} a été développé par Sohvi Luukkonen lors de son stage de M2. Cet outil, durant sa phase d'apprentissage nécessite également un nombre très important de calculs MDFT. Nous avons donc suivi une autre stratégie. Nous avons consacré un temps plus important au développement d'un outil d'analyse semi automatique qui soit efficace, générique, qui s'adapte facilement aux modifications de MDFT et du jeu de données et qui puisse s'interfacer facilement à un maximum d'outils. Cet outil nommé \textit{MDFT Database Tool} a été développé en collaboration avec José François durant son stage de seconde année de master sous ma supervision. Il a été écrit en python orienté objet et gère toute la chaîne d'analyse, de la préparation des fichiers à l'analyse des résultats, en un minimum de commandes. Un effort particulier a été consacré à développer un outil adaptable et qui soit facile à prendre en main, à maintenir et à étendre. Pour cela, nous avons externalisé un maximum de paramètres dans des fichiers de configuration. Un format générique, le JSON, est utilisé pour chacun de ces fichiers.
 
 
 
 
 \begin{table}[h]
-  \begin{tabular}{ l l l l }
+  \begin{tabular}{l l l l}
     \hline & \\[-1em]\hline
     Base de Données & $\mathrm{m}_\mathrm{max}$   & correction & Nombre de molécules \\
     \hline
@@ -85,7 +85,7 @@ Le format JSON (voir code \ref{code:json}) est un format générique de stockage
       "coordinates: [1.211, -0.854, 0.045],  
       "sigma": 2.5,
       "symbol" : "H"
-  }
+}
 \end{lstlisting}
 
 
@@ -100,7 +100,7 @@ La première commande permet de transformer la base de données initiale en des 
 
 
 \begin{table}
-  \begin{tabular}{ l p{10cm} p{4cm}}
+  \begin{tabular}{l p{10cm} p{4cm}}
     \hline & \\[-1em]\hline
     Option   & Description  & Valeurs possibles \\
     \hline
@@ -164,10 +164,10 @@ Cette étape permet de transformer les données brutes en figures facilement ana
 
 
 \subsection{La modularité du code}
-Un effort tout particulier à été porté afin que le code soit le plus modulable et maintenable possible. 
+Un effort tout particulier a été porté afin que le code soit le plus modulable et maintenable possible. 
 
 \subsubsection{Les bases de données}
-Aujourd'hui, deux formats de base de données sont implémentées dans ce code. Le format gromacs (fichiers gro et top) qui permet l'étude de la base de données FreeSolv et le format JSON qui permet de créer facilement des chimiothèques. Ces chimiothèques peuvent être soit créées par d'autres codes de référence, soit des chimiothèques de référence dans le groupe. Le code à été pensé pour qu'il soit facile d'ajouter de nouveaux formats de base de données. Il suffit pour cela uniquement d'implémenter ou de lier le \textit{parser} adapté.
+Aujourd'hui, deux formats de base de données sont implémentées dans ce code. Le format gromacs (fichiers gro et top) qui permet l'étude de la base de données FreeSolv et le format JSON qui permet de créer facilement des chimiothèques. Ces chimiothèques peuvent être soit créées par d'autres codes de référence, soit des chimiothèques de référence dans le groupe. Le code a été pensé pour qu'il soit facile d'ajouter de nouveaux formats de base de données. Il suffit pour cela uniquement d'implémenter ou de lier le \textit{parser} adapté.
 
 Chaque base de données est ensuite décrite dans un fichier de configuration: lien git ou local, format, valeurs présentes etc..
 
@@ -200,7 +200,7 @@ Au travers de cette étude, nous avons montré l'efficacité de la correction de
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/error_distribution_calc_all.png}
-          }
+}
        \caption{$\mathrm{m}_\mathrm{max}$=1}
        \label{fig:distrib_error_PC_PCPlus:mmax1}
     \end{subfigure}
@@ -208,7 +208,7 @@ Au travers de cette étude, nous avons montré l'efficacité de la correction de
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/error_distribution_calc_all.png}
-         }
+}
        \caption{$\mathrm{m}_\mathrm{max}$=3}
        \label{fig:distrib_error_PC_PCPlus:mmax3}
     \end{subfigure}
@@ -231,7 +231,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \caption{$\mathrm{m}_\mathrm{max}$=1}
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/correlation__delta_omega__vs__calc}
-          }
+}
        \label{fig:correlation_avec_sans_cgb:mmax1}
     \end{subfigure}    
    \begin{subfigure}[b]{0.30\textwidth}
@@ -239,7 +239,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \caption{$\mathrm{m}_\mathrm{max}$=1,PC}
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/correlation__mdft_energy_pc__vs__calc}
-          }
+}
        \label{fig:correlation_avec_sans_cgb:mmax1_pc}
     \end{subfigure}
    \begin{subfigure}[b]{0.30\textwidth}
@@ -247,7 +247,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \caption{$\mathrm{m}_\mathrm{max}$=1,cgb}
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1_cgb/correlation__delta_omega__vs__calc}
-         }
+}
        \label{fig:correlation_avec_sans_cgb:mmax1_cgb}
     \end{subfigure}
     
@@ -257,7 +257,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \caption{$\mathrm{m}_\mathrm{max}$=3}
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/correlation__delta_omega__vs__calc}
-          }
+}
        \label{fig:correlation_avec_sans_cgb:mmax3}
     \end{subfigure}    
    \begin{subfigure}[b]{0.30\textwidth}
@@ -265,7 +265,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \caption{$\mathrm{m}_\mathrm{max}$=3,PC}
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/correlation__mdft_energy_pc__vs__calc}
-          }
+}
        \label{fig:correlation_avec_sans_cgb:mmax3_pc}
     \end{subfigure}
    \begin{subfigure}[b]{0.30\textwidth}
@@ -273,12 +273,12 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
        \caption{$\mathrm{m}_\mathrm{max}$=3,cgb}
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3_cgb/correlation__delta_omega__vs__calc}
-         }
+}
        \label{fig:correlation_avec_sans_cgb:mmax3_cgb}
     \end{subfigure}
     
     
-  \caption[Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données FreeSolv.]{Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données FreeSolv. Sur la première ligne $\mathrm{m}_\mathrm{max}$=1, alors que sur la seconde $\mathrm{m}_\mathrm{max}$=3. La première colonne correspond à un calcul MDFT sans correction, la seconde à MDFT avec la correction de pression \textit{PC} et la dernière MDFT avec le bridge gros grain. }
+  \caption[Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données FreeSolv.]{Corrélation entre les valeurs d'énergies libres de solvatation calculées par MDFT et par dynamique moléculaire pour les composés de la base de données FreeSolv. Sur la première ligne $\mathrm{m}_\mathrm{max}$=1, alors que sur la seconde $\mathrm{m}_\mathrm{max}$=3. La première colonne correspond à un calcul MDFT sans correction, la seconde à MDFT avec la correction de pression \textit{PC} et la dernière MDFT avec le bridge gros grain.}
   \label{fig:correlation_avec_sans_cgb}
 \end{figure}
 \end{sidewaysfigure}
@@ -291,7 +291,7 @@ Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement l
 
 \begin{table}[H]
   \begin{center}
-    \begin{tabular}{ c c }
+    \begin{tabular}{c c}
       \hline & \\[-1em]\hline
        fonctionnelle  & R²  \\
       \hline
@@ -335,7 +335,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
   \centering
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/groups/groupes_chimiques.eps}}
-  }
+}
   \caption[Représentation en 2 dimensions des groupes chimiques de la base de données FreeSolv étudiés.]{Représentation en 2 dimensions des groupes chimiques étudiés dans ce chapitre. \protect\footnotemark}
   \label{fig:groupes_chimiques}
 \end{figure}
@@ -345,7 +345,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
   \centering
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/PC_error_by_groups}}
-  }
+}
   \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec la correction \textit{PC}.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base de données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec la correction de pression \textit{PC}. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
   \label{fig:AUE:mmax3}
 \end{figure}
@@ -356,7 +356,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
   \centering
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/groups/diaryl_ether.eps}}
-  }
+}
   \caption{Représentation en 2 dimensions des molécules composant le groupe des diaryl ethers.}
   \label{fig:diaryl_ether}
 \end{figure}
@@ -371,7 +371,7 @@ Cette étude nous permet également de confirmer deux points faibles de MDFT: l'
   \centering
   \resizebox{\linewidth}{!}{
          \fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3_cgb/HNC_error_by_groups}}
-  }
+}
   \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec le bridge gros grain.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec le bridge gros grain. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
   \label{fig:AUE:mmax3_cgb}
 \end{figure}
@@ -414,7 +414,7 @@ Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude de
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/ions/MD_exp}
-          }
+}
 %       \caption{$\mathrm{m}_\mathrm{max}$=1}
 %       \label{fig:distrib_error_PC_PCPlus:mmax1}
     \end{subfigure}
@@ -422,7 +422,7 @@ Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude de
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/ions/PC_exp}
-         }
+}
 %       \caption{$\mathrm{m}_\mathrm{max}$=3}
 %       \label{fig:distrib_error_PC_PCPlus:mmax3}
     \end{subfigure}
@@ -430,7 +430,7 @@ Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude de
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/ions/MD_PC}
-         }
+}
 %       \caption{$\mathrm{m}_\mathrm{max}$=3}
 %       \label{fig:distrib_error_PC_PCPlus:mmax3}
     \end{subfigure}

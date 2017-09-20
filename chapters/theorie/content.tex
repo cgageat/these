@@ -6,7 +6,7 @@ Dans ce chapitre nous décrivons la théorie de la fonctionnelle de la densité 
 }
 
 
-La théorie de la fonctionnelle de la densité moléculaire (MDFT) permet l'étude de la solvatation de composés de n'importe qu'elle taille et n'importe qu'elle forme à l'échelle moléculaire. Cette théorie et son code associé, permettent, en quelques secondes seulement, (i) de calculer l'énergie libre de solvatation et (ii) de générer une carte détaillée en 3 dimensions de la densité ainsi que de l'orientation du solvant autour du soluté.
+La théorie de la fonctionnelle de la densité moléculaire (MDFT) permet l'étude de la solvatation de composés de n'importe quelle taille et n'importe quelle forme à l'échelle moléculaire. Cette théorie et son code associé, permettent, en quelques secondes seulement, (i) de calculer l'énergie libre de solvatation et (ii) de générer une carte détaillée en 3 dimensions de la densité ainsi que de l'orientation du solvant autour du soluté.
 
 
 L'origine de la théorie de la fonctionnelle de la densité (DFT) réside dans le développement d'une fonctionnelle $\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]$. Cette fonctionnelle a pour variable la densité du solvant $\rho\left(\boldsymbol{r},\Omega \right)$, en chaque point de l'espace $\boldsymbol{r}$ et pour chaque orientation $\Omega$ de la molécule de solvant. La fonctionnelle est construite comme la différence entre le grand potentiel du soluté en solution et le grand potentiel du solvant homogène de densité $\rho_{0}$. Par définition, la valeur de la fonctionnelle au minimum correspond donc à l'énergie libre de solvatation du soluté étudié. 
@@ -30,7 +30,7 @@ La partie idéale, représente l’entropie d'information du système, et s'écr
 \begin{eqnarray}
 \phi\left(\boldsymbol{r},\Omega \right) = \sum\limits_{i=1}^{\mathrm{n}_\mathrm{sv}}\sum\limits_{j=1}^{\mathrm{n}_\mathrm{su}} v_{ij}(|\boldsymbol{r}+\boldsymbol{S}_i(\Omega)+\boldsymbol{r}_j|)
 \end{eqnarray}
-\noindent avec $\mathrm{n}_\mathrm{sv}$ le nombre de site du solvent, $\mathrm{n}_\mathrm{su}$ le nombre de site du solute et $\boldsymbol(S)_i$ le vecteur reliant l'origine du solvant au site i. Le potentiel d'interaction correspond à la somme des interactions électrostatiques et des interactions de Lennard-Jones ou toute autre interaction potentielle. 
+\noindent avec $\mathrm{n}_\mathrm{sv}$ le nombre de sites du solvent, $\mathrm{n}_\mathrm{su}$ le nombre de sites du solute et $\boldsymbol(S)_i$ le vecteur reliant l'origine du solvant au site i. Le potentiel d'interaction correspond à la somme des interactions électrostatiques et des interactions de Lennard-Jones ou toute autre interaction potentielle. 
 
 \section{L'approximation HNC}
 
@@ -53,7 +53,7 @@ Une fois la fonctionnelle décrite, il est nécessaire de la minimiser. En effet
 \begin{eqnarray}
 \min(\mathcal{F}[\rho\left(\boldsymbol{r},\Omega \right)]) = \mathcal{F}[\rho_{eq}\left(\boldsymbol{r},\Omega \right)])= \Delta G_{solv}
 \end{eqnarray}
-Cette minimisation à été implémentée dans un code en Fortran moderne du même nom: MDFT.
+Cette minimisation a été implémentée dans un code en Fortran moderne du même nom: MDFT.
 
 
 \subsection{La discrétisation}
@@ -61,7 +61,7 @@ Comme il n'est numériquement pas possible de travailler avec un système contin
 
 \begin{table}[H]
  \centering
-  \begin{tabular}{l | c }
+  \begin{tabular}{l | c}
     \hline \multicolumn{2}{c}{} \\[-1em]\hline
     $\mathrm{m}_\mathrm{max}$ & nombre d'orientations \\
     \hline
@@ -117,7 +117,7 @@ Et enfin:
 \hat{\gamma}(\boldsymbol{k}_i,\Omega_j) &=& \mathrm{FGSHT}^{-1}[\hat{\gamma}(\boldsymbol{k}_i,\omega_j)]\\
 \gamma(\boldsymbol{r}_i,\Omega_j) &=& \mathrm{FT}^{-1}[\hat{\gamma}(\boldsymbol{k}_i,\Omega_j)]
 \end{eqnarray}
-Les auteurs\cite{ding_thesis} ont montré que le couplage de ces deux méthodes permet d'obtenir des temps de calculs du même ordre de grandeurs pour chacune des 3 parties de la fonctionnelle. 
+Les auteurs\cite{ding_thesis} ont montré que le couplage de ces deux méthodes permet d'obtenir des temps de calcul du même ordre de grandeurs pour chacune des 3 parties de la fonctionnelle. 
 
 
 \subsection{Le minimiseur}
@@ -150,7 +150,7 @@ Si l'on veut corriger à la fois l'énergie libre de solvatation et la densité 
 \begin{eqnarray}
 \mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc}^{HNC} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
-Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il à été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
+Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
 
 
 
@@ -160,7 +160,7 @@ Différentes formes pour la fonctionnelle de bridge ont été proposées ces der
 
 \boitemagique{A retenir}{
 Danc ce chapitre, nous présentons la théorie de la fonctionnelle de la densité moléculaire.
-Les récents développements de Ding et al ont permi de porter cette théorie au niveau de l'approximation HNC.
+Les récents développements de Ding et al ont permis de porter cette théorie au niveau de l'approximation HNC.
 Nous présentons également les différentes corrections associées à cette théorie.
 Malheureusement, aucune de ces corrections ne permet de reproduire l'ensemble des propriétés thermodynamiques de nos systèmes.
 Dans le chapitre suivant, nous présentons une nouvelle correction adaptée aux systèmes macromoléculaires.
@@ -169,5 +169,5 @@ Dans le chapitre suivant, nous présentons une nouvelle correction adaptée aux 
 
 %Afin de corriger cela, plusieurs approximations de la fonctionnelle de bridge ont été proposées, des bridges compliqués et lourds qui permettent
 %de retrouver de la consistante thermodynamique\cite{jeanmairet_molecular_2015} au prix de rdf très moches comme le bridge de sphères dures\cite{liu_bridge-functional-based_2014,levesque_scalar_2012},
-%les bridges three body \cite{jeanmairet_molecular_2015}, etc.  Malheureusement, comme il à été montré dans un article à paraître, on ne peut pas construire un terme de bridge sphères dures qui soit
+%les bridges three body \cite{jeanmairet_molecular_2015}, etc.  Malheureusement, comme il a été montré dans un article à paraître, on ne peut pas construire un terme de bridge sphères dures qui soit
 %complètement consistent, c'est à dire que l'on ai à la fois la pression du système, la tension de surface du solvant, tout en conservant des profils de densité et des énergies libres de solvatation corrects. 
