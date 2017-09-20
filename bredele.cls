@@ -164,7 +164,7 @@
                 bibencoding=utf8,
                 refsegment=chapter,
                 style=numeric-comp, 
-                firstinits=true,
+                giveninits,
                 isbn=false,
                 doi=true,
                 url=false,

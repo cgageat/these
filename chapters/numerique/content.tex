@@ -247,7 +247,7 @@ Les deux cadres d'utilisation de MDFT les plus coûteux sont:
 
 Dans le premier cas, le nombre de calcul à lancer peut être largement supérieur au nombre de cœurs disponibles. La parallélisation n'a donc aucun avantage. En effet, à cause de la communication entre les différents processus, le temps de calcul nécessaire pour l’exécution d'un code parrallèle sur n cœurs est toujours supérieur au temps sur un cœur divisé par n. Dans ce cas de figure, il est donc plus intéressant de lancer chaque calcul en série soit sur un seul cœur.
 
-Dans le second cas, c'est le temps de restitution qui est important. La parallélisation permet donc ici un gain de temps considérable. Les temps de calcul en fonction du nombre de cœurs OpenMP sont disponibles dans le tableau \ref{tab:perf_minimiseurs}. Le système étudié est le lysosyme dans une boîte de simulation de 64 \AA\ de coté divisée en 128 points de grille dans chaque direction pour une valeur de $\mathrm{m}_\mathrm{max}$=3.
+Dans le second cas, c'est le temps de restitution qui est important. La parallélisation permet donc ici un gain de temps considérable. Les temps de calcul en fonction du nombre de cœurs OpenMP sont disponibles dans le tableau \ref{tab:perf_openmp}. Le système étudié est le lysosyme dans une boîte de simulation de 64 \AA\ de coté divisée en 128 points de grille dans chaque direction pour une valeur de $\mathrm{m}_\mathrm{max}$=3.
 
 
 
@@ -266,7 +266,7 @@ Dans le second cas, c'est le temps de restitution qui est important. La parallé
     \hline \multicolumn{3}{c}{} \\[-1em]\hline
   \end{tabular}
   \caption[Temps de calcul en fonction du nombre de cœurs OpenMP.]{Temps de calcul en fonction du nombre de cœurs OpenMP. Le système étudié est le lysosyme dans une boîte de simulation de 64 \AA\ de coté divisée en 128 points de grille dans chaque direction pour une valeur de $\mathrm{m}_\mathrm{max}$=3.}
-  \label{tab:perf_minimiseurs}  
+  \label{tab:perf_openmp}  
 \end{table}
 
 
