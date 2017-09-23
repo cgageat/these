@@ -386,7 +386,7 @@ Enfin, on voit que MDFT avec le bridge gros grain, nous donne globalement des er
 
 
 \boitesimple{
-Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerbent les faiblesses de MDFT. Ces groupes sont principalement hydrophobes ou contiennent des charges partielles importantes. L'hydrophobocité ayant été traitée dans le chapitre précédent, nous étudions dans la suite de ce chapitre une base de données d'ions afin de mieux comprendre l'impact des charges sur MDFT.
+Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerbent les faiblesses de MDFT dans l'approxmation HNC. Ces groupes sont principalement hydrophobes ou contiennent des charges partielles importantes. L'hydrophobocité ayant été traitée dans le chapitre précédent, nous étudions dans la suite de ce chapitre une base de données d'ions afin de mieux comprendre l'impact des charges sur MDFT.
 }
 
 
@@ -395,17 +395,37 @@ Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerb
 
 \section{Les ions}
 En plus de l'analyse de bases de données officielles comme FreeSolv, ce logiciel nous permet d'étudier simplement et efficacement un ensemble de molécules d’intérêt pharmaceutique. Nous nous en sommes donc servi afin d'étudier l'impact de la charge sur les résultats de MDFT. Notre jeu de données est composé de 4 cations: Li$^+$, Na$^+$, K$^+$, Cs$^+$ et de 4 anions F$^-$, Cl$^-$, Br$^-$, I$^-$.
-Dans un premier temps nous avons comparé les énergies libres de solvatation calculées par MDFT et par dynamique moléculaire\cite{Horinek_rational_2009} aux valeurs expérimentales\cite{Marcus_simple_1994, Noyes_thermodynamics_1962}. Nous avons ensuite directement comparé les valeurs MDFT et dynamique moléculaire (voir figure \ref{fig:correlation_ions}).
+Les paramètres utilisés pour ces simulations (voir tableau \ref{tab:param_lj_horinek}) sont ceux proposés par Horinek et al.\cite{Horinek_rational_2009}.
 
-En ce qui concerne les cations, MDFT et la dynamique moléculaire sous-estiment de plusieurs kcal.mol$^{-1}$ leurs énergies libres de solvatation. Cependant, les résultats sont en accord pour les deux méthodes, ce qui laisse penser que le champ de force n'est pas adapté à ce type d'ions.
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{l c c}
+   \hline & \\[-1em]\hline
+    Ion    & $\sigma_{LJ}$ (\AA) & $\epsilon_{LJ}$ (kJ.mol$^{-1}$) \\
+    \hline
+      F$^-$	 & 3,434 & 4,654e$^{-1}$ \\
+      Cl$^-$ & 4,394 & 4,160e$^{-1}$ \\
+      Br$^-$ & 4,834 & 2,106e$^{-1}$ \\
+      I$^-$  & 5,334 & 1,575e$^{-1}$ \\
+      Li$^+$ & 2,874 & 6,154e$^{-4}$ \\
+      Na$^+$ & 3,814 & 6,154e$^{-4}$ \\
+      K$^+$  & 4,534 & 6,154e$^{-4}$ \\
+      Cs$^+$ & 5,174 & 6,154e$^{-4}$ \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption{Paramètres Lennard-Jones des ions utilisés dans nos simulations.}
+  \label{tab:param_lj_horinek}  
+\end{table}
 
-Au contraire, pour les anions, la valeur est sur-estimée de quelques kcal.mol$^{-1}$ seulement par la dynamique moléculaire et de quelques dizaines de kcal.mol$^{-1}$ par MDFT. La théorie de la MDFT dans l'approximation HNC n'est donc pas optimisée pour la solvatation d'ions négatifs. 
+Ces paramètres ont été optimisés de façon à supprimer l'erreur systématique des méthodes utilisées.
+Pour cela, les auteurs ont considérés la différence entre l'énergie libre de solvatation du composé étudié et celle d'un composé de référence (ici l'ion Cl$^-$). Cette différence, notée $\Delta\Delta G_{\text{solv}}$ s'exprime:
+\begin{eqnarray}
+\Delta\Delta G_{\text{solv}} = \Delta G_{\text{solv}} + \frac{\text{q}}{\text{e}} \Delta G_{\text{solv Cl}^{-}}
+\end{eqnarray}
+\noindent avec q la charge du soluté et e la charge élémentaire. En effet, comme on le voit sur la figure \ref{fig:correlation_ions}, le biais dépend de la charge des composés étudiés. Le terme $\frac{q}{e}$ permet donc de moduler la valeur de référence en fonction du signe de la charge de l'ion étudié.
 
-\boitesimple{
-Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude des ions. Dans les cas des composés chargés positivement, le champ de force ne semble pas adapté, alors que dans le cas des composés chargés négativement, la théorie MDFT est en cause. Ces résultats sont en accord avec ceux obtenus sur la base de données FreeSolv. En effet, MDFT apparaissait le moins précis sur les composés comportant des hétéroatomes : les oxygènes et les azotes étant fortement chargés négativement.
-}
+Dans un premier temps nous avons comparé les énergies libres de solvatation calculées par MDFT et par dynamique moléculaire\cite{Horinek_rational_2009} aux valeurs expérimentales\cite{Marcus_simple_1994, Noyes_thermodynamics_1962}.
 
-\clearpage
 
 
 \begin{figure}[H]
@@ -413,32 +433,42 @@ Cette étude nous a permis de détecter deux problèmes majeurs dans l'étude de
    \begin{subfigure}[b]{0.5\textwidth}
        \centering
        \resizebox{\linewidth}{!}{
-         \includegraphics[width=\textwidth]{chapters/BDD/images/ions/MD_exp}
+         \includegraphics[width=\textwidth]{chapters/BDD/images/ions_mmax3/correlation__calc__vs__expt}
 }
-%       \caption{$\mathrm{m}_\mathrm{max}$=1}
-%       \label{fig:distrib_error_PC_PCPlus:mmax1}
     \end{subfigure}
    \begin{subfigure}[b]{0.49\textwidth}
        \centering
        \resizebox{\linewidth}{!}{
-         \includegraphics[width=\textwidth]{chapters/BDD/images/ions/PC_exp}
+         \includegraphics[width=\textwidth]{chapters/BDD/images/ions_mmax3/correlation__mdft_energy_pc__vs__expt}
 }
-%       \caption{$\mathrm{m}_\mathrm{max}$=3}
-%       \label{fig:distrib_error_PC_PCPlus:mmax3}
-    \end{subfigure}
-   \begin{subfigure}[b]{0.5\textwidth}
-       \centering
-       \resizebox{\linewidth}{!}{
-         \includegraphics[width=\textwidth]{chapters/BDD/images/ions/MD_PC}
-}
-%       \caption{$\mathrm{m}_\mathrm{max}$=3}
-%       \label{fig:distrib_error_PC_PCPlus:mmax3}
     \end{subfigure}
   \caption[Corrélation des énergies libres de solvatation calculées par rapport aux valeurs expérimentales pour les ions.]{Corrélation de l'énergie libre de solvatation calculée par MDFT, par dynamique moléculaire et expérimentale pour un ensemble de 4 anions et 4 cations.}
   \label{fig:correlation_ions}
 \end{figure}
 
+Comme attendu, une erreur systématique, différente pour les deux méthodes, appara\^it. L'énergie libre de solvatation des cations est systématiquement sous-estimée alors que celle des anions est systématiquement sur-estimée.
 
+\begin{figure}[H]
+   \centering
+   \begin{subfigure}[b]{0.5\textwidth}
+       \centering
+       \resizebox{\linewidth}{!}{
+         \includegraphics[width=\textwidth]{chapters/BDD/images/ions_mmax3/correlation__delta__calc__vs__expt}
+}
+    \end{subfigure}
+   \begin{subfigure}[b]{0.49\textwidth}
+       \centering
+       \resizebox{\linewidth}{!}{
+         \includegraphics[width=\textwidth]{chapters/BDD/images/ions_mmax3/correlation__delta__mdft_energy_pc__vs__expt}
+}
+    \end{subfigure}
+  \caption[Corrélation des énergies libres de solvatation relatives calculées par rapport aux valeurs expérimentales pour les ions.]{Corrélation des énergies libres de solvatation relatives calculées par rapport aux valeurs expérimentales pour un ensemble de 4 anions et 4 cations. L'énergie libre de solvation du Chlorure est soustraite à celle des anions et ajoutée à celles des cations.}
+  \label{fig:correlation_ions_delta}
+\end{figure}
+Pour nous placer dans les mêmes conditions que celles utilisées par Horinek et al. lors de l'optimisation des paramètres, nous avons tracé la différence d'énergie libre de solvatation par rapport au composé de référence pour la MDFT et la dynamique moléculaire en fonction des valeurs expérimentales.
+Comme on le voit sur la figure \ref{fig:correlation_ions_delta} la corrélation est parfaite pour les calculs de dynamique moléculaire. Nous rappelons au lecteur que les paramètres de simulation ont été optimisés par Horinek et al afin d'obtenir ce résultat.
+On voit également que les résultats MDFT sont proches des résultats expérimentaux.
+À ce niveau, ces résultats confirment qu'il existe un biais dépendant de la charge du composé étudiant. Ils ne permettent cependant pas de déterminer si l'erreur systématique dépend de la valeur de la charge ou uniquement de son signe. Afin d'aller plus loin, l'étape suivante sera d'étudier une base de données d'ions polyvalents et ainsi le lien entre la valence et l'erreur.
 
 
 \clearpage
