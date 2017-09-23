@@ -99,7 +99,7 @@
 \def\@makechapterhead#1{%
   \vspace*{-30\p@}%
   {\parindent \z@ \raggedleft \reset@font
-            \scshape \@chapapp{} \thechapter
+            \@chapapp{} \thechapter
         \par\nobreak
         \interlinepenalty\@M
     \Huge \bfseries #1\par\nobreak
@@ -111,7 +111,7 @@
 \def\@makeschapterhead#1{%
  \vspace*{-50\p@}%
   {\parindent \z@ \raggedleft \reset@font
-            \scshape \vphantom{\@chapapp{} \thechapter}
+            \vphantom{\@chapapp{} \thechapter}
         \par\nobreak
         \interlinepenalty\@M
     \Huge \bfseries #1 \par\nobreak
@@ -144,7 +144,7 @@
 
 \parttitlefont{\jolipart}
 
-\partnumberfont{\sc\normalsize}
+\partnumberfont{\normalsize}
 
 
 

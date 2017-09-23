@@ -28,7 +28,7 @@ Cette étude à pour but d'évaluer la capacité de MDFT à retrouver les moléc
 Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin}, composée de 227 acides aminés, et issue de la PDB sous le code 4M7G, a été sélectionnée pour la qualité de sa résolution expérimentale (0.81 \AA).
 %La seconde est une \textit{FACTOR XA} composée de 241 acides aminés. Cette protéine issue de la PDB [lien pdb] sous le code 1HCG a été sélectionnée car elle représente un premier cas d'étude simple, sans ligand ni contre ions.
 
-%\begin{figure}[H]
+%\begin{figure}[ht]
 %    \begin{subfigure}[b]{0.50\textwidth}
 %        \centering
 %        \resizebox{\linewidth}{!}{
@@ -49,7 +49,7 @@ Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin
 %   \label{fig:struct_secondaires}
 %\end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
    \centering
    \fbox{\includegraphics[width=\textwidth]{chapters/Applications/images/4m7g.png}}
    \caption{Représentation en structure secondaire de la protéine 4M7G.}
@@ -64,7 +64,7 @@ Afin de ne pas être influencé par les résultats expérimentaux, nous avons su
 
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \center
   \begin{tikzpicture}
   \tikzstyle{lien}=[->,>=stealth,rounded corners=5pt,thick]
@@ -210,7 +210,7 @@ Par définition, le calcul exact d'une énergie libre de liaison, implique un é
    \draw[line width=5pt, -latex] (1.5, 3.5) -- (1.5,5.5);
    \draw (1.5,4.3) node[right]{$\Delta G_{\mathrm{solv}}\ \mathrm{ligand}$} ;
    \draw[line width=5pt, -latex] (5.5, 3.5) -- (5.5,5.5);
-   \draw (5.5,4.3) node[right]{$\Delta G_{\mathrm{solv}}\ \mathrm{protéine}$} ;
+   \draw (5.5,4.3) node[right]{$\Delta G_{\mathrm{solv}}\ $protéine} ;
    \draw[line width=5pt, -latex] (12.5, 3.5) -- (12.5,5.5);
    \draw (12.5,4.3) node[right]{$\Delta G_{\mathrm{solv}}\ \mathrm{complexe}$} ;
 
@@ -256,7 +256,7 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
 \endfirsthead
 
 \multicolumn{5}{c}%
-{{\bfseries \tablename\ \thetable{} -- suite}} \\
+{{\tablename\ \thetable{} -- suite}} \\
 \hline Code PDB &  \multicolumn{3}{c}{Charge} & $\mathrm{N}_\mathrm{atomes} \mathrm{Ligand}$ \\
                & complex & protein & ligand  & \\ \hline 
 \endhead
@@ -362,7 +362,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 
 \clearpage
-\begin{figure}[H]
+\begin{figure}[ht]
     \begin{subfigure}[b]{0.50\textwidth}
         \centering
         \caption{MM-PBSA}
@@ -444,7 +444,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 
 
-\begin{table}[H]
+\begin{table}[ht]
   \begin{center}
     \begin{tabular}{c c}
       \hline & \\[-1em]\hline
@@ -476,7 +476,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 
 \clearpage
-\begin{figure}[h]
+\begin{figure}[ht]
     \begin{subfigure}[b]{0.50\textwidth}
         \centering
         \caption{MM-PBSA}
@@ -584,7 +584,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \begin{subfigure}[b]{0.50\textwidth}
         \centering
         \caption{MM-PBSA}

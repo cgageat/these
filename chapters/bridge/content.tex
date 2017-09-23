@@ -27,7 +27,7 @@ Ce bridge permet donc de retrouver la consistance thermodynamique tout en améli
 
 
 \section{Le démouillage}
-Lorsque de gros composés hydrophobes sont plongés en solution, on observe une transition lente d'une densité quasi-nulle (à la surface du soluté) à la densité bulk (loin du soluté) (voir figure \ref{fig:demouillage}). Ce phénomène est appelé démouillage. Malheureusement, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre d'une unité de volume (soit le potentiel chimique d'une molécule du solvant) augmente. Les phases de faible densité normalement attendues sont donc trop défavorisées pour exister. En réalite, à température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence. En effet, comme on le voit sur la figure \ref{fig:diagramme_phase_eau}, à température ambiante et pression atmosphérique, l'eau est proche de la phase gaz. Le potentiel chimique est donc également proche de celui de la phase gaz. Dans l'approximation HNC, les phases de faible densité sont remplacées par des zones de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge du 3$^{ème}$ ordre proposé par Jeanmairet et al\cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme d'ordre 4. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calculs étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
+Lorsque de gros composés hydrophobes sont plongés en solution, on observe une transition lente d'une densité quasi-nulle (à la surface du soluté) à la densité bulk (loin du soluté) (voir figure \ref{fig:demouillage}). Ce phénomène est appelé démouillage. Malheureusement, comme on le voit sur la figure \ref{fig:fonctionelle_HNC}, plus on s'éloigne de la densité bulk et plus l'énergie libre d'une unité de volume (soit le potentiel chimique d'une molécule du solvant) augmente. Les phases de faible densité normalement attendues sont donc trop défavorisées pour exister. En réalite, à température ambiante et pression atmosphérique, les phases gazeuses et liquides de l'eau ont la propriété d'être en quasi-coexistence. En effet, comme on le voit sur la figure \ref{fig:diagramme_phase_eau}, à température ambiante et pression atmosphérique, l'eau est proche de la phase gaz. Le potentiel chimique est donc également proche de celui de la phase gaz. Dans l'approximation HNC, les phases de faible densité sont remplacées par des zones de plus forte densité, ce qui entraîne une surestimation forte de la pression du fluide. Comme c'était déjà le cas pour le bridge du 3$^{\text{ème}}$ ordre proposé par Jeanmairet et al\cite{jeanmairet_molecular_2013}, nous allons dans un premier temps fixer l'énergie libre de la phase gaz à la même valeur que celle de la phase liquide, soit proche de zéro. Afin d'augmenter la flexibilité du modèle et ainsi de nous permettre d'obtenir une tension de surface correcte, nous ajoutons un nouveau terme d'ordre 4. Afin de calibrer ces nouveaux termes, nous avons effectué une étude paramétrique (décrite plus bas). Le nombre de calculs étant très important, nous avons développé une version spéciale de MDFT adaptée à cette étude: MDFT à symétrie sphérique. 
 
 
 
@@ -69,7 +69,7 @@ Lorsque de gros composés hydrophobes sont plongés en solution, on observe une 
 
 
 
-%\begin{figure}[H]
+%\begin{figure}[ht]
 %  \center
 %  \begin{tikzpicture}
 %    %liquide
@@ -449,7 +449,7 @@ Nous avons ainsi obtenu, pour chaque valeur de $B$ sélectionnée, la valeur de 
 Afin de sélectionner le meilleur couple de paramètres, nous disposons de différentes références, que ce soit de structure de solvant ou d'énergie libre de solvatation. 
 
 %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-%\begin{figure}[H]
+%\begin{figure}[ht]
 %    \center    
 %  \begin{tikzpicture}
 %    \begin{axis}[

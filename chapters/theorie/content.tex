@@ -59,7 +59,7 @@ Cette minimisation a été implémentée dans un code en Fortran moderne du mêm
 \subsection{La discrétisation}
 Comme il n'est numériquement pas possible de travailler avec un système continu infini, le soluté est étudié dans un système fini, discret et périodique. Il existe deux niveaux de discrétisation du système. Le premier, spatial, découpe l'espace sur une grille homogène. Le second niveau, angulaire\cite{ding_cea-01564512}, permet de limiter le nombre d'orientations étudiées. Il est actuellement possible de choisir entre vitesse et précision en faisant varier le nombre d'angles étudiés de 18 à 726 à travers un paramètre nommé $\mathrm{m}_\mathrm{max}$. L'équivalence entre le nombre d'angles et la valeur de ce paramètre traduit des quadratures bien connues de type Gauss-Legendre\cite{abbott_tricks_2005}. Cette équivalence est disponible dans le tableau \ref{tab:mmax};
 
-\begin{table}[H]
+\begin{table}[ht]
  \centering
   \begin{tabular}{l | c}
     \hline \multicolumn{2}{c}{} \\[-1em]\hline

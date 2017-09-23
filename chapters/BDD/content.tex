@@ -52,7 +52,7 @@ Afin d'étudier en profondeur les limites de MDFT, nous avions besoin de lancer 
 
 
 
-\begin{table}[h]
+\begin{table}[ht]
   \begin{tabular}{l l l l}
     \hline & \\[-1em]\hline
     Base de Données & $\mathrm{m}_\mathrm{max}$   & correction & Nombre de molécules \\
@@ -129,7 +129,7 @@ Une fois l'archive transférée et décompressée sur le serveur distant, il suf
 
 
 \subsubsection{Récupération des résultats}
-Après l’exécution de MDFT sur l'ensemble des composés de la chimiothèque choisie, la $3^\mathrm{\`eme}$ commande permet d'analyser les fichiers de sortie de MDFT et regrouper l'ensemble des résultats dans un fichier JSON unique. Ce fichier compact et unique est ainsi simple à rapatrier sur son ordinateur pour la dernière étape.
+Après l’exécution de MDFT sur l'ensemble des composés de la chimiothèque choisie, la $3^\text{ème}$ commande permet d'analyser les fichiers de sortie de MDFT et regrouper l'ensemble des résultats dans un fichier JSON unique. Ce fichier compact et unique est ainsi simple à rapatrier sur son ordinateur pour la dernière étape.
 
 
 \subsubsection{Analyse}
@@ -148,7 +148,7 @@ Cette étape permet de transformer les données brutes en figures facilement ana
 
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
    \begin{subfigure}[b]{0.40\textwidth}
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/error_distribution_calc_all.png}
          \par\bigskip
@@ -196,7 +196,7 @@ Au travers de cette étude, nous avons montré l'efficacité de la correction de
 
 \begin{center}
 \begin{figure}
-   \begin{subfigure}[b]{0.85\textwidth}
+   \begin{subfigure}[b]{0.8\textwidth}
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_1/error_distribution_calc_all.png}
@@ -204,7 +204,7 @@ Au travers de cette étude, nous avons montré l'efficacité de la correction de
        \caption{$\mathrm{m}_\mathrm{max}$=1}
        \label{fig:distrib_error_PC_PCPlus:mmax1}
     \end{subfigure}
-   \begin{subfigure}[b]{0.85\textwidth}
+   \begin{subfigure}[b]{0.8\textwidth}
        \centering
        \resizebox{\linewidth}{!}{
          \includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/error_distribution_calc_all.png}
@@ -224,8 +224,8 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
 
 
 \begin{sidewaysfigure}
-\centering
 \begin{figure}[H]
+\centering
    \begin{subfigure}[b]{0.30\textwidth}
        \centering
        \caption{$\mathrm{m}_\mathrm{max}$=1}
@@ -289,7 +289,7 @@ Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement l
 
 
 
-\begin{table}[H]
+\begin{table}[ht]
   \begin{center}
     \begin{tabular}{c c}
       \hline & \\[-1em]\hline
@@ -331,7 +331,7 @@ Si le champ de force et la théorie étaient idéaux, les erreurs moyennes pour 
 
 C'est dans le but de reproduire les énergies libres de solvatation expérimentales, que Sohvi Luukkonen, développe un bridge \textit{machine learning}. Il permet de corriger à la fois les approximations de la MDFT et du champ de force (résultats non présentés dans ce rapport).
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/groups/groupes_chimiques.eps}}
@@ -341,7 +341,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
 \end{figure}
 \footnotetext{Image réalisée avec le logiciel MarvinSketch 17.17.0 , 2017, ChemAxon (\url{http://www.chemaxon.com}).}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/PC_error_by_groups}}
@@ -352,7 +352,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
 
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/groups/diaryl_ether.eps}}
@@ -367,7 +367,7 @@ Cette étude nous permet également de confirmer deux points faibles de MDFT: l'
 \clearpage
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \resizebox{\linewidth}{!}{
          \fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3_cgb/HNC_error_by_groups}}
@@ -428,7 +428,7 @@ Dans un premier temps nous avons comparé les énergies libres de solvatation ca
 
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
    \centering
    \begin{subfigure}[b]{0.5\textwidth}
        \centering
@@ -448,7 +448,7 @@ Dans un premier temps nous avons comparé les énergies libres de solvatation ca
 
 Comme attendu, une erreur systématique, différente pour les deux méthodes, appara\^it. L'énergie libre de solvatation des cations est systématiquement sous-estimée alors que celle des anions est systématiquement sur-estimée.
 
-\begin{figure}[H]
+\begin{figure}[ht]
    \centering
    \begin{subfigure}[b]{0.5\textwidth}
        \centering
