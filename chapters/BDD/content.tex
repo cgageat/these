@@ -285,7 +285,7 @@ Dans le chapitre précédent, nous avons proposé un nouveau bridge gros grain. 
 
 
 A ce niveau nous disposons de plusieurs possibilités d'amélioration de l'approximation HNC. Soit la pression ad-hoc de pression \textit{PC}, soit le bridge gros grain. Ces deux corrections améliorent fortement les résultats. Comme on peut le voir sur les images \ref{fig:correlation_avec_sans_cgb:mmax1} et \ref{fig:correlation_avec_sans_cgb:mmax3}, la corrélation est faible entre les valeurs calculées dans l'approximation HNC et les valeurs de référence obtenues par dynamique moléculaire. 
-Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement la corrélation de ces données. Avec le bridge, nous obtenons ainsi, pour $\mathrm{m}_\mathrm{max}$=1 $\mathrm{R}^2$=0.66 et pour $\mathrm{m}_\mathrm{max}$=3 $\mathrm{R}^2$=0.80. Avec la correction \textit{PC}, nous obtenons, pour $\mathrm{m}_\mathrm{max}$=1 $\mathrm{R}^2$=0.85 et pour $\mathrm{m}_\mathrm{max}$=3 $\mathrm{R}^2$=0.94. L'ensemble des coefficients de corrélation $\mathrm{R}^2$ est disponible dans le tableau \ref{tab:correlation}.
+Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement la corrélation de ces données. Avec le bridge, nous obtenons ainsi, pour $\mathrm{m}_\mathrm{max}$=1 $\mathrm{R}^2$=0,66 et pour $\mathrm{m}_\mathrm{max}$=3 $\mathrm{R}^2$=0,80. Avec la correction \textit{PC}, nous obtenons, pour $\mathrm{m}_\mathrm{max}$=1 $\mathrm{R}^2$=0,85 et pour $\mathrm{m}_\mathrm{max}$=3 $\mathrm{R}^2$=0,94. L'ensemble des coefficients de corrélation $\mathrm{R}^2$ est disponible dans le tableau \ref{tab:correlation}.
 
 
 
@@ -295,12 +295,12 @@ Le bridge gros grain ainsi que la correction \textit{PC} améliorent fortement l
       \hline & \\[-1em]\hline
        fonctionnelle  & R²  \\
       \hline
-       $\mathrm{m}_\mathrm{max}$ 1      & 0.03  \\
-       $\mathrm{m}_\mathrm{max}$ 1 PC   & 0.85  \\
-       $\mathrm{m}_\mathrm{max}$ 1 cgb  & 0.66  \\
-       $\mathrm{m}_\mathrm{max}$ 3      & 0.06  \\
-       $\mathrm{m}_\mathrm{max}$ 3 PC   & 0.94  \\
-       $\mathrm{m}_\mathrm{max}$ 3 cgb  & 0.80  \\
+       $\mathrm{m}_\mathrm{max}$ 1      & 0,03  \\
+       $\mathrm{m}_\mathrm{max}$ 1 PC   & 0,85  \\
+       $\mathrm{m}_\mathrm{max}$ 1 cgb  & 0,66  \\
+       $\mathrm{m}_\mathrm{max}$ 3      & 0,06  \\
+       $\mathrm{m}_\mathrm{max}$ 3 PC   & 0,94  \\
+       $\mathrm{m}_\mathrm{max}$ 3 cgb  & 0,80  \\
       \hline & \\[-1em]\hline%
     \end{tabular}
   \end{center}
@@ -346,7 +346,7 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
   \resizebox{\linewidth}{!}{
   	\fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3/PC_error_by_groups}}
 }
-  \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec la correction \textit{PC}.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base de données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec la correction de pression \textit{PC}. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
+  \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec la correction \textit{PC}.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base de données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en rouge ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec la correction de pression \textit{PC}. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
   \label{fig:AUE:mmax3}
 \end{figure}
 
@@ -372,12 +372,12 @@ Cette étude nous permet également de confirmer deux points faibles de MDFT: l'
   \resizebox{\linewidth}{!}{
          \fbox{\includegraphics[width=\textwidth]{chapters/BDD/images/freesolv_3_cgb/HNC_error_by_groups}}
 }
-  \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec le bridge gros grain.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en vert ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec le bridge gros grain. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
+  \caption[Erreur absolue moyenne pour chaque groupe chimique de la base données FreeSolv calculée par MDFT avec le bridge gros grain.]{Erreur absolue moyenne calculée pour chaque groupe chimique de la base données FreeSolv, par rapport aux valeurs expérimentales. En bleu, les résultats de dynamique moléculaire et en rouge ceux de MDFT pour $\mathrm{m}_\mathrm{max}$=3 avec le bridge gros grain. Nous n'affichons ici que les groupes comportant 10 molécules ou plus.}
   \label{fig:AUE:mmax3_cgb}
 \end{figure}
 
 
-Enfin, on voit que MDFT avec le bridge gros grain, nous donne globalement des erreurs plus importantes avec une erreur maximale autour de 0.85 kcal.mol$^{-1}$ contre 0.43 kcal.mol$^{-1}$ pour MDFT avec la correction de pression \textit{PC}. Ces résultats confirment ceux précédemment obtenus dans le paragraphe \ref{sec:corrections_pression}. 
+Enfin, on voit que MDFT avec le bridge gros grain, nous donne globalement des erreurs plus importantes avec une erreur maximale autour de 0,85 kcal.mol$^{-1}$ contre 0,43 kcal.mol$^{-1}$ pour MDFT avec la correction de pression \textit{PC}. Ces résultats confirment ceux précédemment obtenus dans le paragraphe \ref{sec:corrections_pression}. 
 \clearpage
 
 
@@ -395,7 +395,9 @@ Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerb
 
 \section{Les ions}
 En plus de l'analyse de bases de données officielles comme FreeSolv, ce logiciel nous permet d'étudier simplement et efficacement un ensemble de molécules d’intérêt pharmaceutique. Nous nous en sommes donc servi afin d'étudier l'impact de la charge sur les résultats de MDFT. Notre jeu de données est composé de 4 cations: Li$^+$, Na$^+$, K$^+$, Cs$^+$ et de 4 anions F$^-$, Cl$^-$, Br$^-$, I$^-$.
-Les paramètres utilisés pour ces simulations (voir tableau \ref{tab:param_lj_horinek}) sont ceux proposés par Horinek et al.\cite{Horinek_rational_2009}.
+
+\subsection{Les énergies libres de solvatation}
+Dans un premier temps nous avons étudié l'énergie libre de solvatation de ces ions. Pour cela, nous avons utilisé les paramètres (voir tableau \ref{tab:param_lj_horinek}) proposés par Horinek et al.\cite{Horinek_rational_2009}.
 
 \begin{table}[ht]
   \centering
@@ -403,22 +405,22 @@ Les paramètres utilisés pour ces simulations (voir tableau \ref{tab:param_lj_h
    \hline & \\[-1em]\hline
     Ion    & $\sigma_{LJ}$ (\AA) & $\epsilon_{LJ}$ (kJ.mol$^{-1}$) \\
     \hline
-      F$^-$	 & 3,434 & 4,654e$^{-1}$ \\
-      Cl$^-$ & 4,394 & 4,160e$^{-1}$ \\
-      Br$^-$ & 4,834 & 2,106e$^{-1}$ \\
-      I$^-$  & 5,334 & 1,575e$^{-1}$ \\
-      Li$^+$ & 2,874 & 6,154e$^{-4}$ \\
-      Na$^+$ & 3,814 & 6,154e$^{-4}$ \\
-      K$^+$  & 4,534 & 6,154e$^{-4}$ \\
-      Cs$^+$ & 5,174 & 6,154e$^{-4}$ \\
+      F$^-$	 & 3,434 & 4,654.10$^{-1}$ \\
+      Cl$^-$ & 4,394 & 4,160.10$^{-1}$ \\
+      Br$^-$ & 4,834 & 2,106.10$^{-1}$ \\
+      I$^-$  & 5,334 & 1,575.10$^{-1}$ \\
+      Li$^+$ & 2,874 & 6,154.10$^{-4}$ \\
+      Na$^+$ & 3,814 & 6,154.10$^{-4}$ \\
+      K$^+$  & 4,534 & 6,154.10$^{-4}$ \\
+      Cs$^+$ & 5,174 & 6,154.10$^{-4}$ \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{Paramètres Lennard-Jones des ions utilisés dans nos simulations.}
+  \caption{Paramètres Lennard-Jones des ions utilisés dans nos calculs d'énergies libres de solvatation.}
   \label{tab:param_lj_horinek}  
 \end{table}
 
 Ces paramètres ont été optimisés de façon à supprimer l'erreur systématique des méthodes utilisées.
-Pour cela, les auteurs ont considérés la différence entre l'énergie libre de solvatation du composé étudié et celle d'un composé de référence (ici l'ion Cl$^-$). Cette différence, notée $\Delta\Delta G_{\text{solv}}$ s'exprime:
+Pour cela, les auteurs ont considéré la différence entre l'énergie libre de solvatation du composé étudié et celle d'un composé de référence (ici l'ion Cl$^-$). Cette différence, notée $\Delta\Delta G_{\text{solv}}$ s'exprime:
 \begin{eqnarray}
 \Delta\Delta G_{\text{solv}} = \Delta G_{\text{solv}} + \frac{\text{q}}{\text{e}} \Delta G_{\text{solv Cl}^{-}}
 \end{eqnarray}
@@ -469,6 +471,345 @@ Pour nous placer dans les mêmes conditions que celles utilisées par Horinek et
 Comme on le voit sur la figure \ref{fig:correlation_ions_delta} la corrélation est parfaite pour les calculs de dynamique moléculaire. Nous rappelons au lecteur que les paramètres de simulation ont été optimisés par Horinek et al afin d'obtenir ce résultat.
 On voit également que les résultats MDFT sont proches des résultats expérimentaux.
 À ce niveau, ces résultats confirment qu'il existe un biais dépendant de la charge du composé étudiant. Ils ne permettent cependant pas de déterminer si l'erreur systématique dépend de la valeur de la charge ou uniquement de son signe. Afin d'aller plus loin, l'étape suivante sera d'étudier une base de données d'ions polyvalents et ainsi le lien entre la valence et l'erreur.
+
+
+
+
+
+
+
+
+
+\subsection{La structures du solvant autour des ions}
+
+\subsubsection{La structure du solvant}
+Dans un second temps, nous avons étudié la structure du solvant autour de ces ions. Pour cela, nous avons comparé la fonction de distribution radiale ainsi que la polarisation du solvant autour de ces 8 ions à des structures de référence calculées par dynamique moléculaire. Les calculs MDFT ont été effectués avec les mêmes paramètres que ceux utilisés pour le calcul des références (voir tableau \ref{tab:param_lj_ions_daniel}).
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{l c c}
+   \hline & \\[-1em]\hline
+    Ion    & $\sigma_{LJ}$ (\AA) & $\epsilon_{LJ}$ (kJ.mol$^{-1}$) \\
+    \hline
+      F$^-$	 & 4,03 & 0,042 \\
+      Cl$^-$ & 4,034 & 0,418 \\
+      Br$^-$ & 4,58 & 0,45 \\
+      I$^-$  & 4,92 & 0,67 \\
+      Li$^+$ & 2,44 & 0,013 \\
+      Na$^+$ & 2,584 & 0,4185 \\
+      K$^+$  & 2,93 & 0,76 \\
+      Cs$^+$ & 3,53 & 1,50 \\
+    \hline & \\[-1em]\hline
+  \end{tabular}
+  \caption{Paramètres Lennard-Jones des ions utilisés dans nos calculs de structure du solvant.}
+  \label{tab:param_lj_ions_daniel}  
+\end{table}
+
+
+Comme on le voit sur la figure \ref{fig:g_of_r_ions}, la MDFT, pour l'ensemble des 8 ions étudiés, prédit correctement la position du premier pic en sous-estimant cependant sa hauteur. Les pics et creux suivants sont, en plus d'être sous-estimés, légèrement décalés.
+
+\subsubsection{La polarisation}
+La polarisation P($\boldsymbol{r}$) permet de déterminer s'il existe une orientation préférentielle du solvant au point $\boldsymbol{r}$ de l'espace. Elle se calcule:
+\begin{eqnarray}
+\mathrm{P}(\boldsymbol{r})=\int\mathrm{d}\Omega\rho\left(\boldsymbol{r},\Omega \right)\Omega
+\end{eqnarray}
+Nous en traçons ensuite la norme en fonction de la distance. Dans le cas d'une orientation prépondérante, la norme est importante, contrairement au cas d'une distribution angulaire homogène pour laquelle la norme serait nulle.
+Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation prédite par MDFT est en accord avec celle de référence calculée par dynamique moléculaire.
+
+\boitesimple{Dans le paragraphe précédent, nous avons montré que MDFT dans l'approximation HNC est moins précis pour les groupes chimiques contenant des charges partielles importantes. Cette étude, sur une base de données de 8 ions, nous permet de montrer que la MDFT prédit des énergies libres de solvatation ainsi que des structures de solvant (rdfs et polarisation) autour d'ions monovalents satisfaisantes. Afin d'aller plus loin, il sera nécessaire de transposer cette étude à un ensemble d'ions polyvalents.}
+
+\begin{sidewaysfigure}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{.24\textwidth}
+    \caption{F$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/F.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/F.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Br$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Br.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Br.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Cl$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Cl.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Cl.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{I$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/I.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/I.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}
+  \begin{subfigure}{.24\textwidth}
+    \caption{Li$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Li.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Li.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Na$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Na.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Na.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{K$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/K.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/K.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Cs$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Cs.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Cs.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}
+  \caption[Fonctions de distribution radiale autour d'ions.]{Fonctions de distribution radiale autour des ions Li$^+$, Na$^+$, K$^+$, Cs$^+$, F$^-$, Cl$^-$, Br$^-$ et I$^-$. Les calculs MDFT (en rouge) sont comparés aux calculs de référence (en rouge).}
+  \label{fig:g_of_r_ions}
+\end{figure}
+\end{sidewaysfigure}
+
+
+
+
+
+\begin{sidewaysfigure}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{.24\textwidth}
+    \caption{F$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] table [x index=0, y expr={-1*\thisrowno{1}}] {chapters/BDD/datas/ions/MD/polarisation/F.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/F.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Br$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] table [x index=0, y expr={-1*\thisrowno{1}}] {chapters/BDD/datas/ions/MD/polarisation/Br.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/Br.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Cl$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] table [x index=0, y expr={-1*\thisrowno{1}}] {chapters/BDD/datas/ions/MD/polarisation/Cl.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/Cl.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{I$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] table [x index=0, y expr={-1*\thisrowno{1}}] {chapters/BDD/datas/ions/MD/polarisation/I.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/I.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}
+  \begin{subfigure}{.24\textwidth}
+    \caption{Li$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/polarisation/Li.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/Li.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Na$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/polarisation/Na.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/Na.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{K$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/polarisation/K.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/K.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Cs$^+$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/polarisation/Cs.csv};
+            \addplot+[mark=none, red] table [x index=0, y expr={8*0.5*3.14*3.14*\thisrowno{1}}] {chapters/BDD/datas/ions/MDFT/polarisation/Cs.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}
+  \caption[Polarisation radiale autour d'ions.]{Polarisation radiale autour des ions Li$^+$, Na$^+$, K$^+$, Cs$^+$, F$^-$, Cl$^-$, Br$^-$ et I$^-$. Les calculs MDFT (en rouge) sont comparés aux calculs de référence (en rouge).}
+  \label{fig:polarisation_ions}
+\end{figure}
+\end{sidewaysfigure}
+
 
 
 \clearpage

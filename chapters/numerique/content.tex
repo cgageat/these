@@ -175,7 +175,7 @@ Comme on le voit sur la figure \ref{fig:lj}, le potentiel de Lennard-Jones tend 
 
 
 \subsubsection{Mise en cache}
-Malgré la puissance actuelle des ordinateurs, le calcul de fonctions trigonométriques reste coûteux en temps. Dans une implémentation naïve, il est nécessaire de reconstruire la position de chaque atome du solvant, pour chaque atome du soluté, pour chaque point de grille et pour chaque orientation. Si l'on considère l'étude de l'une des plus petites protéines existantes, le lysosyme (1960 atomes), dans une boîte divisée en 64 points dans chaque direction et pour une valeur de $\mathrm{m}_\mathrm{max}$=1, il est nécessaire d'effectuer $64^3\mathrm{x}3\mathrm{x}18\mathrm{x}1960$ soit environ 27.7 milliards reconstructions de position. Nous avons donc stocké en mémoire l'ensemble des positions relatives de chaque atome de solvant par rapport au point de grille étudié pour chaque orientation. Pour le même système, le nombre de reconstructions est donc aujourd'hui de 3x18 soit seulement 54. Le nombre de calculs est ainsi divisé par plus de 500 millions.
+Malgré la puissance actuelle des ordinateurs, le calcul de fonctions trigonométriques reste coûteux en temps. Dans une implémentation naïve, il est nécessaire de reconstruire la position de chaque atome du solvant, pour chaque atome du soluté, pour chaque point de grille et pour chaque orientation. Si l'on considère l'étude de l'une des plus petites protéines existantes, le lysosyme (1960 atomes), dans une boîte divisée en 64 points dans chaque direction et pour une valeur de $\mathrm{m}_\mathrm{max}$=1, il est nécessaire d'effectuer $64^3\mathrm{x}3\mathrm{x}18\mathrm{x}1960$ soit environ 27,7 milliards reconstructions de position. Nous avons donc stocké en mémoire l'ensemble des positions relatives de chaque atome de solvant par rapport au point de grille étudié pour chaque orientation. Pour le même système, le nombre de reconstructions est donc aujourd'hui de 3x18 soit seulement 54. Le nombre de calculs est ainsi divisé par plus de 500 millions.
 
 
 \subsubsection{Performances}
@@ -183,7 +183,7 @@ Si l'on reprend l'exemple du lysosyme (1960 atomes), dans une boîte de 32 \AA\ 
 
 
 \subsection{Le minimiseur: steepest descent}
-Comme nous l'avons décrit dans le chapitre \ref{chap:theorie}, le minimiseur nativement implémenté dans MDFT est L-BFGS. Ce minimiseur est le meilleur compromis pour des systèmes comportants de nombreuses variables comme c'est le cas avec MDFT. Cependant, le nombre de variables reste limité. En effet, il stocke en mémoire un tableau de taille $2mn + 5n + 11mm + 8m$ avec n le nombre de variables à minimiser et m le nombre de pas d'historique que l'on conserve. En fortran, les entiers sont codés sur 32 bits. Ils sont donc limités à un maximum de $2^{32}$ soit 2.29e$^9$. Si l'on réduit l'historique au minimum, soit 1, la taille du tableau est de $7n+16$. Notre minimiseur est donc limité aux systèmes de moins de $\frac{2.29e9-16}{7}$ soit 6.14$^{8}$ variables. 
+Comme nous l'avons décrit dans le chapitre \ref{chap:theorie}, le minimiseur nativement implémenté dans MDFT est L-BFGS. Ce minimiseur est le meilleur compromis pour des systèmes comportants de nombreuses variables comme c'est le cas avec MDFT. Cependant, le nombre de variables reste limité. En effet, il stocke en mémoire un tableau de taille $2mn + 5n + 11mm + 8m$ avec n le nombre de variables à minimiser et m le nombre de pas d'historique que l'on conserve. En fortran, les entiers sont codés sur 32 bits. Ils sont donc limités à un maximum de $2^{32}$ soit 2,29.10$^9$. Si l'on réduit l'historique au minimum, soit 1, la taille du tableau est de $7n+16$. Notre minimiseur est donc limité aux systèmes de moins de $\frac{2,29e9-16}{7}$ soit 6,14$^{8}$ variables. 
 
 Dans notre cas, le nombre de variables est égal au nombre de points de grille multiplié par le nombre d'orientations dans chaque direction, soit $N_g^3 \mathrm{x} N_o$ avec $N_g$ le nombre de points de grille dans chaque dimension et $N_o$ le nombre d'orientations. La taille des boîtes de simulation est donc limitée à $\sqrt[3]{\frac{2^{32}-7}{7N_o}}$. La taille de boîte maximale autorisée en fonction de la valeur de $\mathrm{m}_\mathrm{max}$ est décrite dans le tableau \ref{tab:taille_boîte_max}.
 
@@ -220,11 +220,11 @@ Afin de dépasser ces limites, nous avons donc implémenté un nouveau minimiseu
     \hline
       $\mathrm{m}_\mathrm{max}$ & L-BFGS & SD & gain(\%) & L-BFGS & SD & gain(\%) \\
     \hline
-    1  &  1.36 &  0.77 & 43.4 &  2 min 42 &  2 min 24 & 11.1 \\
-    2  &  8.71 &  4.29 & 50.7 &  8 min 47 &  8 min 18 &  5.5 \\
-    3  & 16.20 &  7.94 & 51.0 & 19 min 50 & 14 min 56 & 24.7 \\
-    4  &   /   & 20.38 &  /   &    /      & 18 min 37 &   /  \\
-    5  &   /   & 30.07 &  /   &    /      & 22 min 04 &   /  \\
+    1  &  1,36 &  0,77 & 43,4 &  2 min 42 &  2 min 24 & 11,1 \\
+    2  &  8,71 &  4,29 & 50,7 &  8 min 47 &  8 min 18 &  5,5 \\
+    3  & 16,20 &  7,94 & 51,0 & 19 min 50 & 14 min 56 & 24,7 \\
+    4  &   /   & 20,38 &  /   &    /      & 18 min 37 &   /  \\
+    5  &   /   & 30,07 &  /   &    /      & 22 min 04 &   /  \\
     \hline \multicolumn{3}{c}{} \\[-1em]\hline
   \end{tabular}
   \caption[Comparaison des performances des minimiseurs L-BFGS et \textit{steepest descent}.]{Comparaison des performances des minimiseurs L-BFGS et \textit{steepest descent} dans le cas de la solvatation du lysosyme.}
@@ -257,12 +257,12 @@ Dans le second cas, c'est le temps de restitution qui est important. La parallé
       Nombre de cœurs & Temps de calcul & gain(\%)\\
     \hline
     sans OpenMP (ref) & 25 min & 0\\
-     1 & 31 min 44 & -27.0 \\
-     2 & 16 min 34 &  33.4 \\
-     4 &  9 min 32 &  61.8 \\
-     8 &  5 min 30 &  78.0 \\
-    12 &  4 min 03 &  83.8 \\
-    24 &  2 min 34 &  89.8 \\
+     1 & 31 min 44 & -27,0 \\
+     2 & 16 min 34 &  33,4 \\
+     4 &  9 min 32 &  61,8 \\
+     8 &  5 min 30 &  78,0 \\
+    12 &  4 min 03 &  83,8 \\
+    24 &  2 min 34 &  89,8 \\
     \hline \multicolumn{3}{c}{} \\[-1em]\hline
   \end{tabular}
   \caption[Temps de calcul en fonction du nombre de cœurs OpenMP.]{Temps de calcul en fonction du nombre de cœurs OpenMP. Le système étudié est le lysosyme dans une boîte de simulation de 64 \AA\ de coté divisée en 128 points de grille dans chaque direction pour une valeur de $\mathrm{m}_\mathrm{max}$=3.}

@@ -199,7 +199,7 @@ Afin d'évaluer les performances des différentes implémentations de MDFT, nous
 La figure \ref{fig:temps_calcul_methane_versions} représente le temps de calcul nécessaire pour ces 3 versions en fonction du nombre de points de grille dans chaque direction.
 Le temps de calcul dépend uniquement du nombre de points de grille et non de la taille du système, nous avons donc fixé, dans tous les cas, la largeur du système à 20 \AA.
 Pour 200 points de grille, on voit que la version 3D a besoin de 1 min 51 sec pour compléter la minimisation, alors que la version à symétrie sphérique nécessite uniquement 36 sec.
-La mise en cache des transformées de Hankel fait descendre ce temps à seulement 1.47 sec.
+La mise en cache des transformées de Hankel fait descendre ce temps à seulement 1,47 sec.
 Nous divisons, dans ce cas, le temps de calcul par plus de 75.
 De plus, nous voyons que les approximations adaptées à la spécificité de notre étude (soluté neutre, solvant sans angle) nous permettent d'atteindre des tailles de boîte inaccessibles avec la version 3D.
 Nous minimisons par exemple facilement des systèmes de quelques centaines d'\AA\ avec une précision de 10 points/\AA.
@@ -262,7 +262,7 @@ L'énergie libre de solvatation d'une bulle peut être exprimée en fonction de 
 \Delta G_{solv}= \mathrm{A} V_{\mathrm{sphere}} + \gamma S_{\mathrm{sphere}} 
 \end{equation}
 
-\noindent Pour des sphères de petits rayons, le terme proportionnelle au volume est prépondérant.
+\noindent Or on sait que physiquement, pour des sphères de petits rayons, le terme proportionnel au volume est prépondérant.
 Au contraire, pour les sphères de rayons importants, lorsque leurs profils peuvent être assimilés à des murs plats, c'est le terme en surface qui devient prépondérant soit:
 \begin{equation}
 \lim\limits_{r_{sphere} \to \infty} \Delta G_{solv} = \gamma S_{\mathrm{sphere}} 
@@ -352,8 +352,8 @@ Ce noyau est défini par deux paramètres, sa largeur à mi hauteur $\sigma_{gau
 Afin de conserver une cohérence entre la densité et la densité gros grain, le pré-facteur est choisi de façon à obtenir une aire sous la courbe de la gaussienne toujours égale à 1.
 \`A ce niveau, nous disposons donc de deux paramètres, $B$ et $\sigma_{gauss}$.
 Dans un premier temps, nous avons cherché les limites de $B$ qui ont un impact direct sur la forme de la courbe de potentiel chimique du fluide homogène.
-Comme on le voit sur la figure \ref{fig:etude_B}, une valeur de $B$ inférieure à $-15e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ ou supérieure à $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ déforme la courbe.
-Nous avons donc choisi de concentrer notre étude sur des valeurs de $B$ allant de $-15e^{-8}$ à $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$.
+Comme on le voit sur la figure \ref{fig:etude_B}, une valeur de $B$ inférieure à $-15.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ ou supérieure à $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ déforme la courbe.
+Nous avons donc choisi de concentrer notre étude sur des valeurs de $B$ allant de $-15.10^{-8}$ à $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$.
 La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autour de l'origine. On voit la création d'un second minimum proche de zéro qui confirme la présence d'une phase gazeuse. On voit également que le minimum est très légèrement négatif. Ce résultat est attendu car on impose $\rho[0]=0$ et on sait que $\frac{\delta F}{\delta \rho}<0$ (voir annexe \ref{chap:annexes:grad}).
 
 \begin{figure}[ht]
@@ -377,7 +377,7 @@ La figure \ref{fig:etude_B_zoom} correspond à un zoom de la fonctionnelle autou
       \legend{$B=-15$, $B=-10$, $B=-5$, $B=0$, $B=5$, $B=10$, $B=15$}
     \end{axis}
   \end{tikzpicture}
-    \caption[\'Energie libre d'une unité de volume du solvant homogène en fonction du paramètre B.]{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre $B$ ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$). $\rho_0$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
+    \caption[\'Energie libre d'une unité de volume du solvant homogène en fonction du paramètre B.]{\'Energie libre d'une unité de volume du solvant homogène de densité $\rho_\mathrm{bulk}$ en fonction du paramètre $B$ ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$). $\rho_0$ est la densité bulk de l'eau SPC/E à pression et température standards (1$kg.L^{-1}$).}
     \label{fig:etude_B}
 \end{figure}
 
@@ -423,10 +423,10 @@ Nous avons ensuite ajusté la valeur de $\sigma_{gauss}$ pour obtenir une tensio
         \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_0.966_15.csv};
         \addplot+[mark=none, very thick] table[x index=0, y index=4] {chapters/bridge/datas/free_energy_by_volume/results_HS_1.000_15.csv};
         \addplot[mark=none, dashed, black, very thick] coordinates {(0, 63.6) (100, 63.6)};
-        \legend{$\sigma_{gauss}=0.866$, $\sigma_{gauss}=0.900$, $\sigma_{gauss}=0.935$, $\sigma_{gauss}=0.966$, $\sigma_{gauss}=1.000$}
+        \legend{$\sigma_{gauss}=0,866$, $\sigma_{gauss}=0,900$, $\sigma_{gauss}=0,935$, $\sigma_{gauss}=0,966$, $\sigma_{gauss}=1,000$}
       \end{axis}
     \end{tikzpicture}
-	\caption[\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon  pour différentes valeurs de $\sigma_{gauss}$.]{\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon  pour différentes valeurs de $\sigma_{gauss}$ (en \AA), largeur de la gaussienne servant à la convolution. $B$ est fixé ici à $15e^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63.3 mJ.m$^{-2}$\cite{vega_surface_2007}.}
+	\caption[\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon  pour différentes valeurs de $\sigma_{gauss}$.]{\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon  pour différentes valeurs de $\sigma_{gauss}$ (en \AA), largeur de la gaussienne servant à la convolution. $B$ est fixé ici à $15.10^{-8} kJ.mol^{-1}.\text{\AA}^{15}$. La valeur de référence en pointillé est la valeur de la tension de surface de l'eau SPC/E soit 63,3 mJ.m$^{-2}$\cite{vega_surface_2007}.}
     \label{fig:etude_sigma}
 \end{figure}
 
@@ -437,9 +437,9 @@ Nous avons ainsi obtenu, pour chaque valeur de $B$ sélectionnée, la valeur de 
  \centering
   \begin{tabular}{l || c c c c c c c}
     \hline
-    $B$ ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$)  & -15 & -10 & -5 & 0 & 5 & 10 & 15  \\
+    $B$ ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$)  & -15 & -10 & -5 & 0 & 5 & 10 & 15  \\
     \hline
-     $\sigma_{gauss}$ (\AA)  & 1.177 & 1.110 & 1.061 & 1.021 & 0.989 & 0.960 & 0.935  \\
+     $\sigma_{gauss}$ (\AA)  & 1,177 & 1,110 & 1,061 & 1,021 & 0,989 & 0,960 & 0,935  \\
     \hline
   \end{tabular}
   \caption{Couples de paramètres permettant d'obtenir la bonne tension de surface de l'eau.}
@@ -506,7 +506,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=15, $\sigma_{gauss}$=0.935}
+    \caption{B=15, $\sigma_{gauss}$=0,935}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -529,7 +529,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=10, $\sigma_{gauss}$=0.960}
+    \caption{B=10, $\sigma_{gauss}$=0,960}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -552,7 +552,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=5, $\sigma_{gauss}$=0.989}
+    \caption{B=5, $\sigma_{gauss}$=0,989}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -575,7 +575,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=0, $\sigma_{gauss}$=1.021}
+    \caption{B=0, $\sigma_{gauss}$=1,021}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -598,7 +598,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=-5, $\sigma_{gauss}$=1.061}
+    \caption{B=-5, $\sigma_{gauss}$=1,061}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -621,7 +621,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=-10, $\sigma_{gauss}$=1.110}
+    \caption{B=-10, $\sigma_{gauss}$=1,110}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -644,7 +644,7 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=-15, $\sigma_{gauss}$=1.177}
+    \caption{B=-15, $\sigma_{gauss}$=1,177}
     \resizebox{\linewidth}{!}{
     \begin{tikzpicture}
         	\begin{axis}[
@@ -665,15 +665,15 @@ Dans un premier temps, nous comparons, pour chaque jeu de paramètres, l'\'energ
     \end{tikzpicture}
 }
   \end{subfigure}
-    \caption[\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon pour différentes valeurs de B.]{\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Les calculs ont été effectués pour chaque couple de paramètres $B$ ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA). Ces courbes en rouge, sont comparées à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996}}
+    \caption[\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon pour différentes valeurs de B.]{\'Energie libre de solvatation d'une sphère dure divisée par sa surface en fonction de son rayon calculée dans l'approximation HNC puis avec les différents paramètres du bridge. Les calculs ont été effectués pour chaque couple de paramètres $B$ ($10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA). Ces courbes en rouge, sont comparées à des valeurs de référence (sphères noires) calculées par Monte-Carlo\cite{hummer_information_1996}}
     \label{fig:comparaison_hummer}
 \end{figure}
 \end{sidewaysfigure}
 
 
- On voit que l'approximation HNC, surestime les énergies libres de solvatation. Notre bridge, corrige fortement cet écart, quelque soit le couple de paramètres choisi. Les meilleurs paramètres ici semblent être pour un $B$ autour de $5e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. 
+On voit que l'approximation HNC, surestime les énergies libres de solvatation. Notre bridge, corrige fortement cet écart, quelque soit le couple de paramètres choisi. Les meilleurs paramètres ici semblent être pour un $B$ autour de $5.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. 
 
-\boitesimple{Les \'energies libres de solvatation de sphères dures les plus précises sont obtenues pour un $B$ autour de $5e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. Chacun des paramètres proposés sont acceptables à ce niveau.}
+\boitesimple{Les \'energies libres de solvatation de sphères dures les plus précises sont obtenues pour un $B$ autour de $5.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$. Chacun des paramètres proposés sont acceptables à ce niveau.}
  
 
 
@@ -689,14 +689,14 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
     Méthode    & Exp   & DM    & HNC    &      &       &       & MDFT  &       &       & \\
     \hline
     $B$          &       &       &        & -15   & -10   & -5    & 0     & 5     & 10    & 15     \\
-    $\sigma_{gauss}$   &       &       &        & 1.177 & 1.110 & 1.061 & 1.021 & 0.989 & 0.960 & 0.935  \\
+    $\sigma_{gauss}$   &       &       &        & 1,177 & 1,110 & 1,061 & 1,021 & 0,989 & 0,960 & 0,935  \\
     \hline
-    Méthane    &       &  9.23 & 28.14  & 15.97 & 14.55 & 13.70 & 13.05 & 12.62 & 12.25 & \textbf{11.99}  \\
-%    Neopentane &       &  0.37 & 84.51 & 17.51 & 13.77 & 11.30 &  9.43 &  8.17 &  7.05 &  \textbf{6.23}  \\
-    Néon       & 10.36 & 11.73 & 19.04  & 14.89 & 14.25 & 13.83 & 13.53 & 13.34 & 13.19 & \textbf{13.10}  \\
-    Argon      &  8.40 &  8.61 & 22.89  & 14.16 & 13.12 & 12.42 & 11.89 & 11.55 & 11.25 & \textbf{11.01}  \\
-    Krypton    &  6.96 &  8.03 & 26.41  & 14.54 & 13.28 & 12.44 & 11.80 & 11.38 & 11.00 & \textbf{10.74}  \\
-    Xénon       &  6.06 &  6.47 & 31.23 & 15.02 & 13.50 & 12.48 & 11.71 & 11.20 & 10.74 & \textbf{10.33}  \\
+    Méthane    &       &  9,23 & 28,14  & 15,97 & 14,55 & 13,70 & 13,05 & 12,62 & 12,25 & \textbf{11,99}  \\
+%    Neopentane &       &  0,37 & 84,51 & 17,51 & 13,77 & 11,30 &  9,43 &  8,17 &  7,05 &  \textbf{6,23}  \\
+    Néon       & 10,36 & 11,73 & 19,04  & 14,89 & 14,25 & 13,83 & 13,53 & 13,34 & 13,19 & \textbf{13,10}  \\
+    Argon      &  8,40 &  8,61 & 22,89  & 14,16 & 13,12 & 12,42 & 11,89 & 11,55 & 11,25 & \textbf{11,01}  \\
+    Krypton    &  6,96 &  8,03 & 26,41  & 14,54 & 13,28 & 12,44 & 11,80 & 11,38 & 11,00 & \textbf{10,74}  \\
+    Xénon       &  6,06 &  6,47 & 31,23 & 15,02 & 13,50 & 12,48 & 11,71 & 11,20 & 10,74 & \textbf{10,33}  \\
     \hline & \\[-1em]\hline
   \end{tabular}
   \caption[\'Energie libre de solvatation du méthane unifié et des gaz rares.]{Valeurs de l'énergie libre de solvatation (en kJ.mol$^{-1}$) du méthane unifié et des gaz rares: Argon, Xénon, Krypton, Néon pour les différents paramètres possibles de la fonctionnelle de bridge gros grain. Les valeurs les plus proches de notre référence, la dynamique moléculaire, sont en gras.}
@@ -710,11 +710,11 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
    \hline & \\[-1em]\hline
     Soluté    & $\sigma_{LJ}$ (\AA) & $\epsilon_{LJ}$ (kJ.mol$^{-1}$) \\
     \hline
-      méthane & 3.73000 & 1.2300 \\
-	  néon & 3.03500 & 0.15432 \\
-	  argon & 3.41500 & 1.03931 \\
-	  krypton & 3.67500 & 1.4051 \\
-	  xenon & 3.97500 & 1.7851 \\
+      méthane & 3,73000 & 1,2300 \\
+	  néon & 3,03500 & 0,15432 \\
+	  argon & 3,41500 & 1,03931 \\
+	  krypton & 3,67500 & 1,4051 \\
+	  xenon & 3,97500 & 1,7851 \\
     \hline & \\[-1em]\hline
   \end{tabular}
   \caption[Paramètres Lennard-Jones du méthane unifié et des gaz rares utilisés dans nos simulations.]{Paramètres Lennard-Jones du méthane unifié et des gaz rares utilisés dans nos simulations.}
@@ -725,7 +725,7 @@ Nous avons ensuite calculé l'énergie libre de solvatation de molécules modèl
 On remarque que l'approximation HNC surestime fortement le calcul de l'énergie libre de solvatation de plusieurs dizaines de $\mathrm{kJ.mol}^{-1}$. Le bridge gros grain permet de considérablement réduire cet écart, à quelques $\mathrm{kJ.mol}^{-1}$ seulement.
 On remarque également que plus $B$ est grand et donc plus la barrière de transition entre la phase liquide et gaz est importante, et meilleures sont les prédictions d'énergies libres de solvatation. 
 
-\boitesimple{Les meilleures énergies libres de solvatation de nos molécules modèles sont obtenues avec B=$15e^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 0.935 \AA}
+\boitesimple{Les meilleures énergies libres de solvatation de nos molécules modèles sont obtenues avec B=$15.10^{-8}\  \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 0,935 \AA}
 
 
 
@@ -769,7 +769,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=15, $\sigma_{gauss}$=0.935}
+    \caption{B=15, $\sigma_{gauss}$=0,935}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -798,7 +798,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=10, $\sigma_{gauss}$=0.960}
+    \caption{B=10, $\sigma_{gauss}$=0,960}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -827,7 +827,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=5, $\sigma_{gauss}$=0.989}
+    \caption{B=5, $\sigma_{gauss}$=0,989}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -856,7 +856,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=0, $\sigma_{gauss}$=1.021}
+    \caption{B=0, $\sigma_{gauss}$=1,021}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -885,7 +885,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=-5, $\sigma_{gauss}$=1.061}
+    \caption{B=-5, $\sigma_{gauss}$=1,061}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -914,7 +914,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=-10, $\sigma_{gauss}$=1.110}
+    \caption{B=-10, $\sigma_{gauss}$=1,110}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -943,7 +943,7 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
   \end{subfigure}
 \begin{subfigure}{.24\textwidth}
   \centering
-    \caption{B=-15, $\sigma_{gauss}$=1.177}
+    \caption{B=-15, $\sigma_{gauss}$=1,177}
     \resizebox{\linewidth}{!}{
       \begin{tikzpicture}
           \begin{axis}[
@@ -970,34 +970,34 @@ Nous nous sommes également intéressés aux structures de solvant, dans un prem
       \end{tikzpicture}
 }
   \end{subfigure}
-    \caption[Fonctions de distribution radiale autour de petites sphères dures.]{Fonctions de distribution radiale autour de sphères dures de rayons 2.0, 4.0, 6.0, 8.0 et 10.0 $\text{\AA}$. Les rdfs ont été calculés avec MDFT dans l'approximation HNC puis pour chaque couple de paramètres $B$ ($e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA) de notre bridge. Les références ont été calculées par Monte-Carlo\cite{huang_hydrophobic_2002} (pointillés bleu).}
+    \caption[Fonctions de distribution radiale autour de petites sphères dures.]{Fonctions de distribution radiale autour de sphères dures de rayons 2,0, 4,0, 6,0, 8,0 et 10,0 $\text{\AA}$. Les rdfs ont été calculés avec MDFT dans l'approximation HNC puis pour chaque couple de paramètres $B$ ($.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$) et $\sigma_{gauss}$ (\AA) de notre bridge. Les références ont été calculées par Monte-Carlo\cite{huang_hydrophobic_2002} (pointillés bleu).}
     \label{fig:g_r_HS}
 \end{figure}
 \end{sidewaysfigure}
 
 Les références, calculées par Monte Carlo, pour des sphères de diamètre croissant, montrent un premier pic qui augmente avant de diminuer. Cette diminution traduit la présence de démouillage. Dans l'approximation HNC, les premiers pics sont tous fortement surestimés. Ils augmentent jusqu'à tendre vers une valeur seuil. Le bridge corrige ce défaut en autorisant le démouillage dans le système et ce, quel que soit le couple de paramètres choisi. 
 
-\boitesimple{Les meilleurs profils sont obtenus pour les valeurs $B$ = $-5e^{-8}\ \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 1.061 \AA. Les autres paramètres fournissent des résultats légèrement plus éloignés de la référence mais restent cependant acceptables.}
+\boitesimple{Les meilleurs profils sont obtenus pour les valeurs $B$ = $-5.10^{-8}\ \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$  et $\sigma_{gauss}$ = 1,061 \AA. Les autres paramètres fournissent des résultats légèrement plus éloignés de la référence mais restent cependant acceptables.}
 
 
 
 \subsubsection{Structure du solvant autour de molécules modèles}
-La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma_{gauss}$ correspondantes.
+La dernier résultat observé est le profil du solvant autour de nos molécules modèles (voir figure \ref{fig:g_of_r_molecules_modeles}): le méthane unifié et les gaz rares: Néon, Argon, Krypton, Xénon. Les références ont été produites par Dynamique moléculaire. Afin de ne pas rendre ces images illisibles, nous avons choisi de ne mettre que les paramètres extrêmes, soit B=$-15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et B=$15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et leurs $\sigma_{gauss}$ correspondantes.
 
 
-Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelque soit le couple de paramètres choisi, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres $B$ = $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ sont les plus efficaces, quelque soit la molécule étudiée.
+Dans l'approximation HNC, la MDFT surestime fortement le premier pic de solvatation et décale le premier creux. Pour chacune de nos molécules modèles, notre bridge, quelque soit le couple de paramètres choisi, corrige fortement les profils de solvatation de nos molécules modèles. Les paramètres $B$ = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0,935 \AA\ sont les plus efficaces, quelque soit la molécule étudiée.
 
-\boitesimple{Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs $B$ = $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA.}
+\boitesimple{Les meilleurs profils de solvatation de nos molécules modèles sont obtenus pour les valeurs $B$ = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0,935 \AA.}
 
 
 
 \subsection{Conclusion}
 Afin de choisir les meilleurs paramètres de ce modèle, nous avons comparé les résultats pour chaque couple B, $\sigma_{gauss}$, à des références d'énergie libre de solvatation et de profils de solvant d'une part sur des sphères dures, indispensables au développement de ce bridge, et d'autre part sur des molécules modèles plus réalistes: le méthane, et les gaz rares.
-On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres $B$ = $15e^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0.935 \AA\ apparaissent comme le meilleur compromis. Le bridge retenu est donc:
+On voit que tous ces paramètres améliorent considérablement l'ensemble des résultats par rapport à l'approximation HNC. Sur les sphères dures, les paramètres n'influencent que peu les résultats. Des écarts plus importants apparaissent lors de l'étude de nos molécules modèles. Sur ces molécules, les paramètres $B$ = $15.10^{-8} \mathrm{kJ.mol}^{-1}.\text{\AA}^{15}$ et $\sigma_{gauss}$ = 0,935 \AA\ apparaissent comme le meilleur compromis. Le bridge retenu est donc:
 
 \boitesimplelarge{
 \begin{equation} \label{eq:fbridge_complete}
-F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15e^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
+F_{\mathrm{b}}[\bar{\rho}(\boldsymbol{r})]=\mathrm{k_B}T(\frac{1}{\rho_0^2} - \frac{\int c(\boldsymbol{r}) d\boldsymbol{r}}{2\rho_0})\int\Delta\bar{\rho}(\boldsymbol{r})^3d\boldsymbol{r}+15.10^{-8}\int\bar{\rho}(\boldsymbol{r})^2\Delta\bar{\rho}(\boldsymbol{r})^4d\boldsymbol{r}
 \end{equation} 
 }
 
@@ -1014,11 +1014,11 @@ Une fois le bridge développé, nous l'avons implémenté dans la version 3D de 
     compound   & exp  & DM & MDFT & MDFT & MDFT  & MDFT \\
                &      &    & (HNC)  & (HNC+PC)  & (HNC+B) & (HNC+B3D) \\
     \hline
-    Méthane    &       &  9.23 & 28.14 & 7.73 & 11.99 & 12.25 \\
-    Néon       & 10.36 & 11.73 & 19.04 & 7.59 & 13.10 & 11.26 \\
-    Argon      &  8.40 &  8.61 & 22.89 & 7.26 & 11.01 & 10.92 \\
-    Krypton    &  6.96 &  8.03 & 26.41 & 7.51 & 10.74 & 10.99 \\
-    Xenon      &  6.06 &  6.47 & 31.23 & 9.81 & 10.33 & 11.26 \\
+    Méthane    &       &  9,23 & 28,14 & 7,73 & 11,99 & 12,25 \\
+    Néon       & 10,36 & 11,73 & 19,04 & 7,59 & 13,10 & 11,26 \\
+    Argon      &  8,40 &  8,61 & 22,89 & 7,26 & 11,01 & 10,92 \\
+    Krypton    &  6,96 &  8,03 & 26,41 & 7,51 & 10,74 & 10,99 \\
+    Xenon      &  6,06 &  6,47 & 31,23 & 9,81 & 10,33 & 11,26 \\
     \hline & \\[-1em]\hline
   \end{tabular}
   \caption[\'Energie libre de solvatation du méthane et des gaz rares.]{\'Energie libre de solvatation du méthane et des gaz rares en $\mathrm{kJ}.\mathrm{mol}^{-1}$ avec MDFT dans l'approximation HNC et avec le bridge. Les valeurs sont comparées à nos références calculées par Dynamique moléculaire et aux valeurs expérimentales\cite{straatsma_free_1986}.}
@@ -1032,7 +1032,7 @@ Comme nous le voyons dans le tableau \ref{tab:deltag_1D_3D}, les énergies libre
 \item Contrairement à la verion 3D, la version à symétrie sphérique ignore l'orientation du solvant
 \end{itemize}
 
-De plus, par définition, la version à symétrie sphérique permet une finesse de grille bien plus importante que la version 3D. Les calculs ont été effectués avec un écart de 0.5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0.1 \AA\ dans la version à symétrie sphérique. Ces différences peuvent entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
+De plus, par définition, la version à symétrie sphérique permet une finesse de grille bien plus importante que la version 3D. Les calculs ont été effectués avec un écart de 0,5 \AA\ entre deux points de grille dans la version 3D contre un écart de seulement 0,1 \AA\ dans la version à symétrie sphérique. Ces différences peuvent entraîner des différences dans le calcul de la densité gros grain car la largeur de la gaussienne à mi hauteur utilisée comme noyau de convolution est proche de l'écart entre deux points en 3D.
 
 En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r_methane_3D} que la version 3D est bien plus précise que la version à symétrie sphérique. Les profils fournis sont quasi-identiques à ceux de référence issus de dynamique moléculaire.
 
@@ -1062,7 +1062,7 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_methane.csv};
             \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_methane.csv};
 %            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
-            \legend{MD, HNC, $B=-15$, $B=15$}
+            \legend{DM, HNC, $B=-15$, $B=15$}
         \end{axis}
     \end{tikzpicture}
 }
@@ -1086,8 +1086,8 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 %%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_neopentane.csv};
 %%            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_neopentane.csv};
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_neopentane.csv};
-%%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
-%            \legend{MD, HNC, $B=-15$, $B=15$}
+%%            \legend{DM, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+%            \legend{DM, HNC, $B=-15$, $B=15$}
 %        \end{axis}
 %    \end{tikzpicture}
 %}
@@ -1111,8 +1111,8 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_neon.csv};
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_neon.csv};
             \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_neon.csv};
-%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
-            \legend{MD, HNC, $B=-15$, $B=15$}
+%            \legend{DM, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{DM, HNC, $B=-15$, $B=15$}
         \end{axis}
     \end{tikzpicture}
 }
@@ -1136,8 +1136,8 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_argon.csv};
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_argon.csv};
             \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_argon.csv};
-%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
-            \legend{MD, HNC, $B=-15$, $B=15$}
+%            \legend{DM, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{DM, HNC, $B=-15$, $B=15$}
         \end{axis}
     \end{tikzpicture}
 }
@@ -1161,8 +1161,8 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_krypton.csv};
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_krypton.csv};
             \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_krypton.csv};
-%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
-            \legend{MD, HNC, $B=-15$, $B=15$}
+%            \legend{DM, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{DM, HNC, $B=-15$, $B=15$}
         \end{axis}
     \end{tikzpicture}
 }
@@ -1186,8 +1186,8 @@ En ce qui concerne les profils de solvant, on voit sur la figure \ref{fig:g_of_r
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.989_5/g_xenon.csv};
 %            \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.960_10/g_xenon.csv};
             \addplot+[mark=none] file {chapters/bridge/datas/g_of_r/data_bridge_0.935_15/g_xenon.csv};
-%            \legend{MD, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
-            \legend{MD, HNC, $B=-15$, $B=15$}
+%            \legend{DM, HNC, $B=-15$, $B=-10$, $B=-5$, $B=-0$, $B=5$, $B=10$, $B=15$}
+            \legend{DM, HNC, $B=-15$, $B=15$}
         \end{axis}
     \end{tikzpicture}
 }

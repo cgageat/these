@@ -45,7 +45,7 @@ Enfin, la partie d'excès correspond à la corrélation entre les molécules de 
 \end{eqnarray}
 \noindent avec $c\left(\boldsymbol{r}-\boldsymbol{r}^\prime,\Omega,\Omega^\prime \right) $ la fonction de corrélation directe entre deux molécules de solvant qui dépend de la distance entre ces molécules et de leurs orientations relatives l'une par rapport à l'autre. La fonction de corrélation directe pour un solvant homogène à température et pression données est issue de longues simulations de dynamique moléculaire ou de Monte Carlo corrigées des effets de taille finie\cite{Puibasset_bridge_2012, belloni_unpublished}.
 
-Cette approximation, bien connue, est nommée approximation HNC (hypper-Netted Chain)\cite{hansen_theory_2006}. 
+Cette approximation, bien connue, est nommée approximation HNC (hyper-Netted Chain)\cite{hansen_theory_2006}. 
 
 
 \section{L'implémentation}
@@ -77,14 +77,14 @@ Comme il n'est numériquement pas possible de travailler avec un système contin
 \end{table}
 
 
-Nous obtenons ainsi la fonctionnelle suivante:
-\begin{eqnarray}
-\mathcal{F} =& &\mathrm{k_B}T \sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \rho\left(\boldsymbol{r}_i,\Omega_j\right)\ln\left(\frac{\rho\left(\boldsymbol{r}_i,\Omega_j\right)}{\rho_0}\right)-\Delta\rho\left(\boldsymbol{r}_i,\Omega_j\right)\\
-			+& &\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \rho\left(\boldsymbol{r}_i,\Omega_j\right)\phi\left(\boldsymbol{r}_i,\Omega_j\right)\\
-            -& &\frac{\mathrm{k_B}T}{2}\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \Delta\rho\left(\boldsymbol{r}_i,\Omega_j\right) \sum\limits_{k=1}^{N_v}\mathrm{V}_k\sum\limits_{l=1}^{N_o} \mathrm{w}_{\Omega_l}\\
-            & &c\left(\boldsymbol{r}_i-\boldsymbol{r}_k,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \nonumber 
-\end{eqnarray}
-\noindent avec $N_v$ le nombre de voxels dans le système, $N_o$ le nombre d'orientations considérées, $\mathrm{V}_i$ le volume du voxel d'indice i et $\mathrm{w}_{\Omega_j}$ le poids de l'orientation $\Omega_j$.
+%Nous obtenons ainsi la fonctionnelle suivante:
+%\begin{eqnarray}
+%\mathcal{F} =& &\mathrm{k_B}T \sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \rho\left(\boldsymbol{r}_i,\Omega_j\right)\ln\left(\frac{\rho\left(\boldsymbol{r}_i,\Omega_j\right)}{\rho_0}\right)-\Delta\rho\left(\boldsymbol{r}_i,\Omega_j\right)\\
+%			+& &\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \rho\left(\boldsymbol{r}_i,\Omega_j\right)\phi\left(\boldsymbol{r}_i,\Omega_j\right) \nonumber \\
+%            -& &\frac{\mathrm{k_B}T}{2}\sum\limits_{i=1}^{N_v}\mathrm{V}_i\sum\limits_{j=1}^{N_o}\mathrm{w}_{\Omega_j} \Delta\rho\left(\boldsymbol{r}_i,\Omega_j\right) \sum\limits_{k=1}^{N_v}\mathrm{V}_k\sum\limits_{l=1}^{N_o} \mathrm{w}_{\Omega_l} \nonumber \\
+%            & &c\left(\boldsymbol{r}_i-\boldsymbol{r}_k,\Omega_j,\Omega_l \right) \Delta\rho\left(\boldsymbol{r}_k,\Omega_l\right) \nonumber 
+%\end{eqnarray}
+%\noindent avec $N_v$ le nombre de voxels dans le système, $N_o$ le nombre d'orientations considérées, $\mathrm{V}_i$ le volume du voxel d'indice i et $\mathrm{w}_{\Omega_j}$ le poids de l'orientation $\Omega_j$.
 
 
 \subsection{Les convolutions}
@@ -105,7 +105,7 @@ Le minimiseur utilisé pour minimiser notre fonctionnelle est L-BFGS (Limited-me
 \end{eqnarray}
 Le calcul du gradient de chaque partie est détaillé en annexe \ref{chap:annexes:grad}.
 
-\section{Les corrections}
+\section{Au-delà de HNC}
 Pour aller plus loin que la théorie HNC, et ainsi corriger l'approximation faite dans la fonctionnelle d'excès, il est possible (i) d'appliquer des corrections à posteriori ou (ii) d'approximer le terme $\mathcal{O}(\Delta\rho^{3})$ via l'ajout d'un quatrième terme à notre fonctionnelle, une fonctionnelle de bridge.
 
 
@@ -126,7 +126,7 @@ Si l'on veut corriger à la fois l'énergie libre de solvatation et la densité 
 \begin{eqnarray}
 \mathcal{F}_\mathrm{exc} = \mathcal{F}_\mathrm{exc}^{HNC} + \mathcal{F}_\mathrm{b}
 \end{eqnarray}
-Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation thermodynamiquement correcte du système. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
+Différentes formes pour la fonctionnelle de bridge ont été proposées ces dernières années\cite{levesque_scalar_2012,jeanmairet_molecular_2013,jeanmairet_molecular_2015}. Malheureusement, comme il a été montré dans un papier à venir, aucun de ces bridges ne permet une représentation du système totalement satisfaisante du point de vue thermodynamique. Dans la suite de ce rapport nous proposerons un nouveau bridge qui autorise la création d'une phase gazeuse de l'eau et permet ainsi de représenter de façon correcte la tension de surface de l'eau ainsi que la pression du système.
 
 
 

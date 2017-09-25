@@ -25,7 +25,7 @@ Cette étude à pour but d'évaluer la capacité de MDFT à retrouver les moléc
 
 
 \subsection{Les systèmes étudiés}
-Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin}, composée de 227 acides aminés, et issue de la PDB sous le code 4M7G, a été sélectionnée pour la qualité de sa résolution expérimentale (0.81 \AA).
+Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin}, composée de 227 acides aminés, et issue de la PDB sous le code 4M7G, a été sélectionnée pour la qualité de sa résolution expérimentale (0,81 \AA).
 %La seconde est une \textit{FACTOR XA} composée de 241 acides aminés. Cette protéine issue de la PDB [lien pdb] sous le code 1HCG a été sélectionnée car elle représente un premier cas d'étude simple, sans ligand ni contre ions.
 
 %\begin{figure}[ht]
@@ -60,7 +60,7 @@ Afin de mener cette étude, la protéine \textit{Streptomyces Erythraeus Trypsin
 \subsection{Protocole}
 
 \subsubsection{Récupération et nettoyage de fichiers PDB}
-Afin de ne pas être influencé par les résultats expérimentaux, nous avons suivi le protocole (voir image \ref{fig:water_molecule_protocol}) suivant: La structure 3D de notre molécule a été téléchargée depuis le site de la PDB\footnote{\url{http://www.rcsb.org/pdb/explore.do?structureId=4m7g}} sous le code 4M7G. Ce fichier comporte la structure 3D de la protéine ainsi que d'éventuels ions ou molécules d'eau détectés expérimentalement. Les molécules d'eau ont été supprimées du fichier pdb afin de lancer les calculs MDFT et DM. Il n'y a donc à ce stade plus aucune trace de molécules d'eau expérimentales. Notre système est ensuite préparé en utilisant le champ de force OPLS/AA\cite{jorgensen_opls_1988} et le modèle d'eau SPC/E\cite{berendsen_missing_1987}. Pour chacune des méthodes (MDFT et DM), nous avons laissé un espace de 10 \AA\ entre les bords de notre boîte de simulation et le bord de notre protéine. Chaque simulation a été effectuée à 298.15 K.
+Afin de ne pas être influencé par les résultats expérimentaux, nous avons suivi le protocole (voir image \ref{fig:water_molecule_protocol}) suivant: La structure 3D de notre molécule a été téléchargée depuis le site de la PDB\footnote{\url{http://www.rcsb.org/pdb/explore.do?structureId=4m7g}} sous le code 4M7G. Ce fichier comporte la structure 3D de la protéine ainsi que d'éventuels ions ou molécules d'eau détectés expérimentalement. Les molécules d'eau ont été supprimées du fichier pdb afin de lancer les calculs MDFT et DM. Il n'y a donc à ce stade plus aucune trace de molécules d'eau expérimentales. Notre système est ensuite préparé en utilisant le champ de force OPLS/AA\cite{jorgensen_opls_1988} et le modèle d'eau SPC/E\cite{berendsen_missing_1987}. Pour chacune des méthodes (MDFT et DM), nous avons laissé un espace de 10 \AA\ entre les bords de notre boîte de simulation et le bord de notre protéine. Chaque simulation a été effectuée à 298,15 K.
 
 
 
@@ -109,14 +109,14 @@ Afin de ne pas être influencé par les résultats expérimentaux, nous avons su
 
 
 \subsubsection{Dynamique moléculaire}
-Un calcul de référence a été lancé en dynamique moléculaire en utilisant le logiciel Gromacs\cite{berendsen_gromacs:_1995}. Après avoir solvaté nos protéines dans de l'eau SPC/E, l'énergie interne du système est minimisée, d'abord par \textit{steepest descent} puis par gradient conjugué. Nous supprimons ainsi tous les \textit{clash} stériques créés lors des étapes de préparation du système et de solvatation. Afin de permettre la comparaison des résultats avec ceux proposés par MDFT, la protéine est rendue rigide en utilisant l'option \textit{freezegrps} proposée par gromacs. Lorsque cette option est activée, les forces appliquées aux atomes de la protéines sont ignorées. Le système est ensuite équilibré à 298.15K et 1 bar en utilisant le barostat Berendsen et le thermostat \textit{V-rescale}. Une fois le système proche de l'équilibre, nous changeons le barostat pour Parinello-Rahman qui est plus précis mais diverge si le système est trop éloigné de l'équilibre. Une fois le système minimisé, nous lançons une simulation NPT de 100 ns. La configuration du système est sauvegardée toutes les 10 ps, nous obtenons ainsi un ensemble 10 000 conformations. Sur 32 coeurs OpenMP/MPI, couplés à deux GPU, une simulation nécessite deux jours de calcul.
+Un calcul de référence a été lancé en dynamique moléculaire en utilisant le logiciel Gromacs\cite{berendsen_gromacs:_1995}. Après avoir solvaté nos protéines dans de l'eau SPC/E, l'énergie interne du système est minimisée, d'abord par \textit{steepest descent} puis par gradient conjugué. Nous supprimons ainsi tous les \textit{clash} stériques créés lors des étapes de préparation du système et de solvatation. Afin de permettre la comparaison des résultats avec ceux proposés par MDFT, la protéine est rendue rigide en utilisant l'option \textit{freezegrps} proposée par gromacs. Lorsque cette option est activée, les forces appliquées aux atomes de la protéines sont ignorées. Le système est ensuite équilibré à 298,15K et 1 bar en utilisant le barostat Berendsen et le thermostat \textit{V-rescale}. Une fois le système proche de l'équilibre, nous changeons le barostat pour Parinello-Rahman qui est plus précis mais diverge si le système est trop éloigné de l'équilibre. Une fois le système minimisé, nous lançons une simulation NPT de 100 ns. La configuration du système est sauvegardée toutes les 10 ps, nous obtenons ainsi un ensemble 10 000 conformations. Sur 32 coeurs OpenMP/MPI, couplés à deux GPU, une simulation nécessite deux jours de calcul.
 
 \subsubsection{MDFT}
-Comme nous l'avons montré dans les chapitres précédents, avec notre bridge gros grain, $\mathrm{m}_\mathrm{max}$=3 est suffisant pour améliorer fortement la prédiction de structures de solvatation autour de petites molécules. Nous avons cependant choisi de lancer la simulation avec $\mathrm{m}_\mathrm{max}$=5 afin que cet exemple serve en même temps de test de robustesse de la nouvelle implémentation de MDFT. En effet, avec un espacement entre chaque point de grille de 0.5 \AA, MDFT minimise plus de $2\mathrm{e}^9$ de variables. Sur 16 cœurs OpenMP, les résultats sont obtenus en seulement 17 min.
+Comme nous l'avons montré dans les chapitres précédents, avec notre bridge gros grain, $\mathrm{m}_\mathrm{max}$=3 est suffisant pour améliorer fortement la prédiction de structures de solvatation autour de petites molécules. Nous avons cependant choisi de lancer la simulation avec $\mathrm{m}_\mathrm{max}$=5 afin que cet exemple serve en même temps de test de robustesse de la nouvelle implémentation de MDFT. En effet, avec un espacement entre chaque point de grille de 0,5 \AA, MDFT minimise plus de $2\mathrm{e}^9$ de variables. Sur 16 cœurs OpenMP, les résultats sont obtenus en seulement 17 min.
 
 
 \subsubsection{Conversion xtc en cube}
-Pour comparer ces deux méthodes, nous avons développé un logiciel permettant de convertir une trajectoire XTC, fournie par gromacs, en une représentation statistique 3D au format CUBE. Ce logiciel, librement accessible sur github\footnote{\url{https://github.com/cgageat/xtc2Cube}}, découpe l'espace sous forme d'une grille ayant les même paramètres que celle utilisée par MDFT (ici 0.5 \AA\ de maille) puis, compte, pour chaque étape de la simulation, le nombre de molécules présentes dans chaque voxel. Ce total est ensuite divisé par le nombre d'étapes de simulation puis par la taille d'un voxel (voir équation \ref{eq:equationXtcToCube}). Nous obtenons ainsi une probabilité de présence en eau à l'équilibre pour chaque voxel, $\mathrm{n}\left(\boldsymbol{r}\right)$, qui est la même que celle obtenue à l'issue d'un calcul MDFT, c'est à dire le g($\boldsymbol{r}$). Cela nous permet ainsi une comparaison directe de ces deux méthodes.
+Pour comparer ces deux méthodes, nous avons développé un logiciel permettant de convertir une trajectoire XTC, fournie par gromacs, en une représentation statistique 3D au format CUBE. Ce logiciel, librement accessible sur github\footnote{\url{https://github.com/cgageat/xtc2Cube}}, découpe l'espace sous forme d'une grille ayant les même paramètres que celle utilisée par MDFT (ici 0,5 \AA\ de maille) puis, compte, pour chaque étape de la simulation, le nombre de molécules présentes dans chaque voxel. Ce total est ensuite divisé par le nombre d'étapes de simulation puis par la taille d'un voxel (voir équation \ref{eq:equationXtcToCube}). Nous obtenons ainsi une probabilité de présence en eau à l'équilibre pour chaque voxel, $\mathrm{n}\left(\boldsymbol{r}\right)$, qui est la même que celle obtenue à l'issue d'un calcul MDFT, c'est à dire le g($\boldsymbol{r}$). Cela nous permet ainsi une comparaison directe de ces deux méthodes.
 
 \begin{equation}\label{eq:equationXtcToCube}
 \mathrm{n}\left(\boldsymbol{r}\right) = \frac{1}{NV_{\boldsymbol{r}}}\sum\limits_{i=1}^N n(\boldsymbol{r}, i)
@@ -235,7 +235,7 @@ MDFT calcule les énergies libres de solvatation, ce qui nous permet de remplace
 
 
 \subsection{Les systèmes étudiés}
-Dans une étude récente, Chéron et al.\cite{cheron_effect_2017} ont optimisé le calcul MM-PBSA sur un ensemble de 46 complexes protéine-ligand. Afin de créer cette chimiothèque, l'ensemble des 264 complexes impliquant la protéine BACE1 (voir figure \ref{fig:structure_proteine_MMPBSA}) ont été extrait de la base de données PDBBind-CN. Parmi ces 264, seuls 46 étaient de qualité suffisante (résolution < 2.5 \AA) et accompagnés de leur valeur d'énergie libre de solvatation. Dans leur article, Chéron et al. montrent que les calculs MM-PBSA sur ces complexes sont optimums en utilisant le champ de force Amber03 pour la protéine, le modèle d'eau TIP3P et en laissant un espace supérieur à 10 \AA\ entre les molécules le composant et le bord des boîtes de simulation. Les valeurs d'énergies libres de solvatation expérimentales et calculées par MM-PBSA présentées dans la suite de ce chapitre ont toutes été fournies par Nicolas Chéron.
+Dans une étude récente, Chéron et al.\cite{cheron_effect_2017} ont optimisé le calcul MM-PBSA sur un ensemble de 46 complexes protéine-ligand. Afin de créer cette chimiothèque, l'ensemble des 264 complexes impliquant la protéine BACE1 (voir figure \ref{fig:structure_proteine_MMPBSA}) ont été extrait de la base de données PDBBind-CN. Parmi ces 264, seuls 46 étaient de qualité suffisante (résolution < 2,5 \AA) et accompagnés de leur valeur d'énergie libre de solvatation. Dans leur article, Chéron et al. montrent que les calculs MM-PBSA sur ces complexes sont optimums en utilisant le champ de force Amber03 pour la protéine, le modèle d'eau TIP3P et en laissant un espace supérieur à 10 \AA\ entre les molécules le composant et le bord des boîtes de simulation. Les valeurs d'énergies libres de solvatation expérimentales et calculées par MM-PBSA présentées dans la suite de ce chapitre ont toutes été fournies par Nicolas Chéron.
 
 Le code PDB ainsi que les charges des différents complexes sont listés dans le tableau \ref{tab:MMPBSA_systemes}. Une représentation 2D des ligands de chaque complexe est également disponible en figure \ref{fig:structures_MMPBSA}.
 
@@ -271,52 +271,52 @@ PDB  & complex & protein & ligand  & Ligand \\ \hline
       \hline & \\[-1em]\hline
       
       \hline
-      1FKN & -10.0 &  -8.0 & -2.0 & 125 \\
-      1M4H & -11.0 &  -8.0 & -3.0 & 132 \\
-      2FDP &  -9.0 & -10.0 &  1.0 &  83 \\
-      2G94 & -10.0 & -10.0 &  0.0 &  99 \\
-      2P4J & -10.0 & -10.0 &  0.0 & 104 \\
-      2Q11 & -10.0 & -10.0 &  0.0 &  61 \\
-      2Q15 &  -9.0 & -10.0 &  1.0 &  78 \\
-      2QMG &  -9.0 & -10.0 &  1.0 &  84 \\
-      3BRA &  -9.0 & -10.0 &  1.0 &  22 \\
-      3BUF &  -9.0 & -10.0 &  1.0 &  25 \\
-      3BUG & -10.0 & -11.0 &  1.0 &  28 \\
-      3BUH &  -9.0 & -10.0 &  1.0 &  38 \\
-      3CKP &  -9.0 & -10.0 &  1.0 &  80 \\
-      3I25 & -10.0 & -10.0 &  0.0 & 118 \\
-      3KMX &  -9.0 &  -9.0 &  0.0 &  34 \\
-      3KMY &  -9.0 &  -9.0 &  0.0 &  29 \\
-      3L59 & -14.0 & -14.0 &  0.0 &  31 \\
-      3L5B & -10.0 & -10.0 &  0.0 &  40 \\
-      3LPI &  -9.0 & -10.0 &  1.0 &  89 \\
-      3LPK &  -9.0 & -10.0 &  1.0 &  91 \\
-      3RSX & -10.0 & -10.0 &  0.0 &  26 \\
-      3RU1 & -10.0 & -10.0 &  0.0 &  48 \\
-      3UDH & -10.0 & -11.0 &  1.0 &  27 \\
-      3WB4 & -10.0 & -10.0 &  0.0 &  37 \\
-      3WB5 & -10.0 & -10.0 &  0.0 &  38 \\
-      4B05 &  -9.0 &  -9.0 &  0.0 &  48 \\
-      4DJU & -10.0 & -10.0 &  0.0 &  35 \\
-      4DJV & -10.0 & -10.0 &  0.0 &  49 \\
-      4DJW & -10.0 & -10.0 &  0.0 &  44 \\
-      4DJX & -10.0 & -10.0 &  0.0 &  41 \\
-      4DJY & -10.0 & -10.0 &  0.0 &  46 \\
-      4FRS &  -9.0 &  -9.0 &  0.0 &  42 \\
-      4FS4 & -10.0 & -10.0 &  0.0 &  45 \\
-      4FSL & -10.0 & -10.0 &  0.0 &  57 \\
-      4GID &  -9.0 & -10.0 &  1.0 &  95 \\
-      4H1E &  -9.0 &  -9.0 &  0.0 &  54 \\
-      4H3F & -10.0 & -10.0 &  0.0 &  55 \\
-      4H3G & -10.0 & -10.0 &  0.0 &  52 \\
-      4H3I & -10.0 & -10.0 &  0.0 &  55 \\
-      4H3J & -10.0 & -10.0 &  0.0 &  52 \\
-      4HA5 & -10.0 & -10.0 &  0.0 &  39 \\
-      4R8Y &  -9.0 &  -9.0 &  0.0 &  70 \\
-      4R91 &  -9.0 & -10.0 &  1.0 &  72 \\
-      4R92 &  -9.0 &  -9.0 &  0.0 &  69 \\
-      4R93 & -10.0 & -10.0 &  0.0 &  72 \\
-      4R95 & -10.0 & -10.0 &  0.0 &  73 \\
+      1FKN & -10,0 &  -8,0 & -2,0 & 125 \\
+      1M4H & -11,0 &  -8,0 & -3,0 & 132 \\
+      2FDP &  -9,0 & -10,0 &  1,0 &  83 \\
+      2G94 & -10,0 & -10,0 &  0,0 &  99 \\
+      2P4J & -10,0 & -10,0 &  0,0 & 104 \\
+      2Q11 & -10,0 & -10,0 &  0,0 &  61 \\
+      2Q15 &  -9,0 & -10,0 &  1,0 &  78 \\
+      2QMG &  -9,0 & -10,0 &  1,0 &  84 \\
+      3BRA &  -9,0 & -10,0 &  1,0 &  22 \\
+      3BUF &  -9,0 & -10,0 &  1,0 &  25 \\
+      3BUG & -10,0 & -11,0 &  1,0 &  28 \\
+      3BUH &  -9,0 & -10,0 &  1,0 &  38 \\
+      3CKP &  -9,0 & -10,0 &  1,0 &  80 \\
+      3I25 & -10,0 & -10,0 &  0,0 & 118 \\
+      3KMX &  -9,0 &  -9,0 &  0,0 &  34 \\
+      3KMY &  -9,0 &  -9,0 &  0,0 &  29 \\
+      3L59 & -14,0 & -14,0 &  0,0 &  31 \\
+      3L5B & -10,0 & -10,0 &  0,0 &  40 \\
+      3LPI &  -9,0 & -10,0 &  1,0 &  89 \\
+      3LPK &  -9,0 & -10,0 &  1,0 &  91 \\
+      3RSX & -10,0 & -10,0 &  0,0 &  26 \\
+      3RU1 & -10,0 & -10,0 &  0,0 &  48 \\
+      3UDH & -10,0 & -11,0 &  1,0 &  27 \\
+      3WB4 & -10,0 & -10,0 &  0,0 &  37 \\
+      3WB5 & -10,0 & -10,0 &  0,0 &  38 \\
+      4B05 &  -9,0 &  -9,0 &  0,0 &  48 \\
+      4DJU & -10,0 & -10,0 &  0,0 &  35 \\
+      4DJV & -10,0 & -10,0 &  0,0 &  49 \\
+      4DJW & -10,0 & -10,0 &  0,0 &  44 \\
+      4DJX & -10,0 & -10,0 &  0,0 &  41 \\
+      4DJY & -10,0 & -10,0 &  0,0 &  46 \\
+      4FRS &  -9,0 &  -9,0 &  0,0 &  42 \\
+      4FS4 & -10,0 & -10,0 &  0,0 &  45 \\
+      4FSL & -10,0 & -10,0 &  0,0 &  57 \\
+      4GID &  -9,0 & -10,0 &  1,0 &  95 \\
+      4H1E &  -9,0 &  -9,0 &  0,0 &  54 \\
+      4H3F & -10,0 & -10,0 &  0,0 &  55 \\
+      4H3G & -10,0 & -10,0 &  0,0 &  52 \\
+      4H3I & -10,0 & -10,0 &  0,0 &  55 \\
+      4H3J & -10,0 & -10,0 &  0,0 &  52 \\
+      4HA5 & -10,0 & -10,0 &  0,0 &  39 \\
+      4R8Y &  -9,0 &  -9,0 &  0,0 &  70 \\
+      4R91 &  -9,0 & -10,0 &  1,0 &  72 \\
+      4R92 &  -9,0 &  -9,0 &  0,0 &  69 \\
+      4R93 & -10,0 & -10,0 &  0,0 &  72 \\
+      4R95 & -10,0 & -10,0 &  0,0 &  73 \\
 \end{longtable}
 \end{center}
 
@@ -355,7 +355,7 @@ La figure \ref{fig:MMPBSA_MMMDFT_complete} compare les énergies libres de solva
 
 
 
-Les résultats obtenus avec MM-MDFT sans bridge, avec la correction de pression PC ou PC+ sont légèrement moins bons ($\mathrm{R}^2$=0.61 et $\mathrm{R}^2$=0.62) que ceux obtenus avec MM-PBSA ($\mathrm{R}^2$=0.66). Au contraire, les résultats obtenus avec $\mathrm{m}_\mathrm{max}=1$ et le bridge gros grain, sont quant à eux légèrement plus corrélés que notre référence MM-PBSA aux valeurs expérimentales. En plus de cette amélioration de la prédiction des valeurs d'énergie libre de liaison, dans le même temps, MM-MDFT nous propose les structures de solvatation de la protéine, du ligand ainsi que du complexe.
+Les résultats obtenus avec MM-MDFT sans bridge, avec la correction de pression PC ou PC+ sont légèrement moins bons ($\mathrm{R}^2$=0,61 et $\mathrm{R}^2$=0,62) que ceux obtenus avec MM-PBSA ($\mathrm{R}^2$=0,66). Au contraire, les résultats obtenus avec $\mathrm{m}_\mathrm{max}=1$ et le bridge gros grain, sont quant à eux légèrement plus corrélés que notre référence MM-PBSA aux valeurs expérimentales. En plus de cette amélioration de la prédiction des valeurs d'énergie libre de liaison, dans le même temps, MM-MDFT nous propose les structures de solvatation de la protéine, du ligand ainsi que du complexe.
 
 Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas représentatifs de l'espace chimique. Afin de nous assurer que MDFT n'était pas biaisé par rapport à certains composés, nous avons dans un premier temps coloré les points en fonction des halogènes qu'il contenaient (voir figure \ref{fig:MMPBSA_MMMDFT_complete_by_halogene}). Dans un second temps nous avons coloré les composés contenant au moins un atome de Souffre. Dans les deux cas, les différentes catégories sont uniformément réparties dans le nuage de point. Le souffre ainsi que les différents halogènes présents sont donc correctement modélisés.
 
@@ -373,7 +373,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
                     ylabel= $\Delta \mathrm{G_{liaison}\ calc}\ (\mathrm{kCal.mol}^{-1}$),
                     legend style = {draw = none},
                     xmin = -16, xmax = -2, ymin = -200, ymax = 20,
-                    legend entries={$\mathrm{R}^2$=0.66},
+                    legend entries={$\mathrm{R}^2$=0,66},
                  legend pos=south east]
                  \addlegendimage{only marks,white};
               
@@ -392,7 +392,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
                     ylabel= $\Delta \mathrm{G_{liaison}\ calc}\ (\mathrm{kCal.mol}^{-1}$),
                     legend style = {draw = none},
                     xmin = -16, xmax = -2, ymin = -200, ymax = 20,
-              legend entries={$\mathrm{R}^2$=0.61},
+              legend entries={$\mathrm{R}^2$=0,61},
                  legend pos=south east]
                  \addlegendimage{only marks,white};
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=2]{chapters/Applications/datas/MMPBSA/results.csv};
@@ -410,7 +410,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
                     ylabel= $\Delta \mathrm{G_{liaison}\ calc}\ (\mathrm{kCal.mol}^{-1}$),
                     legend style = {draw = none},
                     xmin = -16, xmax = -2, ymin = -200, ymax = 20,
-              legend entries={$\mathrm{R}^2$=0.62},
+              legend entries={$\mathrm{R}^2$=0,62},
                  legend pos=south east]
                  \addlegendimage{only marks,white};
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=3]{chapters/Applications/datas/MMPBSA/results.csv};
@@ -428,7 +428,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
                     ylabel= $\Delta \mathrm{G_{liaison}\ calc}\ (\mathrm{kCal.mol}^{-1}$),
                     legend style = {draw = none},
                     xmin = -16, xmax = -2, ymin = -200, ymax = 20,
-              legend entries={$\mathrm{R}^2$=0.69},
+              legend entries={$\mathrm{R}^2$=0,69},
                  legend pos=south east]
                  \addlegendimage{only marks,white};
               \addplot[only marks,mark=*, black, very thick] table[x index=0, y index=4]{chapters/Applications/datas/MMPBSA/results.csv};
@@ -450,13 +450,13 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
       \hline & \\[-1em]\hline
        fonctionnelle  & R²  \\
       \hline
-       MM-PBSA  & 0.66 \\
+       MM-PBSA  & 0,66 \\
   %    \hline
-       $\mathrm{m}_\mathrm{max}$ 1 PC  & 0.61  \\
+       $\mathrm{m}_\mathrm{max}$ 1 PC  & 0,61  \\
   %    \hline
-       $\mathrm{m}_\mathrm{max}$ 1 PC+  & 0.62  \\
+       $\mathrm{m}_\mathrm{max}$ 1 PC+  & 0,62  \\
   %    \hline
-       $\mathrm{m}_\mathrm{max}$ 1 + bridge  & 0.69  \\
+       $\mathrm{m}_\mathrm{max}$ 1 + bridge  & 0,69  \\
   %    \hline
 %      e & $\mathrm{m}_\mathrm{max}$ 3 PC  & 0.28  \\
   %    \hline
@@ -694,7 +694,7 @@ Les systèmes étudiés sont composés de nombreux halogènes et ne sont pas rep
 
 \subsection{Perspectives}
 Dans cette étude préliminaire, nous n'avons considéré qu'une seule conformation par complexe, la conformation après minimisation de la structure cristallographique. À cause des conditions expérimentales nécessaires à la résolution de structures de systèmes biologiques en 3 dimensions, les conformations obtenues peuvent être éloignées de celles présentes en solution dans les conditions standards. Afin de minimiser ces différences, il est possible de calculer une trajectoire de dynamique moléculaire ou Monte Carlo du complexe dans le vide et d'en extraire différentes conformations à intervalles réguliers. 
-L'énergie libre de solvatation du système correspond, dans ce cas, à la moyenne des énergies libres de solvatation calculées pour chaque conformation. Pour MM-PBSA, l'utilisation de cette méthode, appelée communément "l'approximation de trajectoire unique", permet d'améliorer la corrélation de MM-PBSA à $\mathrm{R}^2$=0.71. Au moment de la rédaction de ce rapport, des calculs similaires étaient en cours pour MM-MDFT.
+L'énergie libre de solvatation du système correspond, dans ce cas, à la moyenne des énergies libres de solvatation calculées pour chaque conformation. Pour MM-PBSA, l'utilisation de cette méthode, appelée communément "l'approximation de trajectoire unique", permet d'améliorer la corrélation de MM-PBSA à $\mathrm{R}^2$=0,71. Au moment de la rédaction de ce rapport, des calculs similaires étaient en cours pour MM-MDFT.
 
 
 
