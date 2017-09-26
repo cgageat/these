@@ -364,8 +364,12 @@ C'est dans le but de reproduire les énergies libres de solvatation expérimenta
 Dans un premier temps, on voit que la dynamique moléculaire et donc le champ de force est moins précis pour les diaryl ether, les alkylamines ou encore les carbonitriles. Ces résultats sont cependant à prendre avec précaution car ces groupes peuvent être peuplés par des molécules similaires comme c'est le cas pour les éthers de diaryle (voir figure \ref{fig:diaryl_ether}). En effet, la base de données FreeSolv est issue de la littérature et il est fréquent que des molécules soient étudiées par séries. Dans le cas des diaryle ether, cette série de molécules, correspond à la fraction d'une série plus importante qui a été utilisée lors du challenge SAMPL3\cite{Geballe_sampl_2012}. Ces déséquilibres n'ont cependant aucun impact sur la comparaison de la dynamique moléculaire et de la MDFT car le biais est identique dans les deux cas.
 
 Cette étude nous permet également de confirmer deux points faibles de MDFT: l'hydrophobicité (voir chapitre \ref{chap:bridge}) et les charges partielles\cite{ding_thesis}. En effet, les différences les plus importantes entre les deux méthodes sont obtenues pour les oxo(het)arenes (charges partielles), les amines primaires aliphatiques(charges partielles), les alkyl aryl éthers(charges partielles, hydrophobe), les amines primaires(charges partielles) et les amines primaires aromatiques (charges partielles, hydrophobe). 
-\clearpage
 
+Enfin, on voit que MDFT avec le bridge gros grain, nous donne globalement des erreurs plus importantes avec une erreur maximale autour de 0,85 kcal.mol$^{-1}$ contre 0,43 kcal.mol$^{-1}$ pour MDFT avec la correction de pression \textit{PC}. Ces résultats confirment ceux précédemment obtenus dans le paragraphe \ref{sec:corrections_pression}. 
+
+\boitesimple{
+Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerbent les faiblesses de MDFT dans l'approxmation HNC. Ces groupes sont principalement hydrophobes ou contiennent des charges partielles importantes. L'hydrophobocité ayant été traitée dans le chapitre précédent, nous étudions dans la suite de ce chapitre une base de données d'ions afin de mieux comprendre l'impact des charges sur MDFT au niveau HNC.
+}
 
 \begin{figure}[ht]
   \centering
@@ -376,46 +380,33 @@ Cette étude nous permet également de confirmer deux points faibles de MDFT: l'
   \label{fig:AUE:mmax3_cgb}
 \end{figure}
 
-
-Enfin, on voit que MDFT avec le bridge gros grain, nous donne globalement des erreurs plus importantes avec une erreur maximale autour de 0,85 kcal.mol$^{-1}$ contre 0,43 kcal.mol$^{-1}$ pour MDFT avec la correction de pression \textit{PC}. Ces résultats confirment ceux précédemment obtenus dans le paragraphe \ref{sec:corrections_pression}. 
 \clearpage
 
 
 
-
-
-
-\boitesimple{
-Dans cette partie, nous avons mis en évidence des groupes chimiques qui exacerbent les faiblesses de MDFT dans l'approxmation HNC. Ces groupes sont principalement hydrophobes ou contiennent des charges partielles importantes. L'hydrophobocité ayant été traitée dans le chapitre précédent, nous étudions dans la suite de ce chapitre une base de données d'ions afin de mieux comprendre l'impact des charges sur MDFT.
-}
-
-
-
-
-
 \section{Les ions}
-En plus de l'analyse de bases de données officielles comme FreeSolv, ce logiciel nous permet d'étudier simplement et efficacement un ensemble de molécules d’intérêt pharmaceutique. Nous nous en sommes donc servi afin d'étudier l'impact de la charge sur les résultats de MDFT. Notre jeu de données est composé de 4 cations: Li$^+$, Na$^+$, K$^+$, Cs$^+$ et de 4 anions F$^-$, Cl$^-$, Br$^-$, I$^-$.
+En plus de l'analyse de bases de données officielles comme FreeSolv, \textit{MDFT Database Tool} nous permet d'étudier simplement et efficacement un ensemble de molécules d’intérêt pharmaceutique. Nous nous en sommes donc servi afin d'étudier l'impact de la charge sur les résultats de MDFT au niveau HNC. Notre jeu de données est composé de 4 cations: Li$^+$, Na$^+$, K$^+$, Cs$^+$ et de 4 anions F$^-$, Cl$^-$, Br$^-$, I$^-$.
 
 \subsection{Les énergies libres de solvatation}
 Dans un premier temps nous avons étudié l'énergie libre de solvatation de ces ions. Pour cela, nous avons utilisé les paramètres (voir tableau \ref{tab:param_lj_horinek}) proposés par Horinek et al.\cite{Horinek_rational_2009}.
 
 \begin{table}[ht]
   \centering
-  \begin{tabular}{l c c}
+  \begin{tabular}{l c c c c}
    \hline & \\[-1em]\hline
-    Ion    & $\sigma_{LJ}$ (\AA) & $\epsilon_{LJ}$ (kJ.mol$^{-1}$) \\
+    Ion    & $\sigma_{LJ\ ion}$ (\AA) & $\epsilon_{LJ\ ion}$ (kJ.mol$^{-1}$) & $\sigma_{LJ\ ion-eau}$ (\AA) & $\epsilon_{LJ\ ion-eau}$ (kJ.mol$^{-1}$) \\
     \hline
-      F$^-$	 & 3,434 & 4,654.10$^{-1}$ \\
-      Cl$^-$ & 4,394 & 4,160.10$^{-1}$ \\
-      Br$^-$ & 4,834 & 2,106.10$^{-1}$ \\
-      I$^-$  & 5,334 & 1,575.10$^{-1}$ \\
-      Li$^+$ & 2,874 & 6,154.10$^{-4}$ \\
-      Na$^+$ & 3,814 & 6,154.10$^{-4}$ \\
-      K$^+$  & 4,534 & 6,154.10$^{-4}$ \\
-      Cs$^+$ & 5,174 & 6,154.10$^{-4}$ \\
+      F$^-$	 & 3,434 & 4,654.10$^{-1}$ & 3,30 & 0,55 \\
+      Cl$^-$ & 4,394 & 4,160.10$^{-1}$ & 3,78 & 0,52 \\
+      Br$^-$ & 4,834 & 2,106.10$^{-1}$ & 4,00 & 0,37 \\
+      I$^-$  & 5,334 & 1,575.10$^{-1}$ & 4,25 & 0,32 \\
+      Li$^+$ & 2,874 & 6,154.10$^{-4}$ & 3,02 & 0,02 \\
+      Na$^+$ & 3,814 & 6,154.10$^{-4}$ & 3,49 & 0,02 \\
+      K$^+$  & 4,534 & 6,154.10$^{-4}$ & 3,85 & 0,02 \\
+      Cs$^+$ & 5,174 & 6,154.10$^{-4}$ & 4,17 & 0,02 \\
     \hline & \\[-1em]\hline
   \end{tabular}
-  \caption{Paramètres Lennard-Jones des ions utilisés dans nos calculs d'énergies libres de solvatation.}
+  \caption[Paramètres Lennard-Jones des ions utilisés dans nos calculs d'énergies libres de solvatation.]{Paramètres Lennard-Jones des ions utilisés dans nos calculs d'énergies libres de solvatation. $\sigma_{LJ\ ion}$ et $\epsilon_{LJ\ ion}$ correspondent aux paramètres Lennard-Jones des ions. $\sigma_{LJ\ ion-eau}$ et $\epsilon_{LJ\ ion-eau}$  correspondent aux paramètres d'intéraction Lennard-Jones entre l'ion étudié et l'oxygène de l'eau SPC/E. La règle de mélange de Lorentz-Berthelot\cite{Lorentz_Ueber_1881} a été utilisée.}
   \label{tab:param_lj_horinek}  
 \end{table}
 
@@ -424,7 +415,7 @@ Pour cela, les auteurs ont considéré la différence entre l'énergie libre de 
 \begin{eqnarray}
 \Delta\Delta G_{\text{solv}} = \Delta G_{\text{solv}} + \frac{\text{q}}{\text{e}} \Delta G_{\text{solv Cl}^{-}}
 \end{eqnarray}
-\noindent avec q la charge du soluté et e la charge élémentaire. En effet, comme on le voit sur la figure \ref{fig:correlation_ions}, le biais dépend de la charge des composés étudiés. Le terme $\frac{q}{e}$ permet donc de moduler la valeur de référence en fonction du signe de la charge de l'ion étudié.
+\noindent avec q la charge du soluté et e la charge élémentaire. En effet, comme on le voit sur la figure \ref{fig:correlation_ions}, le biais entre les simulations et l'expérience dépend de la charge des composés étudiés. Le terme $\frac{q}{e}$ permet donc de moduler la valeur de référence en fonction du signe de la charge de l'ion étudié. Dans le cas des anions, cela revient à calculer l'énergie libre relative par rapport à celle de l'ion Chlorure. Dans le cas des cations, cela revient par contre à calculer l'énergie libre du sel qu'il formerait avec le Chlorure dans l'hypothèse d'un sel infiniment dilué. Dans ce dernier cas, on voit que les erreurs expérimentales et théoriques du cations compensent celles de l'anions.
 
 Dans un premier temps nous avons comparé les énergies libres de solvatation calculées par MDFT et par dynamique moléculaire\cite{Horinek_rational_2009} aux valeurs expérimentales\cite{Marcus_simple_1994, Noyes_thermodynamics_1962}.
 
@@ -469,7 +460,8 @@ Comme attendu, une erreur systématique, différente pour les deux méthodes, ap
 \end{figure}
 Pour nous placer dans les mêmes conditions que celles utilisées par Horinek et al. lors de l'optimisation des paramètres, nous avons tracé la différence d'énergie libre de solvatation par rapport au composé de référence pour la MDFT et la dynamique moléculaire en fonction des valeurs expérimentales.
 Comme on le voit sur la figure \ref{fig:correlation_ions_delta} la corrélation est parfaite pour les calculs de dynamique moléculaire. Nous rappelons au lecteur que les paramètres de simulation ont été optimisés par Horinek et al afin d'obtenir ce résultat.
-On voit également que les résultats MDFT sont proches des résultats expérimentaux.
+On voit également que les résultats MDFT sont proches des résultats expérimentaux. 
+
 À ce niveau, ces résultats confirment qu'il existe un biais dépendant de la charge du composé étudiant. Ils ne permettent cependant pas de déterminer si l'erreur systématique dépend de la valeur de la charge ou uniquement de son signe. Afin d'aller plus loin, l'étape suivante sera d'étudier une base de données d'ions polyvalents et ainsi le lien entre la valence et l'erreur.
 
 
@@ -483,7 +475,8 @@ On voit également que les résultats MDFT sont proches des résultats expérime
 \subsection{La structures du solvant autour des ions}
 
 \subsubsection{La structure du solvant}
-Dans un second temps, nous avons étudié la structure du solvant autour de ces ions. Pour cela, nous avons comparé la fonction de distribution radiale ainsi que la polarisation du solvant autour de ces 8 ions à des structures de référence calculées par dynamique moléculaire. Les calculs MDFT ont été effectués avec les mêmes paramètres que ceux utilisés pour le calcul des références (voir tableau \ref{tab:param_lj_ions_daniel}).
+Dans un second temps, nous avons étudié la structure du solvant autour de ces ions. Pour cela, nous avons comparé la fonction de distribution radiale ainsi que la polarisation du solvant autour de ces 8 ions à des structures de référence.
+Les calculs MDFT ont été effectués avec des paramètres OPLS\cite{jorgensen_development_1996} pour lesquels nous disposions de calcul MD de référence\cite{zhao_molecular_2011} (voir tableau \ref{tab:param_lj_ions_daniel}).
 
 \begin{table}[ht]
   \centering
@@ -511,7 +504,7 @@ Comme on le voit sur la figure \ref{fig:g_of_r_ions}, la MDFT, pour l'ensemble d
 \subsubsection{La polarisation}
 La polarisation P($\boldsymbol{r}$) permet de déterminer s'il existe une orientation préférentielle du solvant au point $\boldsymbol{r}$ de l'espace. Elle se calcule:
 \begin{eqnarray}
-\mathrm{P}(\boldsymbol{r})=\int\mathrm{d}\Omega\rho\left(\boldsymbol{r},\Omega \right)\Omega
+\mathrm{P}(\boldsymbol{r})=\int\mathrm{d}\boldsymbol{\Omega}\rho\left(\boldsymbol{r},\boldsymbol{\Omega} \right)\boldsymbol{\Omega}
 \end{eqnarray}
 Nous en traçons ensuite la norme en fonction de la distance. Dans le cas d'une orientation prépondérante, la norme est importante, contrairement au cas d'une distribution angulaire homogène pour laquelle la norme serait nulle.
 Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation prédite par MDFT est en accord avec celle de référence calculée par dynamique moléculaire.
@@ -539,23 +532,6 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
 	}
   \end{subfigure}%
   \begin{subfigure}{.24\textwidth}
-    \caption{Br$^-$}
-    \resizebox{\linewidth}{!}{
-     \begin{tikzpicture}
-        \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
-%            xmin = 0, xmax = 10,
-%            ymin = 0, ymax = 2.5,
-            legend style = {draw = none, cells={anchor=west}}
-            ]
-            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Br.csv};
-            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Br.csv};
-            \legend{DM, MDFT}
-        \end{axis}
-    \end{tikzpicture}
-	}
-  \end{subfigure}%
-  \begin{subfigure}{.24\textwidth}
     \caption{Cl$^-$}
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
@@ -567,6 +543,23 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
             ]
             \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Cl.csv};
             \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Cl.csv};
+            \legend{DM, MDFT}
+        \end{axis}
+    \end{tikzpicture}
+	}
+  \end{subfigure}%
+  \begin{subfigure}{.24\textwidth}
+    \caption{Br$^-$}
+    \resizebox{\linewidth}{!}{
+     \begin{tikzpicture}
+        \begin{axis}[
+            xlabel= r ($\text{\AA}$), ylabel= g(r),
+%            xmin = 0, xmax = 10,
+%            ymin = 0, ymax = 2.5,
+            legend style = {draw = none, cells={anchor=west}}
+            ]
+            \addplot+[mark=none, black] file {chapters/BDD/datas/ions/MD/rdf/Br.csv};
+            \addplot+[mark=none, red] file {chapters/BDD/datas/ions/MDFT/rdf/Br.csv};
             \legend{DM, MDFT}
         \end{axis}
     \end{tikzpicture}
@@ -657,7 +650,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \end{tikzpicture}
 	}
   \end{subfigure}
-  \caption[Fonctions de distribution radiale autour d'ions.]{Fonctions de distribution radiale autour des ions Li$^+$, Na$^+$, K$^+$, Cs$^+$, F$^-$, Cl$^-$, Br$^-$ et I$^-$. Les calculs MDFT (en rouge) sont comparés aux calculs de référence (en rouge).}
+  \caption[Fonctions de distribution radiale autour d'ions.]{Fonctions de distribution radiale autour des ions Li$^+$, Na$^+$, K$^+$, Cs$^+$, F$^-$, Cl$^-$, Br$^-$ et I$^-$. Les calculs MDFT (en rouge) sont comparés aux calculs de référence (en noir).}
   \label{fig:g_of_r_ions}
 \end{figure}
 \end{sidewaysfigure}
@@ -674,7 +667,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -691,7 +684,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -708,7 +701,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -725,7 +718,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -742,7 +735,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -759,7 +752,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -776,7 +769,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -793,7 +786,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \resizebox{\linewidth}{!}{
      \begin{tikzpicture}
         \begin{axis}[
-            xlabel= r ($\text{\AA}$), ylabel= g(r),
+            xlabel= r ($\text{\AA}$), ylabel= P(r),
 %            xmin = 0, xmax = 10,
 %            ymin = 0, ymax = 2.5,
             legend style = {draw = none, cells={anchor=west}}
@@ -805,7 +798,7 @@ Comme on le voit sur la figure \ref{fig:polarisation_ions}, la polarisation pré
     \end{tikzpicture}
 	}
   \end{subfigure}
-  \caption[Polarisation radiale autour d'ions.]{Polarisation radiale autour des ions Li$^+$, Na$^+$, K$^+$, Cs$^+$, F$^-$, Cl$^-$, Br$^-$ et I$^-$. Les calculs MDFT (en rouge) sont comparés aux calculs de référence (en rouge).}
+  \caption[Polarisation radiale autour d'ions.]{Polarisation radiale autour des ions Li$^+$, Na$^+$, K$^+$, Cs$^+$, F$^-$, Cl$^-$, Br$^-$ et I$^-$. Les calculs MDFT (en rouge) sont comparés aux calculs de référence (en noir).}
   \label{fig:polarisation_ions}
 \end{figure}
 \end{sidewaysfigure}

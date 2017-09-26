@@ -36,19 +36,27 @@
   \'Ecole Normale Supérieure, Encadrant
 }
 
-\frabstract{Les processus se déroulant à l'état liquide, comme les réactions chimiques, par exemple, se déroulent dans un océan de solvant. Peut­on simuler ou modéliser ces phénomènes en solution?
-(i) Approximativement oui, en utilisant des méthodes approximatives reliées à une description macroscopique du solvant. Ces méthodes sont rapides (quelques secondes de calculs) mais ne sont pas capable des capturer la nature moléculaire ou les effets physique du solvant tels que les effets dus à l'orientation du solvant ou aux liaisons hydrogènes par exemple.
-(ii) Oui, précisément en utilisant des techniques de simulations explicites comme la dynamique moléculaire. Mais elles ont au moins 3 ou 4 ordre de grandeurs de plus en lenteur. Des centaines, voir des milliers d'heures de temps de calcul sont généralement nécessaires.
-(iii)  Nous allons présenter la théorie de la fonctionnelle de la densité et son code associé, MDFT. Nous allons montrer comment l'état de l'art de la théorie des liquides et les algorithmes haute performances, peuvent capturer les effets de solvatation à l'échelle moléculaire, avec un coût de calcul similaire aux méthodes approximatives.
+%\frabstract{Les processus se déroulant à l'état liquide, comme les réactions chimiques, par exemple, se déroulent dans un océan de solvant. Peut­on simuler ou modéliser ces phénomènes en solution?
+%(i) Approximativement oui, en utilisant des méthodes approximatives reliées à une description macroscopique du solvant. Ces méthodes sont rapides (quelques secondes de calculs) mais ne sont pas capable des capturer la nature moléculaire ou les effets physique du solvant tels que les effets dus à l'orientation du solvant ou aux liaisons hydrogènes par exemple.
+%(ii) Oui, précisément en utilisant des techniques de simulations explicites comme la dynamique moléculaire. Mais elles ont au moins 3 ou 4 ordre de grandeurs de plus en lenteur. Des centaines, voir des milliers d'heures de temps de calcul sont généralement nécessaires.
+%(iii)  Nous allons présenter la théorie de la fonctionnelle de la densité et son code associé, MDFT. Nous allons montrer comment l'état de l'art de la théorie des liquides et les algorithmes haute performances, peuvent capturer les effets de solvatation à l'échelle moléculaire, avec un coût de calcul similaire aux méthodes approximatives.
+%}
+
+\frabstract{Le développement d'un nouveau médicament est un processus long et co\^uteux. Entre la détermination d'une cible thérapeutique et la mise sur le marché d'un nouveau médicament, plus de dix ans de recherche sont nécessaires pour un coût supérieur à un milliard d'euros.
+L'accélération de ce processus et la réduction de son coût restent un enjeu majeur. Pour y parvenir, les simulations numériques, peu co\^uteuses et rapides, sont massivement utilisées. Malgré cela, elles restent limitées, en partie à cause de la quantité très importante de molécules de solvant à considérer.
+La théorie de la fonctionnelle de la densité moléculaire permet d'étudier la solvatation de composés de n'importe quelle taille et de n'importe quelle forme. Elle prédit en quelques secondes seulement à la fois l'énergie libre de solvatation et une carte détaillée de la densité d'équilibre autour de ce soluté.
+Ces grandeurs étant à la base de nombreux autres calculs utilisés par l'industrie pharmaceutique, la MDFT ouvre donc une autre voie d'optimisation de ces process. Cette thèse consiste à effectuer le premier pas vers l'ensemble de ces applications. 
+Pour cela, nous avons adapté la théorie ainsi que le code associé avant de l'appliquer à des systèmes biologiques.}
+
+\enabstract{Drug development is time and cost-consuming: It takes in average 10 years and 1 billion euros to move from a therapeutic target to a new drug. To speedup this process and reduce its cost, numerical simulation are massively used.
+Nevertheless, they remain limited, one reason of which is the huge amount of solvent molecules to consider.
+The molecular density functional theory is a liquid state theory that allows the study of the solvation thermodynamics of solutes of arbitrary shape.
+MDFT predicts, in few seconds only, the free energy of solvation and the solvent profils.
+These parameters are at the heart of many others calculation used by the pharmaceutical industry. 
+This thesis is the first step towards these applications. For that purpose, we adapted the theory as well as the associated code to this new target, then applied them to system of biological interest.
 }
 
-\enabstract{Processes taking place in the liquid state, for instance chemical reactions, happen in a sea of solvent molecules. Can we model or predict their effect in solution?
-(i) Roughly yes, using rough methods that rely on a macroscopic description of the solvent. They are fast (say few cpu-seconds) but are not able to capture the physical, molecular nature of solvation. No packing, no orientation effects, no hydrogen-bonding, among others.
-(ii) Yes, accurately, using explicit simulations like molecular dynamics. But these are at least 3 to 4 orders of magnitude slower. Hundreds or thousands of cpu-hours are often necessary.
-(iii) We will present the molecular density functional theory and its associated code, MDFT. We will show how state-of-the-art liquid state theory and high performance algorithms can capture solvation effects at their inherent molecular scale, for the cost of rough methods.
-}
-
-\frkeywords{solvatation biomolécules théorie de la fonctionnelle de la densité watermap.}
+\frkeywords{solvatation biomolécules théorie de la fonctionnelle de la densité}
 \enkeywords{solvation biomolecules Molecular density functional theory watermap}
 
 \begin{document}
@@ -63,21 +71,21 @@
 
 \chapter*{Remerciements}
 
-
-Je souhaite tout d'abord te remercier, Marine. Sans toi je ne serais pas là o\`u j'en suis aujourd'hui. Merci.
+Je souhaite tout d'abord remercier Ludovic Jullien, directeur de l'UMR 8640\\P.A.S.T.E.U.R., pour son accueil au sein de son laboratoire.
 \medbreak
 Mes remerciements vont ensuite naturellement vers Daniel Borgis et Maximilien Levesque qui ont dirigé et encadré ma thèse, pour leur disponibilité, leur encadrement et leurs conseils.
 \medbreak
 Je remercie également les membres du jury d’avoir accepté d'évaluer et d’assister à la présentation de ce travail.
 \medbreak
-Je remercie chaleureusement tous les membres du pôle théorie ainsi que ceux de la Maison De La Simulation qui m'ont acceuillis et avec qui j'ai beaucoup appris. Merci Nicolas, Matthieu et Yacine pour les nombreuses discussions que nous avons eues et vos contributions à la réussite de ce projet. Merci Matthieu et Yacine de m'avoir fait découvrir ce merveilleux monde qu'est le HPC. Je remercie également très chaleureusement pour leur soutien logistique: Victoria Terziyan, Stéphanie Benabria et Valérie Belle.
+Je remercie chaleureusement tous les membres du pôle théorie du département de chimie de l'\'Ecole Normale Supérieur ainsi que ceux de la Maison De La Simulation qui m'ont acceuillis et avec qui j'ai beaucoup appris. Merci Nicolas C., Matthieu et Yacine pour les nombreuses discussions que nous avons eues et vos contributions à la réussite de ce projet. Merci Matthieu et Yacine de m'avoir fait découvrir ce merveilleux monde qu'est le HPC. Merci Nicolas L. pour tes invitations à Montrouge. Je remercie également très chaleureusement pour leur soutien logistique: Victoria Terziyan, Stéphanie Benabria et Valérie Belle.
 \medbreak
 Un grand merci à ceux qui ont contribué à rendre ces 3 ans beaucoup plus agréables: Elsa, Beno\^it, Geoffrey, Sébastien. Merci à tous les quatre pour votre bonne humeur au quotidien. Merci Sébastien, merci Geoffrey d'avoir toujours été présents même dans les moments les plus critiques. Merci Elsa, sans toi je serais sans doute mort de faim.
 \medbreak
 J'en profite également pour adresser mes plus sincères remerciements à toute l'équipe du master ISDD. Merci Anne-Claude de m'avoir soutenu et supporté pendant tout ce temps. Merci Leslie d'avoir su rester professionnelle et juste malgré nos différents.
 \medbreak
 Je tiens également à remercier tous ceux qui ont su m'orienter au bon moment et qui ont finalement contribué à cette réussite: David Lagorce, Anne-Claude Camproux, Ludovic Jullien, Carole Jourdan, Matthieu Haefele et Yacine Ould-Rouis.
-
+\medbreak
+Je souhaite enfin te remercier, Marine. Sans toi je ne serais pas là o\`u j'en suis aujourd'hui. Merci.
 
 
 \clearemptydoublepage
