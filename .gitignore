@@ -4,7 +4,7 @@
 *.aux
 *.pdf
 *.log
-tikz/*
+tikz/main*
 
 *.run.xml
 *.bcf
